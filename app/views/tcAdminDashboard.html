@@ -1,0 +1,1420 @@
+<style>
+  .crmDashboardFilterPanelBorder{
+    border:0;
+    font-size: 12px;
+    color:grey;
+    outline:0;
+  }
+  .teleCallingXLHelpBtn{
+    padding: 0px 30px 0px 30px;
+    border-radius: 15px;
+    border: 1px solid #4d94ff;
+  }
+  .admindDashboardPanelSpacing{
+    padding:0px 5px 0px 5px;
+  }
+
+  .form-control-placeholder-tcInput {
+    position: absolute;
+    top: 0;
+    padding: 7px 0 0 13px;
+    pointer-events: none;
+    color: #aaa;
+    transition: all 200ms;
+  }
+  #teleCallingSMSXlFileInput[type="file"] {
+    display: none;
+  }
+  #uploadInput {
+    border-radius: 20px;
+    background-color:  #0083ca;
+    border: none;
+  }
+  .branchBox{
+    height:auto;
+    margin-left: -2%;
+    background-color: #F2F2F2;
+    /*padding-bottom: 10px;*/
+  }
+  .headText{
+    padding: 10px 10px 10px 10px;
+    color:grey;
+  }
+  .stats{
+    padding: 1px 1px 1px 1px;
+    list-style: square inside url("sqpurple.gif");
+   /* color:#0083ca;*/
+  }
+  .stat{
+   background: white;
+    border-radius: 10px;
+    padding:0 1px 0 1px;
+    margin-left: 3px;
+  }
+  .inline li {
+    display: inline;
+  }
+  .list{
+    padding:10px 5px 10px 5px;
+  }
+  .inlineList li a{
+   color:  grey;
+  }
+  .inlineList li {
+    color:#0083ca;
+  }
+  .statsStyle{
+    cursor: pointer;border-left: 6px solid #e200a8; padding: 3px 0px 3px 0px;box-shadow:1px 1px 2px rgb(210, 213, 219) , 0 0 25px rgb(210, 213, 219) , 0 0 5px rgb(210, 213, 219) ;
+  }
+  .inlineList li{
+    padding:5px 0px 5px 0px;
+  }
+</style>
+
+<div class="container-fluid">
+  <div class="panel-body">
+  <div class="row admindDashboardPanelSpacing" style="margin-top:-2%;">
+    <div class="row ">
+      <div class="form-group col-md-4 col-sm-4">
+        <div class="dashboardStatusPanelAdmin">
+          <div class="row">
+            <div class="row">
+              <div class="col-xs-6 adminStatsSpacing" align="center">
+                <span class="iconImg"><img src="images/crmTotalDataIcon.png"/></span>
+              </div>
+              <div class="col-xs-6">
+                <div class="row adminStatsSpacing2">
+                  <h3 class="number">{{tcStatusStats.dataRecieved}}</h3><br>
+                  <label class="apptDetailTextStyle">Data Received</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-md-4 col-sm-4"><!-- ng-click="getTcAdminStatsStatusDetail('upcomingappts')"-->
+        <!-- <div class="form-group col-sm-12">-->
+        <div class="dashboardStatusPanelAdmin3">
+          <div class="row">
+            <div class="row">
+              <div class="col-xs-6 adminStatsSpacing" align="center">
+                <span class="iconImg"><img src="images/crmDataReceivedIcon.png"/></span>
+              </div>
+              <div class="col-xs-6">
+                <div class="row adminStatsSpacing2">
+                  <h3 class="number">{{tcStatusStats.pendingCalls}}</h3><br>
+                  <label class="apptDetailTextStyle">Pending Calls</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--  </div>-->
+      </div>
+      <!--<div class="col-sm-4">
+      <div class="branchBox">
+        <ul class="list-inline">
+          <li class="list"><ul class="inlineList">
+            <li><a>Call Later</a><b class="stat"> 1534 </b></li>
+           <li><a>Allocated</a><b class="stat"> 1533 </b></li>
+              <li><a>Attempted</a><b class="stat"> 1544 </b></li>
+            <li><a>Fresh Calls</a><b class="stat"> 1444 </b></li>
+
+          </ul></li>
+          <li class="list"><ul class="inlineList">
+            <li>  <a>Appointment Taken</a><b class="stat"> 1352 </b></li>
+            <li><a>Not Interested</a><b class="stat"> 1145 </b></li>
+              <li><a>Attempted</a><b class="stat"> 15245 </b></li>
+             <li> <a>Over Due calls</a><b class="stat"> 15444 </b></li>
+          </ul></li>
+        </ul>
+        &lt;!&ndash;<ul class="stats">
+        <li><span class="headText">Call Later</span><span class="statsCount">15</span></li>
+        <li><span class="headText">Allocated</span><span class="statsCount">15</span></li>
+        <li><span class="headText">Attempted</span><span class="statsCount">15</span></li>
+          <li><span class="headText">Not Interested</span><span class="statsCount">15</span>
+          </li>
+        </ul>&ndash;&gt;
+      </div>
+      </div>-->
+    </div>
+    <div class="row">
+      <form name="dateForm" ng-submit="teleCallingDataByDate(tcAppointment,'submit')">
+        <div class="form-group col-md-2 col-sm-2">
+          <!--<center><p class="apptDetailTextStyle">From Date</p></center>-->
+          <div class="crmDashboardFilterPanel">
+            <input type="textbox" class="form-control crmDashboardFilterPanelBorder" datetime-picker="yyyy-MM-dd" enable-time="false" ng-click="openCalendar($event,'FromDate')" ng-model="tcAppointment.selectedFromDate" is-open="isOpenFrom" placeholder="From Date" required>
+            <div ng-if="tcAppointment.selectedFromDate !== undefined" class="form-control-placeholder-tcInput">From Date</div>
+          </div>
+        </div>
+        <div class="form-group  col-md-2 col-sm-2">
+          <div class="crmDashboardFilterPanel">
+            <input type="textbox" class="form-control crmDashboardFilterPanelBorder" datetime-picker="yyyy-MM-dd" enable-time="false" ng-click="openCalendar($event,'ToDate')" ng-model="tcAppointment.selectedToDate" is-open="isOpenTo" placeholder="To Date" required>
+            <div ng-if="tcAppointment.selectedToDate !== undefined" class="form-control-placeholder-tcInput">To Date</div>
+          </div>
+        </div>
+        <div class="form-group col-md-2 col-sm-2" ng-show="tcAppointment.selectedCaller === undefined || tcAppointment.selectedCaller === null">
+          <div class="crmDashboardFilterPanel">
+            <select class="form-control crmDashboardFilterPanelBorder" ng-model="tcAppointment.selectedServiceCenter" name="serviceCenterData"
+                    ng-options="sc.scId as sc.scName for sc in serviceCenter">
+              <option value="">Select Service Center</option>
+            </select>
+            <div ng-if="tcAppointment.selectedServiceCenter !== undefined" class="form-control-placeholder-tcInput">Service Center</div>
+          </div>
+        </div>
+        <div class="form-group col-md-2 col-sm-2">
+          <div class="crmDashboardFilterPanel">
+            <select class="form-control crmDashboardFilterPanelBorder" ng-model="tcAppointment.selectedDataType" name="dateType"
+                    ng-options="tcDataType.dataTypeId as tcDataType.description for tcDataType in dataTypes" required>
+              <option value="">Select Data Type</option>
+            </select>
+            <div ng-if="tcAppointment.selectedDataType !== undefined" class="form-control-placeholder-tcInput">Data Type</div>
+          </div>
+        </div>
+        <div class="form-group col-md-2 col-sm-2" ng-show="tcAppointment.selectedServiceCenter === undefined || tcAppointment.selectedServiceCenter === null">
+          <div class="crmDashboardFilterPanel">
+            <select class="form-control crmDashboardFilterPanelBorder" ng-model="tcAppointment.selectedCaller" name="dateType"
+                    ng-options="caller.loginId as caller.username for caller in callerList">
+              <option value="">Select Caller</option>
+            </select>
+            <div ng-if="tcAppointment.selectedCaller !== undefined" class="form-control-placeholder-tcInput">Caller</div>
+          </div>
+        </div>
+        <div class="form-group col-md-1 col-sm-2" style="margin-top:1%">
+          <button type="submit" class="btn btn-primary" id="adminExportButton" ng-disabled="dateForm.$invalid">Submit</button>
+        </div>
+        <div class="form-group col-md-1 col-sm-2" style="margin-top:1%">
+          <button type="submit" class="btn btn-primary" id="adminExportButton" ng-click="teleCallingDataByDate(tcAppointment,'export')" ng-disabled="dateForm.$invalid">Export</button>
+        </div>
+      </form>
+    </div>
+  </div><br>
+
+    <div class="loader" ng-if="loadingStats">
+      <center>
+        <img src="images/Loading_2.gif" style="width: 12%;">
+        <!--<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style="font-size: 45px;"></span>--></center>
+      <!--<center><p>LetsService - Please Wait</p></center>-->
+    </div>
+
+  <div class="row">
+   <!-- <div class="form-group col-md-3 col-sm-4">
+      <div class="dashboardStatusPanelAdmin">
+        <div class="row">
+          <div class="row">
+            <div class="col-xs-6 adminStatsSpacing" align="center">
+              <span class="iconImg"><img src="images/crmTotalDataIcon.png"/></span>
+            </div>
+            <div class="col-xs-6">
+              <div class="row adminStatsSpacing2">
+                  <h3 class="number">{{tcStatusStats.dataRecieved}}</h3><br>
+                  <label class="apptDetailTextStyle">Data Received</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+   -->
+    <div class="form-group col-md-4 col-sm-4" ng-click="getTcAdminStatsStatusDetail('WalkIn')">
+     <!-- <div class="form-group col-sm-12">-->
+      <div class="dashboardStatusPanelAdmin2">
+        <div class="row">
+          <div class="row">
+            <div class="col-xs-6 adminStatsSpacing" align="center">
+              <span class="iconImg"><img src="images/crmPDWIcon.png"/></span>
+            </div>
+            <div class="col-xs-6">
+              <div class="row adminStatsSpacing2">
+                <h3 class="number">{{tcStatusStats.walkInCount}}</h3><br>
+                <label class="apptDetailTextStyle">Appointments</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+     <!-- </div>-->
+    </div>
+   <!-- <div class="form-group col-md-3 col-sm-4" ng-click="getTcAdminStatsStatusDetail('upcomingappts')">
+     &lt;!&ndash; <div class="form-group col-sm-12">&ndash;&gt;
+      <div class="dashboardStatusPanelAdmin3">
+        <div class="row">
+          <div class="row">
+            <div class="col-xs-6 adminStatsSpacing" align="center">
+              <span class="iconImg"><img src="images/crmDataReceivedIcon.png"/></span>
+            </div>
+            <div class="col-xs-6">
+              <div class="row adminStatsSpacing2">
+                <h3 class="number">{{tcStatusStats.pendingCalls}}</h3><br>
+                <label class="apptDetailTextStyle">Pending Calls</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    &lt;!&ndash;  </div>&ndash;&gt;
+    </div>
+  -->
+    <div class="form-group col-md-4 col-sm-4" ng-click="getTcAdminStatsStatusDetail('serviceDone')">
+      <div class="dashboardStatusPanelAdmin">
+        <div class="row">
+          <div class="row">
+            <div class="col-xs-6 adminStatsSpacing" align="center">
+              <span class="iconImg"><img src="images/serviceDone.png"/></span>
+            </div>
+            <div class="col-xs-6">
+              <div class="row adminStatsSpacing2">
+                <h3 class="number">{{tcStatusStats.serviceDone}}</h3><br>
+                <label class="apptDetailTextStyle">Service Done</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-md-4 col-sm-4" ng-click="getTcAdminStatsStatusDetail('callLater')">
+      <div class="dashboardStatusPanelAdmin2">
+        <div class="row">
+          <div class="row">
+            <div class="col-xs-6 adminStatsSpacing" align="center">
+              <span class="iconImg"><img src="images/crmCallLaterIcon.png"/></span>
+            </div>
+            <div class="col-xs-6">
+              <div class="row adminStatsSpacing2">
+                <h3 class="number">{{tcStatusStats.callLater}}</h3><br>
+                <label class="apptDetailTextStyle">Call Later</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><br>
+
+  <div class="row">
+      <div class="form-group col-md-4 col-sm-4" ng-click="getTcAdminStatsStatusDetail('notInterested')">
+        <div class="dashboardStatusPanelAdmin3">
+          <div class="row">
+            <div class="row">
+              <div class="col-xs-6 adminStatsSpacing" align="center">
+                <span class="iconImg"><img src="images/crmConversionIcon.png"/></span>
+              </div>
+              <div class="col-xs-6">
+                <div class="row adminStatsSpacing2">
+                  <h3 class="number">{{tcStatusStats.notInterested}}</h3><br>
+                  <label class="apptDetailTextStyle" ng-if="adminUserIdUtility!=='1'">Not Interested</label>
+                  <label class="apptDetailTextStyle" ng-if="adminUserIdUtility==='1'">Others</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-md-4 col-sm-4" ng-click="getTcAdminStatsStatusDetail('Conversion')">
+        <div class="dashboardStatusPanelAdmin">
+          <div class="row">
+            <div class="row">
+              <div class="col-xs-6 adminStatsSpacing" align="center">
+                <span class="iconImg"><img src="images/crmUPIcon.png"/></span>
+              </div>
+              <div class="col-xs-6">
+                <div class="row adminStatsSpacing2">
+                  <h3 class="number">{{tcStatusStats.totalConversions}}</h3><br>
+                  <label class="apptDetailTextStyle">Conversion</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-md-4 col-sm-4" ng-click="getFeedbackRatingDetails()">
+      <div class="dashboardStatusPanelAdmin2">
+        <div class="row">
+          <div class="row">
+            <div class="col-xs-6 adminStatsSpacing" align="center">
+              <span class="iconImg"><img src="images/feedbackIcon.png"/></span>
+            </div>
+            <div class="col-xs-6"> <!--ng-click="getTcAdminStatsStatusDetail('Feedback')"-->
+              <div class="row adminStatsSpacing2">
+                <h3 class="number">{{tcStatusStats.PSFCount}}</h3><br>
+                <label class="apptDetailTextStyle">Feedback</label>
+              </div>
+            </div>
+            <!--<div class="col-xs-3">
+              <div class="row">
+                <button class="dashboardButtonForFeedback" id="viewFeedbackDetails" ng-click="getFeedbackRatingDetails()"> View </button>
+              </div>
+            </div>-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><br>
+
+    <div class="" id="tcFeedbackDetailsPage" ng-show ="feedbackDetailStatus">
+      <div class="panel panel-default crmDashboardApptStyle">
+        <div>
+        <button style="padding:10px 20px 0 0;color: white;" type="button" class="close" data-dismiss="modal" ng-click="dismissFeedbackPage()">&times;</button>
+        </div>
+        <div class="panel-heading" id="apptMainHeader"><center>Feedback / Rating Details</center></div>
+        <div class="panel-body" style="margin-top:1%;">
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+              <div class="panel panel-default crmDashboardApptStyle">
+                <div class="panel-body" style="margin-top:1%;">
+                 <!-- <div class="col-sm-2">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="col-sm-11 apptDetailTextHeader">
+                          <p>Sl No. </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row" ng-repeat="rating in feedbackRatings">
+                      <div class="col-md-12 col-sm-12">
+                        <div class="col-sm-11">
+                          <p class="apptDetailTextHeaderStyle">{{rating.slNo}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="col-sm-11 apptDetailTextHeader">
+                          <p>Question Description</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row" ng-repeat="rating in feedbackRatings">
+                      <div class="col-md-12 col-sm-12">
+                        <div class="col-sm-11">
+                          <p class="apptDetailTextHeaderStyle">fdgdf dgger errt rwerw werewr werewr ewrwer ewrew ewr erew ewrwerwerewrew erere </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="col-sm-11 apptDetailTextHeader">
+                          <p>Total </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row" ng-repeat="rating in feedbackRatings">
+                      <div class="col-md-12 col-sm-12">
+                        <div class="col-sm-11">
+                          <p class="apptDetailTextHeaderStyle">{{rating.total}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="col-sm-11 apptDetailTextHeader">
+                          <p>Satisfied </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row" ng-repeat="rating in feedbackRatings">
+                      <div class="col-md-12 col-sm-12">
+                        <div class="col-sm-11">
+                          <p class="apptDetailTextHeaderStyle">{{rating.satisfied}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="col-sm-11 apptDetailTextHeader">
+                          <p>Not Satisfied </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row" ng-repeat="rating in feedbackRatings">
+                      <div class="col-md-12 col-sm-12">
+                        <div class="col-sm-11">
+                          <p class="apptDetailTextHeaderStyle">{{rating.notSatisfied}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>-->
+                  <!--<div class="loader" ng-if="loading">
+                    <center><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style="font-size: 45px;"></span></center>
+                  </div>-->
+                  <table class="table">
+                    <thead>
+                    <tr style="color:#0083ca;padding:0px 0px 0px 0px;">
+                      <th>Sl No.</th>
+                      <th>Question Description </th>
+                      <th>Satisfied</th>
+                      <th>Not Satisfied</th>
+                     <!-- <th>Total </th>-->
+                    </tr>
+                    </thead>
+                   <!-- <div class="loader" ng-if="loadingFeedbackBlock">
+                      <center><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style="font-size: 45px;"></span></center>
+                    </div>-->
+                    <tbody>
+                    <center class="text-danger">{{feedbackRatingsErrorMsg}}</center>
+                    <tr ng-repeat="rating in feedbackRatings" class="crmFeedbackRowPanel" ng-click="getFeedbackList('psf',rating.feedBackListId)" ng-show="feedbackRatings">
+                      <td class="">{{rating.slNo}}</td>
+                      <td>{{rating.description}}</td>
+                      <td>{{rating.Satisfied}}</td>
+                      <td>{{rating.notSatisfied}}</td>
+                      <!--<td>{{rating.total}}</td>-->
+                    </tr>
+                    <tr ng-show="feedbackRatings">
+                      <th class="success">Total</th>
+                    <!--  <td ng-repeat="rating in feedbackRatings | limitTo:feedbackRatings.length-1" class="success">33</td>
+                 -->  <td class="success"></td>
+                      <td class="success">{{satisfiedTotal}}</td>
+                      <td class="success">{{notSatisfiedTotal}}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><br>
+
+
+    <div class="row admindDashboardPanelSpacing">
+    <div class="col-sm-4">
+      <div class="text-center dashboardStatusGraphPanel">
+        <div class="panel-body">
+          <div class="dashbord_chart">
+            <div id="serviceCentreComplaintsGraph">
+              <center><label class="adminGraphLableStyle">Service Center Complaints</label></center>
+               <!--<canvas id="bar" class="chart chart-bar" chart-data="scServiceComplaintData" chart-labels="serviceComplaintLabel" chart-series="serviceComplaintSeries" click="getSCCompalintData">
+              </canvas>-->
+              <canvas id="pie" class="chart chart-doughnut adminCanvassGgaphAlign" chart-data="scServiceComplaintData" chart-labels="serviceComplaintLabel" chart-options="options" chart-colors="serviceCentreComplaintsGraphColors" chart-click="getTcAdminStatsStatusDetail">
+              </canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-4 ">
+      <div class="text-center dashboardStatusGraphPanel">
+        <div class="panel-body">
+          <div id="serviceTypeGraph">
+            <center><label class="adminGraphLableStyle">Appointments By Service Type</label></center>
+            <div ng-show = "showChartStats">
+              <canvas class="chart chart-doughnut adminCanvassGgaphAlign"
+                      chart-data="tcAdminStatsData" chart-labels="tcAdminStatsLabels" chart-options="options" chart-colors="serviceTypeGraphColors" chart-click="getTcAdminStatsStatusDetail">
+              </canvas>
+            </div>
+          <div ng-show = "!showChartStats">
+            <p>NA</p>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-sm-4 ">
+      <div class="text-center dashboardStatusGraphPanel">
+        <div class="panel-body">
+          <div id="serviceConvertedGraph">
+            <center><label class="adminGraphLableStyle">Conversion by service type</label></center>
+            <div ng-show = "showChartConvertedCountStats">
+              <canvas class="chart chart-doughnut adminCanvassGgaphAlign"
+                      chart-data="tcAdminStatsConvertedCountData" chart-labels="tcAdminStatsConvertedCountLabels" chart-options="options" chart-colors="serviceConvertedGraphColors" chart-click="getTcAdminStatsStatusDetail">
+              </canvas>
+            </div>
+          <div ng-show = "!showChartConvertedCountStats">
+            <p>NA</p>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><br><br>
+
+    <div class="" id="tcDueTypeAppointmentDetailsPage" ng-show ="dueTypeAppointmentStatus">
+      <div class="panel panel-default crmDashboardApptStyle">
+        <div>
+          <button style="padding:10px 20px 0 0;color: white;" type="button" class="close" data-dismiss="modal" ng-click="dismissAppointmentDueTypePage()">&times;</button>
+        </div>
+        <div class="panel-heading" id="apptMainHeader"><center>Sub Conversion Stats</center></div>
+        <div class="panel-body" style="margin-top:1%;">
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+              <div class="panel panel-default crmDashboardApptStyle">
+                <div class="panel-body" style="margin-top:1%;">
+                  <div class="loader" ng-if="loadingStats">
+                    <center>
+                      <img src="images/Loading_2.gif" style="width: 12%;">
+                      <!--<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style="font-size: 45px;"></span>--></center>
+                    <!--<center><p>LetsService - Please Wait</p></center>-->
+                  </div>
+                  <table class="table">
+                    <thead>
+                    <tr style="color:#0083ca;padding:0px 0px 0px 0px;">
+                      <th>Sl No.</th>
+                      <th>Service </th>
+                      <th>Count</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <center class="text-danger">{{appointmentDueTypeStatsErrorMsg}}</center>
+                    <tr ng-repeat="item in appointmentDueTypeStats" class="crmFeedbackRowPanel" ng-click="getDueTypeDetailedList(item.service)">
+                      <td class="">{{item.slNo}}</td>
+                      <td>{{item.service}}</td>
+                      <td>{{item.count}}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><br>
+
+
+  <div class="row admindDashboardPanelSpacing">
+    <div class="col-sm-12">
+      <div class="text-center dashboardStatusGraphPanel">
+        <div class="panel-body">
+          <div class="dashbord_chart">
+            <div class="form-group col-md-3 col-sm-3" ng-show="tcAppointment.selectedCaller === undefined || tcAppointment.selectedCaller === null">
+              <div class="" style="margin-left:20%;">
+                <select class="form-control teleCallingUpdateStatusInputStyle" ng-model="tcAppointment.selectedServiceCenter" name="serviceCenterData"
+                        ng-options="sc.scId as sc.scName for sc in serviceCenter" ng-change="getTCJobcardData(tcAppointment.selectedServiceCenter)">
+                  <option value="">Select Service Center</option>
+                </select>
+              <!--  <div ng-if="tcAppointment.selectedServiceCenter !== undefined" class="form-control-placeholder-tcInput">Service Center</div>
+              --></div>
+            </div>
+            <div id="serviceCentrePDGraph">
+              <center><label class="adminGraphLableStyle">Job Card Stats</label></center>
+              <canvas id="line" class="chart chart-line adminPickAndWalkinGraphAlign" chart-data="jobcardCountData" height="100" chart-labels="jobcardMonthData" chart-series="jobcardSeries" chart-options="chartParamsCallerStats.options">
+              </canvas>
+            </div>
+          </div>
+        </div>
+      </div><br><br>
+    </div>
+
+    <div class="col-sm-6">
+      <div class="text-center dashboardStatusGraphPanel">
+        <div class="panel-body">
+          <div class="dashbord_chart">
+            <div id="serviceCentrePDGraph">
+              <center><label class="adminGraphLableStyle">Caller Active / Inactive Status</label></center>
+              <canvas id="bar" class="chart chart-bar adminPickAndWalkinGraphAlign" chart-data="callerCallCountData" height="100" chart-labels="callerNamesData" chart-series="callerCallCountSeries" chart-colors="defaultCallerStatsGraphColors" chart-options="chartParamsCallerStats.options">
+              </canvas>
+              <!--<center>
+                <span ng-repeat="time in updatedTime" style="margin-left:60px;"> Last Updated <strong>{{time}}</strong>  </span>
+              </center>-->
+              <center>
+                <div class="trackAppointmentColorCoding"><span class="trackAppointmentColorCodingBox trackAppointmentColorCode1"></span><span class="trackAppointmentColorCodingText">Inactive for last 15 min.<b class="trackAppointmentColorCodingText"><!-- ({{trackAppointmentData[0].statusOnTime}}) --></b></span></div>
+                <div class="trackAppointmentColorCoding"><span class="trackAppointmentColorCodingBox trackAppointmentColorCode2"></span><span class="trackAppointmentColorCodingText">Active. <b class="trackAppointmentColorCodingText"><!-- ({{trackAppointmentData[0].statusInProgress}}) --></b></span></div>
+               </center>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--<div class="col-sm-6">
+      <div class="text-center dashboardStatusGraphPanel">
+        <div class="panel-body">
+          <div class="dashbord_chart">
+            <div id="serviceCentrePDGraph">
+              <center><label class="adminGraphLableStyle">CRE Stats</label></center>
+              <canvas id="line" class="chart chart-line adminPickAndWalkinGraphAlign" chart-data="jobcardCountData" height="100" chart-labels="jobcardMonthData" chart-series="jobcardSeries" chart-options="chartParamsCallerStats.options">
+              </canvas>
+              <center>
+                <div class="trackAppointmentColorCoding"><span class="trackAppointmentColorCodingBox trackAppointmentColorCode1="></span><span class="trackAppointmentColorCodingText"><b class="trackAppointmentColorCodingText">&lt;!&ndash; ({{trackAppointmentData[0].statusOnTime}}) &ndash;&gt;</b></span></div>
+                <div class="trackAppointmentColorCoding"><span class="trackAppointmentColorCodingBox trackAppointmentColorCode2="></span><span class="trackAppointmentColorCodingText"><b class="trackAppointmentColorCodingText">&lt;!&ndash; ({{trackAppointmentData[0].statusInProgress}}) &ndash;&gt;</b></span></div>
+              </center>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>-->
+
+
+  </div><br><br>
+
+
+    <div class="row">
+      <div class="col-sm-12 col-sm-12">
+        <center class="text-danger">{{tcAdminStatsGridErrorMsg}}</center>
+        <div ui-grid="tcAdminStatsGrid" ui-grid-pagination class="grid"></div>
+      </div>
+    </div><br><br>
+
+
+    <!--FILE UPLOAD SECTION-->
+    <div class="row">
+    <div class="col-sm-12 col-sm-12 ">
+      <div class="panel panel-default crmDashboardApptStyle">
+        <div class="panel-heading" id="apptMainHeader"><center><lable>Upload Excel Sheet</lable></center></div>
+        <div class="loader" ng-if="loading">
+          <center>
+            <img src="images/Loading_2.gif" style="width: 12%;">
+            <!--<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style="font-size: 45px;"></span>--></center>
+          <!--<center><p>LetsService - Please Wait</p></center>-->
+        </div>
+        <div class="panel-body">
+          <div class="form-group col-md-3 col-sm-4">
+            <div class="col-sm-offset-3">
+              <select class="form-control" ng-model="selectedServiceCenterForUpload" name="serviceCenterData"
+                      ng-options="sc.scId as sc.scName for sc in serviceCenter" ng-change="getSelectedServiceCenter(selectedServiceCenterForUpload)">
+                <option value="">Select Service Center *</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group col-md-6 col-sm-6">
+                <center>
+                   <label ng-show="csvStatus && selectedDataTypeDesc !== undefined" class="btn btn-primary" id="uploadInput">Choose file
+                    <input  type="file" id="teleCallingSMSXlFileInput" class="teleCallingSMSXlFileInput">
+                   </label><!-- && (selectedDataTypeDesc !== 'Service Reminder' && selectedDataTypeDesc !== 'Service Remainder' && selectedDataTypeDesc !== 'Job Card Data')-->
+                  <label ng-show="csvStatus && selectedDataTypeDesc !== undefined" class="radio-inline"><!-- && (selectedDataTypeDesc !== 'Service Reminder' && selectedDataTypeDesc !== 'Service Remainder' && selectedDataTypeDesc !== 'Job Card Data')-->
+                  <button type='button' class='btn btn-link teleCallingXLHelpBtn' data-toggle='modal' data-target='#teleCallingXlHelpModal'>Need Help?</button><!--data-toggle='modal' data-target='#teleCallingXlHelpModal'-->
+                  </label>
+                </center>
+            <!--for CSV UPLOAD START-->
+            <center>
+              <form name="uploadCSVForm" ng-submit="uploadCsvFile(csvFileRequest.csvFile)" ng-if="csvUploadStatus">
+                <label ng-show="csvUploadStatus && selectedDataTypeDesc !== undefined && (selectedDataTypeDesc === 'Service Reminder' || selectedDataTypeDesc === 'Service Remainder' || selectedDataTypeDesc === 'Job Card Data')">
+                  <input id="teleCallingSMSXlFileInput1" s3-upload bucket="'lsresume'" ng-model="csvFileRequest.csvFile" s3-upload-options="{getOptionsUri: 'https://letsservicetech.in/s3_file_upload_class/lsresume/1/295822529277341'}" required>
+                </label>
+                <label ng-show="csvUploadStatus && selectedDataTypeDesc !== undefined && (selectedDataTypeDesc === 'Service Reminder' || selectedDataTypeDesc === 'Service Remainder' || selectedDataTypeDesc === 'Job Card Data')" class="radio-inline">
+                  <button type="submit" class="btn btn-primary teleCallingXLHelpBtn" ng-disabled="uploadCSVForm.$invalid" class="btn btn-info">Submit</button>
+                </label>
+              </form>
+           </center>
+            <!--for CSV UPLOAD END-->
+
+          </div><!--<br><br>-->
+          <div class="form-group col-md-6 col-sm-6" ng-if="selectedServiceCenterForUpload !== undefined && selectedServiceCenterForUpload !== null">
+          <center ng-show="csvUploadStatus">
+            <label class="radio-inline"  ng-repeat="dataType in dataTypesForUpload">
+              <input type="radio" name="tcDataTypeRadio" ng-model="selectedSc" ng-click="getSelectedDataTypeForCsv(selectedSc,dataType.description)" value="{{dataType.dataTypeId}}">
+              {{dataType.description}}
+            </label>
+            <div class="" ng-if="selectedServiceCenterForUpload !== undefined">
+              <label class="radio-inline">
+                <input type="radio" name="tcDataTypeRadio" value="others" ng-model="selectedSc" ng-click="getSelectedDataType(selectedSc,null)">
+                Others
+              </label>
+              <div ng-show="selectedDataTypeIdForUpload == 'others'">
+                <form name="adminUploadCampDataForm" role="form">
+                  <label class="radio-inline">
+                    <input type="text" class="form-control teleCallingUpdateStatusInputStyle" id="campDataName" ng-model="campDataName" name="campDataName" placeholder="Enter Camp Name" required/>
+                    <p ng-show="adminUploadCampDataForm.campDataName.$error.required" class="text-danger text-center">Camp Name is required</p>
+                    <center ng-show="adminUploadCampDataForm.campDataName.$dirty">
+                      <button type="submit" class="btn btn-primary" id="filterButton" ng-disabled="adminUploadCampDataForm.$invalid" ng-click="getSelectedDataType(campDataName,null)">Submit</button>
+                    </center>
+                  </label>
+                </form>
+              </div>
+            </div>
+          </center>
+
+            <center ng-show="!csvUploadStatus">
+              <label class="radio-inline"  ng-repeat="dataType in dataTypesForUpload">
+                <input type="radio" name="tcDataTypeRadio" ng-model="selectedSc" ng-click="getSelectedDataType(selectedSc,dataType.description)" value="{{dataType.dataTypeId}}">
+                {{dataType.description}}
+              </label>
+              <div class="" ng-if="selectedServiceCenterForUpload !== undefined">
+                <label class="radio-inline">
+                  <input type="radio" name="tcDataTypeRadio" value="others" ng-model="selectedSc" ng-click="getSelectedDataType(selectedSc,null)">
+                  Others
+                </label>
+                <div ng-show="selectedDataTypeIdForUpload == 'others'">
+                  <form name="adminUploadCampDataForm" role="form">
+                    <label class="radio-inline">
+                      <input type="text" class="form-control teleCallingUpdateStatusInputStyle" id="campDataName" ng-model="campDataName" name="campDataName" placeholder="Enter Camp Name" required/>
+                      <p ng-show="adminUploadCampDataForm.campDataName.$error.required" class="text-danger text-center">Camp Name is required</p>
+                      <center ng-show="adminUploadCampDataForm.campDataName.$dirty">
+                        <button type="submit" class="btn btn-primary" id="filterButton" ng-disabled="adminUploadCampDataForm.$invalid" ng-click="getSelectedDataType(campDataName,null)">Submit</button>
+                      </center>
+                    </label>
+                  </form>
+                </div>
+              </div>
+            </center>
+
+            <div ng-show="!csvUploadStatus && selectedDataTypeDesc == 'Service Reminder' ||selectedDataTypeDesc == 'Service Remainder'" style="margin-left: 200px;"><br>
+                <div class="form-group col-md-8 col-sm-4">
+                  <select class="form-control" ng-model="uploadColumn.bikeType" name="bikeTypeData"
+                          ng-options="bike.key as bike.value for bike in brandWiseVehicleTypes" ng-change="getSelectedBikeType(uploadColumn.bikeType)">
+                    <option value="">Select Vehicle Type *</option>
+                  </select>
+                </div>
+            </div>
+
+            <div ng-show="selectedDataTypeDesc == 'AMC Data'" style="margin-left: 200px;"><br>
+              <div class="form-group col-md-8 col-sm-4">
+                <select class="form-control" ng-model="uploadColumn.amcCount" name="bikeTypeData"
+                        ng-options="counts.count as counts.count for counts in amcCounts" ng-change="getSelectedAMCCount(uploadColumn.amcCount)">
+                  <option value="">Select AMC Count *</option>
+                </select>
+              </div>
+              <div class="form-group col-md-8 col-sm-4">
+                <select class="form-control" ng-model="uploadColumn.validMonth" name="bikeTypeData"
+                        ng-options="validMonth.id as validMonth.id for validMonth in validMonths" ng-change="getSelectedValidMonth(uploadColumn.validMonth)">
+                  <option value="">Select Valid Month *</option>
+                </select>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div class="loader" ng-if="loading">
+      <center>
+        <img src="images/Loading_2.gif" style="width: 12%;">
+        <!--<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style="font-size: 45px;"></span>--></center>
+      <!--<center><p>LetsService - Please Wait</p></center>-->
+    </div>
+
+
+    <!--UPLOADED DATA MAPPING start-->
+    <div class="col-md-12 col-sm-12" id="uploadDataMapping">
+      <div class="panel panel-default crmDashboardApptStyle" style="margin:20px;">
+        <div class="panel-heading" id="apptHeader2"><center>Uploaded Data Mapping</center></div>
+        <div class="panel-body">
+          <form name="MapUploadDataForm" novalidate ng-submit="mapUplodedData(uploadColumn)">
+            <div class="row">
+              <div class="loader" ng-if="loadingMapping">
+                <center><!--<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style="font-size: 45px;"></span>-->
+                  <img src="images/Loading_2.gif" style="width: 12%;">
+                </center>
+                <!--<center><p>LetsService - Please Wait</p></center>-->
+              </div>
+              <div class="col-sm-6">
+                <div class="row" style="margin:10px;">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Chassis No *</label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.chassisNo" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames" required>
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row" style="margin:10px;">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Customer Name * </label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.customerName" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames" required>
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row" style="margin:10px;">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Mobile * </label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.mobile" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames" required>
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row" style="margin:10px;" ng-if="selectedDataType === '3' || selectedDataType === '4'">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Service Date *</label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.serviceDate" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames" required>
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row" style="margin:10px;" ng-if="selectedDataType !== '3' && selectedDataType !== '4' && selectedDataType !== '5'">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Service Due Date *</label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.serviceDueDate" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames" required>
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row" style="margin:10px;" ng-if="selectedDataType === '5'">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Date Of Sale *</label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.dateOfSale" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames" required>
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row" style="margin:10px;">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Date Format * </label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.dateFormat" name="column"
+                            ng-options="column as column for column in dateFormat" required>
+                      <option value="">Select Date Format</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row" style="margin:10px;" ng-if="selectedDataType !== '3'">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Model </label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.model" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames">
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row" style="margin:10px;">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Registration No </label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.regNo" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames">
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row" style="margin:10px;" ng-if="selectedDataType !== '3' && selectedDataType !== '5'">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Date Of Sale </label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.dateOfSale" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames">
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row" style="margin:10px;" ng-if="selectedDataType === '3'">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Bike Model </label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.bikeModel" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames">
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-sm-6">
+                <div class="row" style="margin:10px;" ng-if="selectedDataType === '3'">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Service Type </label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.serviceType" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames">
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row" style="margin:10px;" ng-if="selectedDataType !== '3'">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Service Due Type </label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.serviceDueType" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames">
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row" style="margin:10px;" ng-if="selectedDataType !== '3'">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Service Availed At </label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.serviceAvailedAt" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames">
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row" style="margin:10px;" ng-if="selectedDataType !== '3'">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Service Availed Date </label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.serviceAvailedDate" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames">
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row" style="margin:10px;" ng-if="selectedDataType !== '3'">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Last Service Type </label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.lastServiceType" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames">
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row" style="margin:10px;" ng-if="selectedDataType !== '3'">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Address  </label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.address" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames">
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row" style="margin:10px;" ng-if="selectedDataType !== '3'">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Last Service Date </label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.lastServiceDate" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames">
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row" style="margin:10px;" ng-if="selectedDataType !== '3'">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Last Service KM </label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.lastServiceKm" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames">
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-12 col-sm-12">
+                <center>
+                  <button type="submit" class="btn teleCallerDashboardModalBtn" ng-disabled="MapUploadDataForm.$invalid">Submit</button>
+                </center>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--UPLOADED DATA MAPPING end-->
+
+
+
+
+    <!--UPLOADED DATA MAPPING  SERVICE REMAINDER start-->
+    <div class="col-md-12 col-sm-12" id="uploadDataMappingForServiceRemainder">
+      <div class="panel panel-default crmDashboardApptStyle" style="margin:20px;">
+        <div class="panel-heading" id="apptHeader2"><center>Uploaded Data Mapping</center></div>
+        <div class="panel-body">
+          <form name="MapUploadDataFormForServiceRemainder" novalidate ng-submit="mapUplodedData(uploadColumn)">
+            <div class="row">
+              <div class="loader" ng-if="loadingMapping">
+                <center>
+                  <img src="images/Loading_2.gif" style="width: 12%;">
+                  <!--<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style="font-size: 45px;"></span>--></center>
+                <!--<center><p>LetsService - Please Wait</p></center>-->
+              </div>
+              <div class="col-sm-6">
+                <div class="row" style="margin:10px;">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Chassis No *</label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.chassisNo" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames" required>
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row" style="margin:10px;">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Date Of Sale *</label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.dateOfSale" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames" required>
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row" style="margin:10px;">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Date Format * </label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.dateFormat" name="column"
+                            ng-options="column as column for column in dateFormat" required>
+                      <option value="">Select Date Format</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="row" style="margin:10px;">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Customer Name * </label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.customerName" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames" required>
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row" style="margin:10px;">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Mobile * </label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.mobile" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames" required>
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row" style="margin:10px;">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Model </label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.model" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames">
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row" style="margin:10px;">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Registration No </label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.regNo" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames">
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="row" style="margin:10px;">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Address  </label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.address" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames">
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="form-group col-md-12 col-sm-12">
+                <center>
+                  <button type="submit" class="btn teleCallerDashboardModalBtn" ng-disabled="MapUploadDataFormForServiceRemainder.$invalid">Submit</button>
+                </center>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--UPLOADED DATA MAPPING FOR SERVICE REMAINDER end-->
+
+    <!--UPLOADED DATA MAPPING  SALES FEEDBACK DATA start-->
+    <div class="col-md-12 col-sm-12" id="uploadDataMappingForSalesFeedback">
+      <div class="panel panel-default crmDashboardApptStyle" style="margin:20px;">
+        <div class="panel-heading" id="apptHeader2"><center>Uploaded Data Mapping</center></div>
+        <div class="panel-body">
+          <form name="MapUploadDataFormForServiceRemainder" novalidate ng-submit="mapUplodedData(uploadColumn)">
+            <div class="row">
+              <div class="loader" ng-if="loadingMapping">
+                <center><!--<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style="font-size: 45px;"></span>-->
+                  <img src="images/Loading_2.gif" style="width: 12%;">
+                </center>
+                <!--<center><p>LetsService - Please Wait</p></center>-->
+              </div>
+              <div class="col-sm-6">
+                <div class="row" style="margin:10px;">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Chassis No *</label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.chassisNo" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames" required>
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row" style="margin:10px;">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Date Of Sale *</label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.dateOfSale" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames" required>
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row" style="margin:10px;">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Date Format * </label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.dateFormat" name="column"
+                            ng-options="column as column for column in dateFormat" required>
+                      <option value="">Select Date Format</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="row" style="margin:10px;">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Customer Name * </label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.customerName" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames" required>
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row" style="margin:10px;">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Mobile * </label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.mobile" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames" required>
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row" style="margin:10px;" ng-if="selectedDataTypeDesc === 'Sales Feedback'">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Model *</label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.model" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames" required>
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="row" style="margin:10px;">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label>Address  </label>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select class="form-control" ng-model="uploadColumn.address" name="column"
+                            ng-options="column as column for column in uploadedFileColumnNames">
+                      <option value="">Select Column</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="form-group col-md-12 col-sm-12">
+                <center>
+                  <button type="submit" class="btn teleCallerDashboardModalBtn" ng-disabled="MapUploadDataFormForServiceRemainder.$invalid">Submit</button>
+                </center>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--UPLOADED DATA MAPPING FOR SALES FEEDBACK DATA end-->
+
+
+    <!-- TeleCalling Modal -->
+    <div id="teleCallingXlHelpModal" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <!-- TeleCalling Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4><center>Sample Excel Sheet Format</center></h4>
+          </div>
+          <div class="modal-body table-responsive">
+            <table class="table table-bordered">
+              <thead>
+              <tr>
+                <th>Model</th><th>Chassis No</th><th>Registration No</th><th>Date Of Sale</th><th>Customer Name</th><th>Address</th><th>Mobile</th><th>Service Due Type</th><th>Service Due Date</th><th>Service Availed At</th><th>Service Availed Date</th><th>Last Service Type</th><th>Last Service Date</th><th>Last Service KM</th><th>Coupon Code</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>BULLET TBTS UCE ES MTL RED DISC 350CC <strong class="excelModalNonMandatoryTextColor"> (Non-Mandatory)</strong></td>
+                <td>ME3U3S5C0BM108505 <strong class="excelModalMandatoryTextColor"> (Mandatory)</strong></td>
+                <td>MH04FL0980 <strong class="excelModalNonMandatoryTextColor"> (Non-Mandatory)</strong></td>
+                <td>yyyy/mm/dd (for eg.- 2016/06/25) <strong class="excelModalNonMandatoryTextColor"> (Non-Mandatory)</strong></td>
+                <td>ABC <strong class="excelModalMandatoryTextColor"> (Mandatory)</strong></td>
+                <td>14th Main Rd, Sector 6, HSR Layout, Bengaluru, Karnataka 560102<strong class="excelModalNonMandatoryTextColor"> (Non-Mandatory)</strong></td>
+                <td>9999999999<strong class="excelModalMandatoryTextColor"> (Mandatory and Should be of 10 digits)</strong></td>
+                <td>Paid Service <strong class="excelModalNonMandatoryTextColor"> (Non-Mandatory)</strong></td>
+                <td>yyyy/mm/dd (for eg.- 2016/06/25)<strong class="excelModalMandatoryTextColor"> (Mandatory)</strong></td>
+                <td>SONIYA MOTORS PVT. LTD. THANE <strong class="excelModalNonMandatoryTextColor"> (Non-Mandatory)</strong></td>
+                <td>yyyy/mm/dd (for eg.- 2016/06/25) <strong class="excelModalNonMandatoryTextColor"> (Non-Mandatory)</strong></td>
+                <td>Paid Service <strong class="excelModalNonMandatoryTextColor"> (Non-Mandatory)</strong></td>
+                <td>yyyy/mm/dd (for eg.- 2016/06/25)<strong class="excelModalNonMandatoryTextColor"> (Non-Mandatory)</strong></td>
+                <td>20024<strong class="excelModalNonMandatoryTextColor"> (Non-Mandatory)</strong></td>
+                <td>SEW4DEMO <strong class="excelModalNonMandatoryTextColor"> (Non-Mandatory)</strong> </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <center><b>Note : Upload .xls file</b></center>
+            <p><center><a href="https://s3-ap-southeast-1.amazonaws.com/letsserviceimages/sampleData.xls" download>Download Sample .xls File</a></center></p>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Service Reminder Details  Modal -->
+   <!-- <div id="serviceReminderDetailsHelpModal" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-lg">
+        &lt;!&ndash; TeleCalling Modal content&ndash;&gt;
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4><center>Sample Excel Sheet Format</center></h4>
+          </div>
+          <div class="modal-body table-responsive">
+            <table class="table table-bordered">
+              <thead>
+              <tr>
+                <th>Model</th><th>Chassis No</th><th>Registration No</th><th>Date Of Sale</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>BULLET TBTS UCE ES MTL RED DISC 350CC <strong class="excelModalNonMandatoryTextColor"> (Non-Mandatory)</strong></td>
+                <td>BULLET TBTS UCE ES MTL RED DISC 350CC <strong class="excelModalNonMandatoryTextColor"> (Non-Mandatory)</strong></td>
+                <td>BULLET TBTS UCE ES MTL RED DISC 350CC <strong class="excelModalNonMandatoryTextColor"> (Non-Mandatory)</strong></td>
+                <td>BULLET TBTS UCE ES MTL RED DISC 350CC <strong class="excelModalNonMandatoryTextColor"> (Non-Mandatory)</strong></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>-->
+
+    <!-- Modal -->
+    <div class="modal fade" id="callRecordModal" role="dialog">
+      <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title"><center>Call Recording</center></h4>
+          </div>
+
+
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12 col-sm-12" ng-repeat="callRecord in callRecording">
+                <p><center><span ng-if="callRecord.recordingUrl !== 'No CallRecord Available'">
+                <li ng-if="callRecord.recordingUrl !== 'You do not have permission to access, please contact the admin'" ng-click="viewCallRecord(callRecord)"><i class="glyphicon glyphicon-download"></i>
+                  Download - {{callRecord.duration}} - {{callRecord.create_ts | formatDate}}</li></span>
+                <span ng-if="callRecord.recordingUrl === 'No CallRecord Available' || callRecord.recordingUrl === 'You dont have permission to access, please contact the admin'">{{callRecord.recordingUrl}}</span></center></p>
+              <br>
+              </div>
+              <div class="col-md-12 col-sm-12">
+                <div class="panel panel-default crmDashboardApptStyle">
+                  <div class="panel-heading" id="apptHeader2"><center>Appointment History</center></div>
+                  <div class="panel-body">
+                    <div class="modal-body table-responsive">
+                      <!--<div class="col-md-12 col-sm-12">-->
+                      <table class="table table-striped table-responsive">
+                        <thead>
+                        <tr class="text-muted">
+                          <th>Sl No.</th>
+                          <th>Id</th>
+                          <th>Caller Name</th>
+                          <th>Appointment Status</th>
+                          <th>Appointment Sub Status</th>
+                          <th>Remarks</th>
+                          <th>Scheduled Date/Time</th>
+                          <th>Updated Date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="" ng-repeat="history in tcAppointmentHistoryData">
+                          <td>{{history.slNo}}</td>
+                          <td>{{history.apptId}}</td>
+                          <td>{{history.callerName}}</td>
+                          <td>{{history.apptStatus}}</td>
+                          <td>{{history.apptSubStatus}}</td>
+                          <td>{{history.remarks}}</td>
+                          <td>{{history.rescheduleDate}}</td>
+                          <td>{{history.create_ts}}</td>
+                        </tr>
+                        </tbody>
+                      </table>
+                      <!-- </div>-->
+                      <center class="text-danger">{{tcAppointmentHistoryDataErrorMsg}}</center>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div><!--container-fluid-->
+</div>
+

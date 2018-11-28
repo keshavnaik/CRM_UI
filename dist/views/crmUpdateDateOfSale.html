@@ -1,0 +1,30 @@
+<style>table {
+    border-collapse: collapse;
+    width: 100%;
+    box-shadow: 1px 1px 2px rgb(210, 213, 219) , 0 0 25px rgb(210, 213, 219) , 0 0 5px rgb(210, 213, 219) ;
+    font-style: montserrat;
+    font-size: 12px;
+  }
+  th, td {
+    text-align: center;
+    /*padding: 12px;*/
+    color:#424242;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  tr:nth-child(odd){background-color: #f9f9f9;}
+  .statsTableDetailed th {
+    background-color: #FFFFFF;
+    color:#0083CA;
+    font-weight: 500;
+  }
+  .statsTable th{
+    background-color: #0083CA;
+    color:#ffffff;
+    font-weight: 500;
+  }
+  .statsTable{
+    margin-top:-20px;
+  }</style> <div class="container-fluid"> <div class="panel-body"> <div class="form-group col-md-2 col-sm-2 pull-left"> <div class=""> <button type="submit" class="btn btn-primary" id="exportButton" ng-click="exportUpdateDateOfSaleCustomers()">Export</button> </div> </div> <div class="form-group col-md-2 col-sm-2 pull-right"> <div class=""> <input type="text" class="form-control" ng-model="tcSearch" placeholder="Search Details..."> </div> </div> <div class="row"> <div class="col-sm-12 col-sm-12"><br> <table class="table statsTable"> <thead> <tr style="color:#0083ca;padding:0px 0px 0px 0px"> <th>Sl No. <th>Customer Name <th>Mobile <th>Bike No.  <th>Bike Model <th>Chassis No.  <th>Uploaded On  <th>Inactive  <th>Edit    <tbody> <center class="text-danger" ng-if="dateOfSaleDataErrorMsg">{{dateOfSaleDataErrorMsg}}</center> <tr ng-repeat="data in dateOfSaleData | orderBy:'create_ts':true |filter:tcSearch" class="crmFeedbackRowPanel" ng-click="getFeedbackList('psf',rating.feedBackListId)"> <td class="">{{$index+1}} <td>{{data.customer_name}} <td>{{data.customer_mobile}} <td>{{data.bikeNo}} <td>{{data.bikeModel}} <td>{{data.chassisNo}} <td>{{data.create_ts | date: 'MMM-dd-yyyy HH:MM'}} <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" ng-click="inactiveDateOfSale(data)"><span class="glyphicon glyphicon-trash"></span></button></p> <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#updateDateOfSaleModal" ng-click="getDateOfSaleObj(data)"><span class="glyphicon glyphicon-pencil"></span></button></p>  </table> </div> <div class="modal fade" id="updateDateOfSaleModal" role="dialog"> <div class="modal-dialog"> <!-- TeleCaller Modal content--> <div class="modal-content"> <div class="modal-header teleCallerDashboardModalHeader"> <button type="button" class="close" data-dismiss="modal" ng-click="clearUpdateMsg()">&times;</button> <h4 class="modal-title"><center>Update Date Of Sale</center></h4> </div> <div class="modal-body"> <!-- Walkin and Call Later Form --> <form name="updateDateOfSaleForm" novalidate ng-submit="updateDateOfSale(dateOfSale)"> <!-- <div class="form-group col-md-6 col-sm-6" >
+           <lable>Date Of Sale :</lable>
+          </div> --> <div class="form-group col-md-6 col-sm-6"> <input type="text" class="form-control teleCallingUpdateStatusInputStyle" datetime-picker="yyyy-MM-dd" enable-time="false" ng-click="openCalendarStatus($event)" max-date="maxDate" ng-model="dateOfSale.selectedDate" is-open="isOpenFromStatus" placeholder="Select Date Of Sale *" readonly required> </div> <div ng-if="loggedInFileUploadStatus === 'No'" class="form-group col-md-6 col-sm-6"> <select class="form-control teleCallingUpdateStatusInputStyle" ng-model="brandWiseVehicle.value" name="bikeTypeData" ng-options="bike as bike.value for bike in brandWiseVehicle.values" ng-change="getSelectedBikeType(brandWiseVehicle.value)" required> <option value="">Select Vehicle Type * </select> </div> <div ng-if="brandWiseVehicle.value && (bikeModel === null || bikeModel === '')" class="form-group col-md-6 col-sm-6"> <select class="form-control teleCallingUpdateStatusInputStyle" ng-model="bikeModel" name="bikeTypeData" ng-options="item for item in modelArr" ng-change="getSelectedBikeTypeModel(bikeModel)" required> <option value="">Select Model * </select> </div> <div class="row"> <div class="form-group col-md-12 col-sm-12"> <center> <button type="submit" class="btn teleCallerDashboardModalBtn" ng-disabled="updateDateOfSaleForm.$invalid">Update</button> </center> </div> </div> </form> <center class="text-success" ng-if="updateDateOfSaleMsg">{{updateDateOfSaleMsg}}</center> <center class="text-danger" ng-if="updateDateOfSaleMsgErrorMsg">{{updateDateOfSaleMsgErrorMsg}}</center> </div> </div> </div> </div> <div class="loader" ng-if="loaderIcon === true"> <center><img src="images/Loading_2.d4563d67.gif" style="width: 12%"></center> </div> </div> </div> </div>

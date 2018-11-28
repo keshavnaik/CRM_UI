@@ -1,0 +1,196 @@
+<style>
+  .crmAdminTableDataPadding{
+    padding:10px 10px 10px 10px;
+    margin-top:-3%;
+    font-size: 14px;
+  }
+  .creDataMinimiseBtn {
+    outline: 0 !important;
+    border:none !important;
+    padding:0px 0px 0px 0px;
+  }
+  .perticularStatsStyle{
+    cursor: pointer;
+  }
+  .crmDataTableStyle{
+    cursor:pointer;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    box-shadow: 1px 1px 2px rgb(210, 213, 219) , 0 0 25px rgb(210, 213, 219) , 0 0 5px rgb(210, 213, 219) ;
+   font-style: montserrat;
+    font-size: 12px;
+  }
+
+  th, td {
+    text-align: center;
+    padding: 12px;
+    color:#424242;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  tr:nth-child(odd){background-color: #f9f9f9;}
+
+  .statsTableDetailed th {
+    background-color: #E3F2FD;
+    color:#0083CA;
+    font-weight: 500;
+  }
+  .statsTable th{
+    background-color: #E3F2FD;
+    color:#0083ca;
+    font-weight: 500;
+  }
+  .statsTable{
+    margin-top:-20px;
+  }
+
+  .at{
+    float:left;
+    margin-left:1%;
+    margin-bottom:1%;
+    text-align: center;
+    font-size: 12px;
+    line-height: 30px;
+    width:27%;
+    padding-left:10px;
+    padding-right:10px;
+    display: block;
+    background-color: #E3F2FD;
+    color: #0D47A1;
+    border-left: 3px solid #0D47A1;
+  }
+ .well{
+  border-radius:10px;width:50%;padding:0 10px 0 10px;margin-top:1%;
+ }
+  .ng-table th.filter{
+    padding: 0 7px 5px 7px ;
+  }
+  .active{
+    background:#357EBD;
+    color:#FFF
+  }
+   .active123{
+   background:#e8f0f3;
+}
+</style>
+
+<div class="container-fluid">
+
+  <div class="panel-body">
+    <div class="row">
+      <div class="row crmAdminTableDataPadding">
+       <!--  <center><label class="callerDashboardStatsLableStyle">Insurance Calling Data</label></center> -->
+        <div class="form-group col-md-3 col-sm-3 pull-right">
+          <div class="" style="margin-left:20%;">
+            <select class="form-control teleCallingUpdateStatusInputStyle" style="font-size:13px;" ng-model="tcAppointment.selectedServiceCenter" name="serviceCenterData"
+                    ng-options="sc.scBranchId as sc.branchName for sc in serviceCenter" ng-change="getSelectedServiceCenter(tcAppointment.selectedServiceCenter)">
+              <option value="">Select Service Center</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group col-md-3 col-sm-3 pull-right">
+          <div class="" style="margin-left:20%;">
+            <select class="form-control teleCallingUpdateStatusInputStyle" style="font-size:13px;" ng-model="tcAppointment.selectedAnniversaryType" name="serviceCenterData"
+                    ng-options="sales.desc as sales.name for sales in salesTypes" ng-change="getSelectedAnivarsaryType(tcAppointment.selectedAnniversaryType)">
+              <option value="">Select Anniversary Type</option>
+            </select>
+          </div>
+        </div>
+       <!--  <center><li class="at"><span>AT(NC) - Appointment Taken (Non Converted)</span></li></center> -->
+        <div class="col-sm-12 col-sm-12"><br>
+          <table class="statsTable table-responsive">
+            <tr>
+              <thead>
+                <tr>
+                  <th>Data Type </th>
+                  <th>Allocated <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Total calling data assigned."></i></th>
+                  <th>Fresh Calls <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Potential customers for current day."></i></th>
+                  <th>Call Later <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Customers to be reached again."></i></th>
+                  <th>Pending Calls <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Remaining calls to be made for last 30 days."></i>
+                  </th>
+                  <th>Attempted <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Total calls made"></i>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <center class="text-danger" ng-if="creDashboardDataErrorMsg">{{creDashboardDataErrorMsg}}
+                </center>
+                <tr ng-repeat="stats in creDashboardData" ng-class="{active123: stats.dataType === 'Total'}" class="perticularStatsStyle">
+                  <td class="info">{{stats.dataType}} </td>
+                  <td>{{stats.allocated}}
+                    <span class="btn creDataMinimiseBtn"><img ng-if="stats.allocated !== '0' && stats.dataType !== 'Total'" ng-click="getPerticularStatsTableData('allocated',stats.dataType)" src="images/plus-new.png" style="width: 22px"></span>
+                  </td>
+                  <td>{{stats.freshCalls}}
+                    <span class="btn creDataMinimiseBtn"><img ng-if="stats.freshCalls !== '0' && stats.dataType !== 'Total'" ng-click="getPerticularStatsTableData('freshCalls',stats.dataType)" src="images/plus-new.png" style="width: 22px"></span>
+                  </td>
+                  <td>{{stats.callLaterCount}}
+                    <span class="btn creDataMinimiseBtn"><img ng-if="stats.callLaterCount !== '0' && stats.dataType !== 'Total'" ng-click="getPerticularStatsTableData('calllater',stats.dataType)" src="images/plus-new.png" style="width: 22px"></span>
+                  </td>
+                  <td>{{stats.pendingCount}}
+                    <span class="btn creDataMinimiseBtn"><img ng-if="stats.pendingCount !== '0' && stats.dataType !== 'Total'" ng-click="getPerticularStatsTableData('pendingcalls',stats.dataType)" src="images/plus-new.png" style="width:22px"></span>
+                  </td>
+                  <td>{{stats.attemptedCount}}
+                    <span class="btn creDataMinimiseBtn"><img ng-if="stats.attemptedCount !== '0' && stats.dataType !== 'Total'" ng-click="getPerticularStatsTableData('attempted',stats.dataType)" src="images/plus-new.png" style="width:22px"></span>
+                  </td>
+                </tr>
+              </tbody>
+           </table>
+        </div>
+      </div>
+
+      <center><p class="" style="color:#0083ca;text-align:center;" ng-if="(defaultStatusInsurance === 'dueCalls') && defaultStatusInsurance !== undefined">Expire In :</p></center>
+      <center>
+        <div  style="margin-top:1%" class="well" ng-if="(defaultStatusInsurance === 'dueCalls') && defaultStatusInsurance !== undefined">
+          <div class="radio-inline">
+            <label  style="font-size:13px;" class="teleCallingDashBoardRadio-custom-label">
+              <input type="radio" class="teleCallingDashBoardRadio-custom" name="teleCallingOption" value="{{creFilteredDataTypes.dataTypeId}}" ng-model="previous" ng-click="getPerticularStatsTableData('dueCalls','fivedays')">
+              <span>5 Days ( {{creFilteredDataTypes.fivedays}} )</span>
+            </label>
+            <label style="font-size:13px;" class="teleCallingDashBoardRadio-custom-label">
+              <input type="radio" class="teleCallingDashBoardRadio-custom" name="teleCallingOption" value="{{creFilteredDataTypes.dataTypeId}}" ng-model="today" ng-click="getPerticularStatsTableData('dueCalls','tendays')">
+              <span>10 Days ( {{creFilteredDataTypes.tendays}} )</span>
+            </label>
+            <label style="font-size:13px;" class="teleCallingDashBoardRadio-custom-label">
+              <input type="radio" class="teleCallingDashBoardRadio-custom" name="teleCallingOption" value="{{creFilteredDataTypes.dataTypeId}}" ng-model="future" ng-click="getPerticularStatsTableData('dueCalls','expired')">
+              <span>Expired ( {{creFilteredDataTypes.expired}} )</span>
+            </label>
+          </div>
+        </div>
+      </center>
+
+      <div class="col-sm-12" ng-if="showTable" style="margin-top:1%">
+        <center class="text-danger" ng-if="creTableDataErrorMsg">{{creTableDataErrorMsg}}</center>
+        <table class="statsTableDetailed" ng-table="tableParams" show-filter="true">
+          <tbody>
+          <tr ng-repeat="crmTableData in $data" ui-sref="salesDetailed({apptId: crmTableData.apptId,dataTypeId: defaultDataTypeSales})" class="crmDataTableStyle"><!--ng-click="getAppointmentDetails(crmTableData.apptId,crmTableData.dataTypeId)"-->
+            <td data-title="'Sl.No.'" sortable="'slNo'">
+            {{crmTableData.slNo}}
+          </td>
+          <td data-title="'Customer Name'" sortable="'customer_name'" filter="{'customer_name': 'text'}">{{crmTableData.customer_name}}</td>
+          <td data-title="'Mobile'" sortable="'customer_mobile'" filter="{'customer_mobile': 'text'}">
+            {{crmTableData.customer_mobile}}
+          </td>
+          <td data-title="'Data Of Sale'" sortable="'dateOfSale'" filter="{'dateOfSale': 'text'}">
+            {{crmTableData.dateOfSale}}
+          </td>
+          <td data-title="'Branch Name'" sortable="'branchName'" filter="{'branchName': 'text'}">
+            {{crmTableData.branchName}}
+          </td>
+          <td data-title="'Follow up Date'" sortable="'rescheduleDate'" filter="{'rescheduleDate': 'text'}">
+            {{crmTableData.rescheduleDate}}
+          </td>
+          
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+    <div class="loader" ng-if="loaderIcon === true">
+      <center><img src="images/Loading_2.gif" style="width: 12%;"></center>
+    </div>
+  </div>
+  </div>
+</div>

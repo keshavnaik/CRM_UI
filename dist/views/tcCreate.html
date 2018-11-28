@@ -1,0 +1,93 @@
+<style>.manageCallerTable,th{
+    text-align: center;
+    padding:10px 10px 10px 10px;
+    /*border: none !important;*/
+  }
+  tr.noBorder td {
+    border: none !important;
+  }
+  .manageCallerTableStyle{
+    font-weight: normal; margin: 0px 2px 10px 2px;border: none !important; box-shadow:1px 1px 2px rgb(210, 213, 219) , 0 0 25px rgb(210, 213, 219) , 0 0 5px rgb(210, 213, 219) ;
+  }
+  .admindDashboardPanelSpacing{
+    padding:0px 0px 0px 25px;
+  }</style> <div class="container-fluid"> <div class="col-sm-12 col-sm-12"> <div class="panel panel-default crmDashboardApptStyle"> <div class="tcCreateFormPanel"> <div class="panel-body tcCreatePanelSpacing"> <form name="createTelecallerForm" ng-submit="createTeleCaller(createTellecaller)" role="form"> <div class="row"> <div class="col-sm-4" style="margin-top:1%"> <div class="col-sm-11"> <div class="tcCreatePanelSubHeader"> <p>Tele Caller Creation</p> </div> </div> </div> </div><br> <div class="row"> <div class="col-md-3 col-sm-3 createCallerInputPadding"> <!-- <div class="col-sm-11">--> <div class="input-group"> <span class="input-group-addon tcInput"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span> <input type="text" class="form-control teleCallingUpdateStatusInputStyle" name="username" id="username" ng-model="createTellecaller.username" placeholder="User Name" required> <div class="form-control-placeholder-tcInput">User Name</div> <span ng-show="createTelecallerForm.username.$dirty && createTelecallerForm.username.$error.required" class="help-block validationMsg">User Name is required</span> </div> <!-- </div>--> </div> <div class="col-md-3 col-sm-3 createCallerInputPadding"> <!-- <div class="col-sm-11">--> <div class="input-group"> <span class="input-group-addon tcInput"><i class="glyphicon glyphicon-lock crmInputIcon" aria-hidden="true"></i></span> <input type="password" class="form-control teleCallingUpdateStatusInputStyle" name="password" id="password" ng-model="createTellecaller.password" placeholder="Password" required> <div class="form-control-placeholder-tcInput">Password</div> <span ng-show="createTelecallerForm.password.$dirty && createTelecallerForm.password.$error.required" class="help-block validationMsg">Password is required</span> </div> <!--  </div>--> </div> <div class="col-md-3 col-sm-3 createCallerInputPadding"> <!-- <div class="col-sm-11">--> <div class="input-group"> <span class="input-group-addon tcInput"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span> <input type="number" class="form-control teleCallingUpdateStatusInputStyle" name="mobile" ng-model="createTellecaller.mobile" placeholder="Mobile No." ng-maxlength="10" ng-minlength="10" required> <div class="form-control-placeholder-tcInput">Mobile No.</div> <span ng-show="createTelecallerForm.mobile.$dirty && createTelecallerForm.mobile.$error.required" class="help-block validationMsg">Mobile No. is required</span> <span ng-show="createTelecallerForm.mobile.$dirty && createTelecallerForm.mobile.$error.minlength || createTelecallerForm.mobile.$error.maxlength" class="help-block validationMsg">Enter 10 digit mobile number</span> <!-- </div>--> </div> </div> <div class="col-md-3 col-sm-3 createCallerInputPadding"> <!--<div class="col-sm-11">--> <div class="input-group"> <span class="input-group-addon tcInput"><i class="fa fa-map-marker" aria-hidden="true"></i></span> <select class="form-control teleCallingUpdateStatusInputStyle" ng-model="createTellecaller.selectedServiceCenter" name="serviceCenterData" ng-options="sc.scId as sc.scName for sc in serviceCenter" multiple required> <option value="">Select Service Center </select> <span ng-show="createTelecallerForm.serviceCenter.$dirty && createTelecallerForm.serviceCenter.$error.required" class="help-block validationMsg">Service Center is required</span> </div> <!--</div>--> </div> </div> <div class="row"> <center> <button type="submit" class="btn btn-primary btn-md" id="assignActDeactButton" ng-disabled="createTelecallerForm.$invalid">Submit</button> </center> </div> </form><br> <center ng-hide="callerCreateErrorMessageAlert" class="text-danger">{{callerCreateErrorMsg}}</center> <div ng-hide="callerCreateMessageAlert" class="alert alert-info" ng-if="callerCreateMsg"> <center>{{callerCreateMsg}}</center> </div> </div> </div> </div> </div> <div class="col-sm-12 col-sm-12" style="margin-top:1%"> <div class="panel panel-default manageCallerTableStyle"> <div class="panel-heading" id="apptMainHeader"><center>Assign Monthly Target</center></div> <div class="panel-body"> <div class="row"> <table class="table manageCallerTable"> <thead> <tr> <th>Sl No <th>Caller Name <th>Status <th>Walkin Target <th>Pickup&Drop Target <th>Change Status <th>Assign   <tbody> <tr class="noBorder" ng-repeat="caller in saasCaller"> <td>{{caller.slNo}} <td>{{caller.username}} <td>{{caller.status}} <td> <input type="text" class="form-control teleCallerManageInput" ng-model="caller.walkInCount">  <td> <input type="text" class="form-control teleCallerManageInput" ng-model="caller.pickAndDropCount">  <td><button type="button" class="btn btn-info" id="assignActDeactButton" ng-click="updateCallerStatus(caller)"><span ng-if="caller.status === 'active'">Deactivate</span><span ng-if="caller.status === 'inactive'">&nbsp;&nbsp;Activate&nbsp;&nbsp; </span></button> <td><button type="button" class="btn btn-info" id="assignActDeactButton" ng-click="assignCallerStatus(caller)">Assign</button>   </table> </div> </div> </div> </div> <div class="loader" ng-if="loading"> <center> <img src="images/Loading_2.d4563d67.gif" style="width: 12%"> <!--<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style="font-size: 45px;"></span>--></center> <!--  <center><p>LetsService - Please Wait</p></center>--> </div> <div class="col-sm-12 col-sm-12" style="margin-top:2%"> <div class="panel panel-default manageCallerTableStyle"> <div class="panel-heading" id="apptMainHeader"><center>Assign Calling Data</center></div> <div class="panel-body" style="margin-top:1%"> <div class="row admindDashboardPanelSpacing"> <form name="dateForm" ng-submit="teleCallingAssignTarget(tcTarget)"> <!-- <div class="form-group col-md-2 col-sm-2">
+              <div class="crmDashboardFilterPanel">
+                <select class="form-control crmDashboardFilterPanelBorder" ng-model="tcTarget.selectedStatus" name="statusData"
+                        ng-options="tcStatus.description as tcStatus.description for tcStatus in teleCallingStatus" ng-change="getSubStatus(tcAppointment.selectedStatus)">
+                  <option value="">Select Status</option>
+                </select>
+              </div>
+            </div>--> <div class="form-group col-md-2 col-sm-2"> <div class="crmDashboardFilterPanel"> <!-- <select class="form-control crmDashboardFilterPanelBorder" ng-model="tcTarget.selectedServiceCenter" name="statusData"
+                        ng-options="sc.scId as sc.scName for sc in serviceCenter" multiple required>
+                  <option value="">Select Service Center</option>
+                </select>--> <center><p class="apptDetailTextStyle" style="margin-top: -8%">Assign Branch</p> <div class="form-control crmDashboardFilterPanelBorder" style="margin-top: -10%" ng-dropdown-multiselect="" options="teleCallerServiceCenterData" selected-model="manageServiceCenter" events="updateTCServiceCenter" extra-settings="manageServiceCenterSettings"></div> </center> </div> </div> <div class="form-group col-md-2 col-sm-2"> <div class="crmDashboardFilterPanel"> <!-- <select class="form-control crmDashboardFilterPanelBorder" ng-model="tcTarget.selectedDataType" name="dateType"
+                        ng-options="tcDataType.dataTypeId as tcDataType.description for tcDataType in dataTypes" multiple required>
+                  <option value="">Select Data Type</option>
+                </select>--> <center><p class="apptDetailTextStyle" style="margin-top: -8%">Assign Data Type</p> <div class="form-control crmDashboardFilterPanelBorder" style="margin-top: -10%" ng-dropdown-multiselect="" options="teleCallerDataTypeData" selected-model="manageDataType" events="updateTCDataType" extra-settings="manageDataTypeSettings"></div> </center> </div> </div> <div class="form-group col-md-2 col-sm-2"> <div class="crmDashboardFilterPanel"> <center><p class="apptDetailTextStyle" style="margin-top: -8%">Assign Caller</p> <div class="form-control crmDashboardFilterPanelBorder" style="margin-top: -10%" ng-dropdown-multiselect="" options="teleCallerDataCallerData" selected-model="manageCaller" events="updateTCCaller" extra-settings="manageCallerSettings"></div> </center> </div> </div> <!--<div class="form-group col-md-2 col-sm-2">
+              <div class="crmDashboardFilterPanel">
+                <select class="form-control crmDashboardFilterPanelBorder" ng-model="tcTarget.selectedCaller" name="dateType"
+                        ng-options="caller.loginId as caller.username for caller in callerList" required>
+                  <option value="">Select Caller</option>
+                </select>
+              </div>
+            </div>--> <div class="form-group col-md-1 col-sm-2" style="margin-left:20px"> <button type="submit" class="btn btn-primary" id="filterButton" ng-disabled="dateForm.$invalid">Assign</button> </div> </form> </div> </div> <center class="text-success">{{updateTelecallerTargetMsg}}</center><br> </div> </div> <!--<div class="col-sm-12 col-sm-12" style="margin-top:2%;">
+    <div class="panel panel-default manageCallerTableStyle">
+      <div class="panel-heading" id="apptMainHeader"><center>DeAssign Calling Data</center></div>
+      <div class="panel-body" style="margin-top:1%;">
+        <div class="row admindDashboardPanelSpacing">
+          <form name="dateForm" ng-submit="deAssignCallingData()">
+
+            <div class="form-group col-md-3 col-sm-3">
+              <div class="crmDashboardFilterPanel">
+                &lt;!&ndash; <select class="form-control crmDashboardFilterPanelBorder" ng-model="tcTarget.selectedServiceCenter" name="statusData"
+                         ng-options="sc.scId as sc.scName for sc in serviceCenter" multiple required>
+                   <option value="">Select Service Center</option>
+                 </select>&ndash;&gt;
+                <center><p class="apptDetailTextStyle" style="margin-top: -8%;">Assign Service Center</p>
+                  <div class="form-control crmDashboardFilterPanelBorder" style="margin-top: -5%;" ng-dropdown-multiselect="" options="teleCallerServiceCenterData" selected-model="manageServiceCenter" events="updateTCServiceCenter" extra-settings="manageServiceCenterSettings"></div>
+                </center>
+              </div>
+            </div>
+
+            <div class="form-group col-md-3 col-sm-3">
+              <div class="crmDashboardFilterPanel">
+                &lt;!&ndash; <select class="form-control crmDashboardFilterPanelBorder" ng-model="tcTarget.selectedDataType" name="dateType"
+                         ng-options="tcDataType.dataTypeId as tcDataType.description for tcDataType in dataTypes" multiple required>
+                   <option value="">Select Data Type</option>
+                 </select>&ndash;&gt;
+                <center><p class="apptDetailTextStyle" style="margin-top: -8%;">Assign Data Type</p>
+                  <div class="form-control crmDashboardFilterPanelBorder" style="margin-top: -5%;" ng-dropdown-multiselect="" options="teleCallerDataTypeData" selected-model="manageDataType" events="updateTCDataType" extra-settings="manageDataTypeSettings"></div>
+                </center>
+              </div>
+            </div>
+
+
+            <div class="form-group col-md-3 col-sm-3">
+              <div class="crmDashboardFilterPanel">
+                <center><p class="apptDetailTextStyle" style="margin-top: -8%;">Assign Caller</p>
+                  <div class="form-control crmDashboardFilterPanelBorder" style="margin-top: -5%;" ng-dropdown-multiselect="" options="teleCallerDataCallerData" selected-model="manageCaller" events="updateTCCaller" extra-settings="manageCallerSettings"></div>
+                </center>
+              </div>
+            </div>
+
+
+            &lt;!&ndash;<div class="form-group col-md-2 col-sm-2">
+              <div class="crmDashboardFilterPanel">
+                <select class="form-control crmDashboardFilterPanelBorder" ng-model="tcTarget.selectedCaller" name="dateType"
+                        ng-options="caller.loginId as caller.username for caller in callerList" required>
+                  <option value="">Select Caller</option>
+                </select>
+              </div>
+            </div>&ndash;&gt;
+
+            <div class="form-group col-md-2 col-sm-2" style=" margin-left:20px;">
+              <button type="submit" class="btn btn-primary" id="filterButton" ng-disabled="dateForm.$invalid">DeAssign</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+      <center class="text-success">{{updateTelecallerTargetMsg}}</center><br>
+    </div>
+  </div>--> </div> <br><br>

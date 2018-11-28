@@ -1,0 +1,507 @@
+<style>
+#devPanelHeader{
+    background-color:#E3F2FD;
+    color:#0083ca;
+    padding:4px 4px 4px 4px;
+}
+.devSearch {
+  background-image: url('/css/searchicon.png');
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  width: 20%;
+  font-size: 16px;
+  padding: 5px 5px 5px 5px;
+  border: 1px solid #ddd;
+}
+#tcDashboardGlobalSearch-form {
+  margin:0;
+  color:#0083ca;
+}
+
+.tcDashbordGlobalSearch{
+  border:1px solid #0083ca;border-radius:15px;font-size:13px;width:200px;padding:5px 10px 5px 10px;outline:0;margin-top:0;
+}
+.lableHeadStyle{
+    font-weight: bold;
+}
+.HeadStyle{
+    margin-top: -8px;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+    box-shadow: 1px 1px 2px rgb(210, 213, 219) , 0 0 25px rgb(210, 213, 219) , 0 0 5px rgb(210, 213, 219) ;
+    font-style: montserrat;
+    font-size: 12px;
+  }
+  th, td {
+    text-align: center;
+    color:#424242;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  tr:nth-child(odd){background-color: #f9f9f9;}
+  .statsTableDetailed th {
+    background-color: #FFFFFF;
+    color:#0083CA;
+    font-weight: 500;
+  }
+  .statsTable th{
+    background-color: #E3F2FD;
+    color:#0083ca;
+    font-weight: 500;
+  }
+  /*.statsTable{
+    margin-top:-20px;
+  }*/
+  tr th.headerStyle{
+    background-color: #FFFFFF;
+    color:#0083ca;
+  }
+  .modal-lg{
+ width: 85%;
+}
+.statsTableDetailed th {
+      background-color: #E3F2FD;
+      color:#0083CA;
+      /*color:#9E9E9E;*/
+      font-weight: 500;
+      /*border-bottom: 2px solid #0083CA;*/
+    }
+</style>
+
+ <div class="header">
+  <div class="navbar navbar-default mainheader" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <img ng-if="!signedInUserPic" src="https://s3-us-west-2.amazonaws.com/bikedetailimages/logo_footer.png" width="90px" height="60px" style="padding:10px 10px 10px 10px;"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+<div class="row" style="margin-top:-20px;">
+     <!-- <div class="form-group col-md-3 col-sm-3">
+          <div id="tcDashboardGlobalSearch-form">
+            <select class="form-control tcDashbordGlobalSearch" ng-model="selectedDealer" name="dealerData"
+                    ng-options="dealer.scId as dealer.scName for dealer in dealerList" ng-change="getSelectedDealer(selectedDealer)">
+              <option value="">Select Dealer</option>
+            </select>
+            </div>
+        </div>    -->
+     <!--   <center> -->
+        <center><h4 style="color:black;">Developer Console</h4></center>
+        <form name="searchForm">
+        <div class="form-group col-md-3 col-sm-3">
+          <div id="tcDashboardGlobalSearch-form">
+            <select class="form-control tcDashbordGlobalSearch" ng-model="devObj.selectedDealer" name="dealerData"
+                    ng-options="dealer.scId as dealer.scName for dealer in dealerList" ng-change="getSelectedDealer(devObj.selectedDealer)" required>
+              <option value="">Select Dealer</option>
+            </select>
+            </div>
+        </div>
+
+       <div class="form-group col-md-3 col-sm-3">
+        <div id="tcDashboardGlobalSearch-form" > <!-- <span style="color:black;">Chassis No : &nbsp;&nbsp;&nbsp;</span> -->
+               <input type="text" class="tcDashbordGlobalSearch" ng-model="devObj.selChassisNo" placeholder="Enter Chassis No." required>
+               <button><!-- <span style="margin-left:-5px;" class="glyphicon glyphicon-search" ng-click="getDetailsByChassisNo(selChassisNo)"></span> -->
+               </button>
+        </div>
+       </div>
+
+         <div class="form-group col-md-1 col-sm-1">
+           <div id="" style="margin-top:12px;">
+            <button class="btn btn-primary btn-xs" ng-click="getDetailsByChassisNo(devObj.selChassisNo)" ng-disabled="searchForm.$invalid"><span class="glyphicon glyphicon-search"></span></button>
+           </div>
+         </div>
+    </form> 
+
+</div>
+
+    <div class="loader" ng-if="loader === true">
+      <center><img src="images/Loading_2.d4563d67.gif" style="width: 6%;"></center>
+    </div>
+    <div ng-if="detailsErrorMsg">
+    <center class="alert-danger">{{detailsErrorMsg}} </center><br>
+    </div>
+   
+ <div class="row">
+  <div class="form-group col-md-6 col-sm-6">
+      <div class="panel panel-default">
+        <div class="panel-heading" id="devPanelHeader">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;&nbsp;<span align:left;>Customer Info</span></div>
+        <div class="panel-body">
+                <div class="row">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <span  class="lableHeadStyle">Customer Name </span>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                     <span class="lableStyle" ng-if="details.customer_name">{{details.customer_name}}</span>
+                     <span class="lableStyle" ng-if="!details.customer_name">NA</span>
+                  </div>
+                   <div class="form-group col-md-6 col-sm-6 HeadStyle">
+                    <span class="lableHeadStyle">Mobile No. </span>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6 HeadStyle">
+                     <span class="lableStyle" ng-if="details.customer_mobile">{{details.customer_mobile}}</span>
+                     <span class="lableStyle" ng-if="!details.customer_mobile">NA</span>
+                  </div>
+                   <div class="form-group col-md-6 col-sm-6 HeadStyle">
+                    <span class="lableHeadStyle">Address </span>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6 HeadStyle">
+                     <span class="lableStyle" ng-if="details.customer_address">{{details.customer_address}}</span>
+                     <span class="lableStyle" ng-if="!details.customer_address">NA</span>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6 HeadStyle">
+                    <span class="lableHeadStyle">Date of Sale</span>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6 HeadStyle">
+                     <span class="lableStyle" ng-if="details.dateOfSale">{{details.dateOfSale}}</span>
+                     <span class="lableStyle" ng-if="!details.dateOfSale">NA</span>
+                  </div>
+                   <div class="form-group col-md-6 col-sm-6 HeadStyle">
+                    <span class="lableHeadStyle"> Bike Model </span>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6 HeadStyle">
+                     <span class="lableStyle" ng-if="details.bikeModel">{{details.bikeModel}}</span>
+                     <span class="lableStyle" ng-if="!details.bikeModel">NA</span>
+                  </div>
+              </div>
+            </div>
+        </div>
+     </div>
+
+    <div class="form-group col-md-6 col-sm-6">
+      <div class="panel panel-default">
+        <div class="panel-heading" id="devPanelHeader">&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;&nbsp;<span align:left;>Customer Info</span></div>
+        <div class="panel-body">
+                <div class="row">
+                  <div class="form-group col-md-6 col-sm-6">
+                    <span class="lableHeadStyle">Bike Type</span>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6">
+                     <span class="lableStyle" ng-if="details.bikeType">{{details.bikeType}}</span>
+                     <span class="lableStyle" ng-if="!details.bikeType">NA</span>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6 HeadStyle">
+                    <span  class="lableHeadStyle">Created Date</span>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6 HeadStyle">
+                     <span class="lableStyle" ng-if="details.create_ts">{{details.create_ts}}</span>
+                     <span class="lableStyle" ng-if="!details.create_ts">NA</span>
+                  </div>
+                   <div class="form-group col-md-6 col-sm-6 HeadStyle">
+                    <span class="lableHeadStyle">Branch Name </span>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6 HeadStyle">
+                     <span class="lableStyle" ng-if="details.bikeBrand">{{details.bikeBrand}}</span>
+                     <span class="lableStyle" ng-if="!details.bikeBrand">NA</span>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6 HeadStyle">
+                    <span class="lableHeadStyle">Walkin SMS </span>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6 HeadStyle">
+                     <span class="lableStyle" ng-if="details.walkInSms">{{details.walkInSms}}</span>
+                     <span class="lableStyle" ng-if="!details.walkInSms">NA</span>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6 HeadStyle">
+                    <span class="lableHeadStyle">Call Later SMS</span>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6 HeadStyle">
+                     <span class="lableStyle" ng-if="details.callLaterSms">{{details.callLaterSms}}</span>
+                     <span class="lableStyle" ng-if="!details.callLaterSms">NA</span>
+                  </div>
+              </div>
+            </div>
+        </div>
+     </div>
+   
+
+ </div> 
+ <div class="row">
+    <div class="col-sm-12 col-sm-12">
+          <table class="table statsTable">
+                  <thead>
+                    <tr><th class="" colspan="17"><span class="glyphicon glyphicon-wrench"></span>&nbsp;&nbsp;&nbsp;<b>Service Details<b></th></tr>
+                  <tr>
+                    <th>ApptId</th>
+                    <th>sApptId</th>
+                    <th>Assigned Id </th>
+                    <th>Appt Status</th>
+                    <th>Appt Sub Status</th>
+                    <th>Service Due Type </th>
+                    <th>Overdue Date </th>
+                    <th>Km Wise </th>
+                    <th>Reminder </th>
+                    <th>Confirm Status </th>
+                    <th>NotInterested Status  </th>
+                    <th>Overdue Status  </th>
+                    <th>Customer Type  </th>
+                    <th>AMC Remaining </th>
+                    <th>Created Date </th>
+                    <th>Update Date</th>
+                    <th>Call Details</th>
+                  </tr>
+                  </thead>
+                
+                  <tbody>
+                  <center class="text-danger" ng-if="dateOfSaleDataErrorMsg">{{dateOfSaleDataErrorMsg}}</center>
+                  <tr ng-repeat="data in serviceDetails |filter:tcSearch" class="crmFeedbackRowPanel" ng-click="getFeedbackList('psf',rating.feedBackListId)">
+                    <td>{{data.apptId}}</td>
+                    <td>{{data.sapptId}}</td>
+                    <td>{{data.assignedId}}</td>
+                    <td>{{data.apptStatus}}</td>
+                    <td>{{data.apptSubStatus}}</td>
+                    <td>{{data.serviceDueType}}</td>
+                    <td>{{data.overDueDate}}</td>
+                    <td>{{data.kmWise}}</td>
+                    <td>{{data.reminder}}</td>
+                    <td>{{data.confirmStatus}}</td>
+                    <td>{{data.notInterested}}</td>
+                    <td>{{data.overDueStatus}}</td>
+                    <td>{{data.customerType}}</td>
+                    <td>{{data.amcRemaining}}</td>
+                    <td>{{data.create_ts}}</td>
+                    <td>{{data.update_ts}}</td>
+                    <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" ng-click="getCallerDetailsDetails(data.sapptId,'service')"><span class="glyphicon glyphicon-hand-up"></span></button></p></td>
+                  </tr>
+                  </tbody>
+                </table>
+    </div>
+ </div><br>
+
+ <div class="row">
+    <div class="col-sm-12 col-sm-12">
+          <table class="table statsTable">
+                  <thead>
+                   <tr><th class="" colspan="17"><span class="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;&nbsp;<b>Job Card Details<b></th></tr>
+                   <tr>
+                    <th>JobCard Id</th>
+                    <th>Customer Name</th>
+                    <th>Customer Mobile</th>
+                    <th>Work Started Date</th>
+                    <th>Work Completion Date</th>
+                    <th>Delivery Date</th>
+                    <th>Mechanic</th>
+                    <th>Service Date</th>
+                    <th>Service Type</th>
+                    <th>Converted Status</th>
+                    <th>ApptId</th>
+                    <th>Km Reading</th>
+                    <th>Created On</th>
+                   </tr>
+                   </thead>
+                
+                  <tbody>
+                  <center class="text-danger" ng-if="dateOfSaleDataErrorMsg">{{dateOfSaleDataErrorMsg}}</center>
+                  <tr ng-repeat="data in jobcardDetails | filter:tcSearch" class="crmFeedbackRowPanel" ng-click="getFeedbackList('psf',rating.feedBackListId)">
+                    <td>{{data.jobCardId}}</td>
+                    <td>{{data.customerName}}</td>
+                    <td>{{data.customerMobile}}</td>
+                    <td>{{data.workStartedDate}}</td>
+                    <td>{{data.workCompletionDate}}</td>
+                    <td>{{data.deliveredDateTime}}</td>
+                    <td>{{data.mechanic}}</td>
+                    <td>{{data.serviceDate}}</td>
+                    <td>{{data.serviceType}}</td>
+                    <td>{{data.convertedStatus}}</td>
+                    <td>{{data.apptId}}</td>
+                    <td>{{data.kmReading}}</td>
+                    <td>{{data.create_ts}}</td>
+                  </tbody>
+                </table>
+      </div>
+    </div><br>
+
+    <div class="row">
+    <div class="col-sm-12 col-sm-12">
+          <table class="table statsTable">
+                  <thead>
+                   <tr><th class="" colspan="17"><span class="glyphicon glyphicon-wrench"></span>&nbsp;&nbsp;&nbsp;<b>Sales Details<b></th></tr>
+                   <tr>
+                     <th>ApptId</th>
+                    <th>sApptId</th>
+                    <th>Assigned Id </th>
+                    <th>Appt Status</th>
+                    <th>Appt Sub Status</th>
+                    <th>Branch Name </th>
+                    <th>Reschedule Date</th>
+                    <th>Call Type</th>
+                    <th>Created Date </th>
+                    <th>Update Date</th>
+                    <th>Call Details</th>
+                   </tr>
+                   </thead>
+                  <tbody>
+                  <tr ng-repeat="data in salesDetails | filter:tcSearch" class="crmFeedbackRowPanel" ng-click="getFeedbackList('psf',rating.feedBackListId)">
+                    <td>{{data.apptId}}</td>
+                    <td>{{data.sapptId}}</td>
+                    <td>{{data.assignedId}}</td>
+                    <td>{{data.apptStatus}}</td>
+                    <td>{{data.apptSubStatus}}</td>
+                    <td>{{data.branchName}}</td>
+                    <td>{{data.rescheduleDate}}</td>
+                    <td>{{data.callType}}</td>
+                    <td>{{data.create_ts}}</td>
+                    <td>{{data.update_ts}}</td>
+                     <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" ng-click="getCallerDetailsDetails(data.sapptId,'sales')"><span class="glyphicon glyphicon-hand-up"></span></button></p></td>
+                  </tbody>
+                 </tr>
+                </table>
+                <center class="text-danger" ng-if="salesDetailsErrorMsg">{{salesDetails}}</center>
+      </div>
+    </div><br>
+     <div class="row">
+    <div class="col-sm-12 col-sm-12">
+          <table class="table statsTable">
+                  <thead>
+                   <tr><th class="" colspan="17"><span class="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;&nbsp;<b>Insurance Details<b></th></tr>
+                   <tr>
+                    <th>Insurance Id</th>
+                    <th>Customer Name</th>
+                    <th>Customer Mobile</th>
+                    <th>Insurance Name</th>
+                    <th>Policy No.</th>
+                    <th>Valid From</th>
+                    <th>Insurance Date</th>
+                    <th>sApptId</th>
+                    <th>Assigned Id</th>
+                    <th>Caller Id</th>
+                    <th>Appt Status</th>
+                    <th>Appt Sub Status</th>
+                    <th>Confirm Status</th>
+                    <th>Active Status</th>
+                    <th>Created On</th>
+                    <th>Updated Date</th>
+                    <th>Call Details</th>
+                   </tr>
+                   </thead>
+                  <tbody>
+                  <tr ng-repeat="data in insuranceDetails | filter:tcSearch" class="crmFeedbackRowPanel" ng-click="getFeedbackList('psf',rating.feedBackListId)">
+                    <td>{{data.insuranceId}}</td>
+                    <td>{{data.customerName}}</td>
+                    <td>{{data.customerMobile}}</td>
+                    <td>{{data.insuranceName}}</td>
+                    <td>{{data.policyNo}}</td>
+                    <td>{{data.validFrom}}</td>
+                    <td>{{data.insuranceDate}}</td>
+                    <td>{{data.sapptId}}</td>
+                    <td>{{data.assignedId}}</td>
+                    <td>{{data.callerId}}</td>
+                    <td>{{data.apptStatus}}</td>
+                    <td>{{data.apptSubStatus}}</td>
+                    <td>{{data.confirmStatus}}</td>
+                    <td>{{data.activeStatus}}</td>
+                    <td>{{data.create_ts}}</td>
+                    <td>{{data.update_ts}}</td>
+                     <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" ng-click="getCallerDetailsDetails(data.sapptId,'insurance')"><span class="glyphicon glyphicon-hand-up"></span></button></p></td>
+                  </tr>
+                  </tbody>
+                </table>
+                <center class="text-danger" ng-if="insuranceDetailsErrorMsg">{{insuranceDetails}}</center>
+      </div>
+    </div><br>
+
+    <div class="row">
+    <div class="col-sm-12 col-sm-12">
+          <table class="table statsTable">
+                  <thead>
+                   <tr><th class="" colspan="17"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;&nbsp;<b>PSF Details<b></th></tr>
+                   <tr>
+                   <th>ApptId</th>
+                    <th>sApptId</th>
+                    <th>Assigned Id </th>
+                    <th>Appt Status</th>
+                    <th>Appt Sub Status</th>
+                    <th>Service Due Type </th>
+                    <th>Overdue Date </th>
+                    <th>Km Wise </th>
+                    <th>Reminder </th>
+                    <th>Confirm Status </th>
+                    <th>NotInterested Status  </th>
+                    <th>Overdue Status  </th>
+                    <th>Customer Type  </th>
+                    <th>AMC Remaining </th>
+                    <th>Created Date </th>
+                    <th>Update Date</th>
+                    <th>Call Details</th>
+                   </tr>
+                   </thead>
+                  <tbody>
+                  <tr ng-repeat="data in psfDetails | filter:tcSearch" class="crmFeedbackRowPanel" ng-click="getFeedbackList('psf',rating.feedBackListId)">
+                    <td>{{data.apptId}}</td>
+                    <td>{{data.sapptId}}</td>
+                    <td>{{data.assignedId}}</td>
+                    <td>{{data.apptStatus}}</td>
+                    <td>{{data.apptSubStatus}}</td>
+                    <td>{{data.serviceDueType}}</td>
+                    <td>{{data.overDueDate}}</td>
+                    <td>{{data.kmWise}}</td>
+                    <td>{{data.reminder}}</td>
+                    <td>{{data.confirmStatus}}</td>
+                    <td>{{data.notInterested}}</td>
+                    <td>{{data.overDueStatus}}</td>
+                    <td>{{data.customerType}}</td>
+                    <td>{{data.amcRemaining}}</td>
+                    <td>{{data.create_ts}}</td>
+                    <td>{{data.update_ts}}</td>
+                    <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" ng-click="getCallerDetailsDetails(data.sapptId,'psf')"><span class="glyphicon glyphicon-hand-up"></span></button></p></td>
+                  </tr>
+                  </tbody>
+                </table>
+                 <center class="text-danger" ng-if="psfDetailsErrorMsg">{{psfDetails}}</center>
+      </div>
+    </div>
+
+   </div>
+
+
+
+
+   <!-- Data Table Modal -->
+
+
+
+  <div class="modal fade" id="adminDataTableModal" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- TeleCaller Modal content-->
+    <div class="modal-content">
+      <div class="modal-header teleCallerDashboardModalHeader">
+        <button type="button" class="close" data-dismiss="modal" ng-click="clearUpdateMsg()">&times;</button>
+        <h4 class="modal-title"><center>Call Deatils</center></h4>
+      </div>
+      <div class="modal-body">
+         <table class="table statsTableDetailed" ng-table="tableParams">
+                  <!-- <thead>
+                   <tr>
+                     <th>Sl No.</th>
+                     <th>Customer Name</th>
+                     <th>Mobile</th>
+                     <th>Bike MOdel</th>
+                     <th>Chassis No.</th>
+                     <th>View </th>
+                   </tr>
+                  </thead> -->
+                  <tbody>
+                  <center class="text-danger" ng-if="creTableDataErrorMsg">{{creTableDataErrorMsg}}</center>
+                  <tr ng-repeat="detail in $data" class="crmDataTableStyle">
+                    <td data-title="'Id'">{{detail.csahId}}</td>
+                    <td data-title="'sApptId'">{{detail.sapptId}}</td>
+                    <td data-title="'Caller Name'">{{detail.callername}}</td>
+                    <td data-title="'Appt Status'">{{detail.apptStatus}}</td>
+                    <td data-title="'Appt Sub Status'">{{detail.apptSubStatus}}</td>
+                    <td data-title="'Remarks'">{{detail.remarks}}</td>
+                    <td data-title="'Created Date'">{{detail.create_ts}}</td>
+                  </tr> 
+                  </tbody>
+                </table>
+
+      </div>
+    </div>
+
+  </div>
+  </div>
+
+</div>

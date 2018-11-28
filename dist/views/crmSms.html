@@ -1,0 +1,123 @@
+<style>#smsTextPhn {
+    width: 90%;
+    height: 70px;
+    border-radius: 20px;
+    border: 1px solid #0083ca;
+    background-color:white;
+    margin-top:15px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    outline:none;
+  }
+  #smsTextMsg {
+    width: 90%;
+    height: 170px;
+    border-radius: 20px;
+    border: 1px solid #0083ca;
+    background-color:white;
+    margin-top:15px;
+    padding-bottom: 110px;
+    padding-left: 20px;
+    outline:none;
+  }
+  .uploadCharStyle{
+    color:grey;
+    margin-left:83%;
+  }
+  .uploadCharStyle2{
+    color:grey;
+    margin-left:8%;margin-top:-2%;
+  }
+  ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: grey;
+    font-weight: normal;
+    text-indent: 10px;
+  }
+  ::-moz-placeholder { /* Firefox 19+ */
+    color: grey;
+    font-weight: normal;
+  }
+  :-ms-input-placeholder { /* IE 10+ */
+    color: grey;
+    font-weight: normal;
+  }
+  :-moz-placeholder { /* Firefox 18- */
+    color: grey;
+    font-weight: normal;
+  }
+
+  .crmDashboardSMSStyle1{
+    margin: 0px 200px 10px 200px; box-shadow:1px 1px 2px rgb(210, 213, 219) , 0 0 25px rgb(210, 213, 219) , 0 0 5px rgb(210, 213, 219) ;
+  }
+
+  #sendSmsButton{
+    background-color:  #0083ca;
+    color:#FFFFFF;
+    padding: 2px 30px 2px 30px;
+    border-radius: 15px;
+    outline: 0;
+    border:none !important;
+  }
+  .admindDashboardPanelSpacing{
+    padding:0px 25px 0px 25px;
+  }
+ /* .fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+  }
+  .fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+  }
+  .input {
+    width:30%;
+    font-color:#5c5c3d;
+    background-color: white;
+    border:none;
+  }*/
+
+  #teleCallingSMSXlFileInput[type="file"] {
+    display: none;
+  }
+  #uploadInput {
+    margin: 10px 10px 10px;
+    border-radius: 20px;
+    background-color:  #0083ca;
+    border: none;
+  }
+  .smsPackageStyle{
+    padding:0 500px 0 500px;
+  }
+  .smsPackageFormStyle{
+    padding:0 450px 0 450px;
+  }
+  .smsPriceStyle {
+    padding: 0 170px 0 200px;
+  }</style> <div class="container-fluid"> <div class="row"> <div class="form-group col-md-2 col-sm-2 pull-right" ng-if="signedInUserRole === 'superAdmin'"> <div class=""> <select class="form-control teleCallingUpdateStatusInputStyle" style="font-size:13px" ng-model="selectedDealer" name="dealerData" ng-options="dealer.scId as dealer.scName for dealer in dealerList" ng-change="getSelectedDealer(selectedDealer)"> <option value="">Select Dealer </select> </div> </div> </div> <div class="row admindDashboardPanelSpacing"> <div class="col-md-2 col-sm-2 crmSMSStatsRowPanel"> <div id="column1"> <div class="row"> <div class="col-sm-12"> <div class="row"> <div class="col-sm-12"> <h3 class="head">{{scSMSStats.dailyCount}}</h3><br> </div> </div> <div class="row"> <div class="col-sm-12"> <p class="paragraph"><b>SMS Sent Today<b></b></b></p> </div> </div><br> </div> </div> </div> </div> <div class="col-md-3 col-sm-3 crmSMSStatsRowPanel"> <div id="column2"> <div class="row"> <div class="col-sm-12"> <div class="row"> <div class="col-sm-12"> <h3 class="head">{{scSMSStats.weekCount}}</h3><br> </div> </div> <div class="row"> <div class="col-sm-12"> <p class="paragraph"><b>SMS Sent This Week<b></b></b></p> </div> </div><br> </div> </div> </div> </div> <div class="col-md-2 col-sm-2 crmSMSStatsRowPanel"> <div id="column3"> <div class="row"> <div class="col-sm-12"> <div class="row"> <div class="col-sm-12"> <h3 class="head">{{scSMSStats.monthCount}}</h3><br> </div> </div> <div class="row"> <div class="col-sm-12"> <p class="paragraph"><b>SMS Sent This Month<b></b></b></p> </div> </div><br> </div> </div> </div> </div> <div class="col-md-3 col-sm-3 crmSMSStatsRowPanel"> <div id="column4"> <div class="row"> <div class="col-sm-12"> <div class="row"> <div class="col-sm-12"> <h3 class="head">{{scSMSStats.lastMonthCount}}</h3><br> </div> </div> <div class="row"> <div class="col-sm-12"> <p class="paragraph"><b>SMS Sent Last Month<b></b></b></p> </div> </div><br> </div> </div> </div> </div> <div class="col-md-2 col-sm-2 crmSMSStatsRowPanel"> <div id="column5"> <div class="row"> <div class="col-sm-12"> <div class="row"> <div class="col-sm-12"> <h3 class="head">{{scSMSStats.smsCredit}}</h3><br> </div> </div> <div class="row"> <div class="col-sm-12"> <p class="paragraph"><b>SMS Credits Remaining<b></b></b></p> </div> </div><br> </div> </div> </div> </div> </div><br> <div class="col-sm-12 col-sm-12" ng-show="signedInUserRole !== 'superAdmin'"> <div class="panel panel-default crmDashboardSMSStyle1"> <div class="panel-heading" id="apptMainHeader"><center>Send SMS</center></div> <div class="panel-body"> <form name="sendSMSForm" ng-submit="sendSCSMS(scSMS)"> <div class="row" style="text-align: center;margin-left:5px"> <div class="col-sm-12"> <textarea id="smsTextPhn" cols="35" rows="4" ng-model="scSMS.mobileNumber" placeholder="Enter multiple numbers comma separated" ng-minlength="10" required ng-blur="validateMobileNumber(scSMS.mobileNumber)"></textarea><br> </div> </div> <div class="form-group col-md-3 col-sm-3 pull-right"> <!-- <center><input type="file" id="teleCallingSMSXlFileInput" class="teleCallingSMSXlFileInput"></center>
+--> <!--<div class="fileUpload btn btn-primary">
+              <span>Choose file</span>
+              <input type="file" id="teleCallingSMSXlFileInput" class="upload" />
+            </div>
+            <input id="uploadFile" placeholder="No file Choosen" class="input" />--> <label class="btn btn-primary" id="uploadInput">Choose file <input type="file" id="teleCallingSMSXlFileInput" class="teleCallingSMSXlFileInput"> </label> </div> <!-- <div class="radio-inline" style="margin-left:5%;">
+          <label class="teleCallingDashBoardRadio-custom-label">
+            <input type="radio" class="teleCallingDashBoardRadio-custom" name="smsLanguage" value="1" ng-model="scSMS.english">
+            <span>English</span>
+          </label>
+        </div>
+        <div class="radio-inline">
+          <label class="teleCallingDashBoardRadio-custom-label">
+            <input type="radio" class="teleCallingDashBoardRadio-custom" name="smsLanguage" value="selected" ng-model="scSMS.regional">
+            <span>Regional</span>
+          </label>
+        </div>
+ --> <div class="row" style="text-align: center;margin-left:5px"> <div class="col-sm-12"> <textarea id="smsTextMsg" cols="35" rows="10" ng-model="scSMS.message" placeholder="Enter your text here (upto 500 characters)" ng-trim="false" ng-maxlength="500" required></textarea> </div> </div> <!--<div class="pull-right">
+            <span ng-if="500 - scSMS.message.length > 0">{{500 - scSMS.message.length}} left</span>
+          </div>--> <div class="uploadCharStyle"> <span> Max : 500 char</span> </div> <div class="pull-left uploadCharStyle2"> <span class="apptDetailTextHeaderStyle" ng-if="scSMS.message.length === undefined">0</span><span class="apptDetailTextHeaderStyle">{{scSMS.message.length}}</span><span> Character(s) = </span><span class="apptDetailTextHeaderStyle" ng-if="scSMS.message.length === undefined">0</span> <span class="apptDetailTextHeaderStyle" ng-if="scSMS.message.length !== undefined"> {{(scSMS.message.length) /160 |rounded}}</span><span> SMS</span> </div> <!--  <div class="row">   --> <div style="text-align: center"> <center><button style="margin-left:-180px" type="submit" id="sendSmsButton" class="btn btn-primary" ng-disabled="sendSMSForm.$invalid">Send SMS</button></center> </div> <!-- </div> --> </form> </div> </div><br> </div> <div class="loader" ng-if="loading"> <center> <img src="images/Loading_2.d4563d67.gif" style="width: 12%"> <!--<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style="font-size: 45px;"></span>--></center> <!-- <center><p>LetsService - Please Wait</p></center>--> </div> </div> 

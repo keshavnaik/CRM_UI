@@ -1,0 +1,91 @@
+<style>
+button.accordion {
+    margin-top:7px;
+    margin-bottom:7px;
+    background-color: white;
+    cursor: pointer;
+    padding: 20px;
+    width: 90%;
+    margin-left: 5%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 12px;
+    color:black;
+    transition: 0.4s;
+    border-left: 3px solid #0083CA;
+    box-shadow:1px 1px 2px rgb(210, 213, 219) , 0 0 25px rgb(210, 213, 219) , 0 0 5px rgb(210, 213, 219) ;
+}
+
+button.accordion.active, button.accordion:hover {
+    background-color: #d9dadd;
+}
+
+button.accordion:after {
+    content: '\002B';
+    color: #777;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+}
+
+button.accordion.active:after {
+    content: "\2212";
+}
+
+div.panelofFaQ {
+    padding: 0 15px 0 10px;
+    background-color: #eee;
+    max-height: 0;
+    width: 90%;
+    margin-left: 5%;
+    overflow: hidden;
+    transition: max-height 0.9s ease-out;
+}
+</style>
+
+<script>
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].onclick = function() {
+            this.classList.toggle("active");
+            var panelofUpcomingAppointments = this.nextElementSibling;
+            if (panelofUpcomingAppointments.style.maxHeight){
+                panelofUpcomingAppointments.style.maxHeight = null;
+            } else {
+                panelofUpcomingAppointments.style.maxHeight = panelofUpcomingAppointments.scrollHeight + "px";
+            }
+        }
+    }
+</script>
+
+<div class="container-fluid">
+    <div class="row">
+   <div class="col-lg-4 col-md-4 col-sm-4">
+     <button class="btn btn-primary full-left" ui-sref="faqSupport" style="margin-left: 15%;"><span class="glyphicon glyphicon-backward" style="margin-right: 10px;"></span>Back
+     </button>
+   </div>
+   <div class="col-lg-4 col-md-4 col-sm-4">
+     <center><h3 style="margin-top: 0px;">Uploading File</h3></center>
+   </div>
+   <div class="col-lg-4 col-md-4 col-sm-4">
+     
+   </div>
+ </div>
+  <button class="accordion">How to Upload data?</button>
+    <div class="panelofFaQ">       
+      <div>
+        Admin Login>Manage Data>Upload and Assign Data>Select service center>Select data type(Note*)>Choose file(.csv file for RE and Honda and for others .xlsx file with valid date format(yyyy/mm/dd or mm/dd/yyyy))>Submit<br><br>
+        <span style="color:black";>Note:</span> Service Reminder - Sales data with auto calculated service due dates<br>
+        Regular Data<br> 
+        Lost Customer Data<br>
+        Job Card Data<br>
+        PSF Data<br>
+        AMC Data<br>
+        Others
+        </div>
+    </div>
+  
+</div><br>

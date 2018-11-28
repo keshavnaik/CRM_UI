@@ -1,0 +1,479 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <title>LetsService</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <!-- build:css(.) styles/vendor.css -->
+  <!-- bower:css -->
+  <link rel="stylesheet" href="bower_components/angular-chart.js/dist/angular-chart.css" />
+  <link rel="stylesheet" href="bower_components/animate.css/animate.css" />
+  <!-- endbower -->
+  <!-- endbuild -->
+  <!-- build:css(.tmp) styles/main.css -->
+  <link rel="icon" type="image/ico" href="/images/letsservice.png">
+  <link href="styles/ui-grid.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles/main.css">
+  <link href="styles/bootstrap.min.css" rel="stylesheet">
+  <link href="styles/autocomplete.css" rel="stylesheet">
+  <link href="styles/customSelectCss.css" rel="stylesheet">
+  <link href="styles/notification.css" rel="stylesheet">
+  <link href="styles/ng-table.css" rel="stylesheet">
+  <link href="styles/angular-input-stars.css" rel="stylesheet">
+  <link href="styles/crmFont.css" rel="stylesheet">
+  <link href="styles/toastr.css" rel="stylesheet"/>
+  <!-- <link rel="stylesheet" href="https://npmcdn.com/angular-toastr/dist/angular-toastr.css" /> -->
+  
+
+  <!-- Font family -->
+  <!--<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">-->
+  <!--<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600" rel="stylesheet">
+-->
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
+  <!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.1.1/css/font-awesome.css">
+  -->
+  <!-- <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+  --> <!-- endbuild -->
+  <style type="text/css">
+    * {
+      font-family: 'Montserrat', sans-serif;
+    }
+  </style>
+</head>
+
+<body ng-app="letsService">  <!--oncontextmenu="return true"-->
+
+<div notifications="right right">
+
+</div>
+<!-- Add your site or application content here -->
+<div class="wrapper"><!-- ng-if="signedInUser" -->
+  <div class="header" ng-if="signedInUser && !signedInSupportRole" ng-cloak><!--  && !signedInSupportRole -->
+    <div class="navbar navbar-default mainheader fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header" style="padding-right:30px;">
+
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <img ng-if="signedInUserPic" ng-src="{{signedInUserPic}}" height="60px" ng-cloak/>
+          <!-- <img src="https://s3-us-west-2.amazonaws.com/letsservicedealer/letsservice.jpeg" width="90px" height="60px"/> -->
+          <img ng-if="!signedInUserPic" src="images/letsservice.png" width="58px" height="40px" style="padding-top:10px;padding-bottom:0px;margin-left:25%;"/>
+
+        </div>
+
+        <div class="collapse navbar-collapse" id="js-navbar-collapse">
+          <ul class="nav navbar-nav" ng-if="signedInUserRole === 'caller'">
+            <li class="active"><a href="" ui-sref="dashboard" id="menuActiveClass" ng-cloak>Dashboard</a></li>
+            <li><a href="" ui-sref="SMS" id="menuNonActiveClass" ng-cloak>SMS</a></li>
+            <li class="dropdown" ng-cloak>
+              <a data-toggle="dropdown" id="menuNonActiveClass1" class="btn">PSF<span class="caret" style="margin-left: 8px;"></span></a>
+              <ul class="dropdown-menu">
+                <li><a tabindex="-1" ui-sref="PSF">Service</a></li>
+                <!-- <li><a tabindex="-1" ui-sref="salesFeedback">Sales</a></li> -->
+              </ul>
+            </li>
+            <li><a href="" ui-sref="lostCustomer" id="menuNonActiveClass" ng-cloak>Others</a></li>
+            <li><a href="" ui-sref="statistics" id="menuNonActiveClass" ng-cloak>Stats</a></li>
+           <!-- <li><a href="" ui-sref="insurance" id="menuNonActiveClass" ng-cloak>Insurance</a></li>
+           --> <li class="dropdown" ng-cloak>
+              <a data-toggle="dropdown" id="menuNonActiveClass1" class="btn">Insurance<span class="caret" style="margin-left: 8px;"></span></a>
+              <ul class="dropdown-menu">
+                <li><a tabindex="-1" ui-sref="insurance">Calling Data</a></li>
+                <!-- <li><a tabindex="-1" ui-sref="insuranceStats">Stats</a></li> -->
+              </ul>
+            </li>
+             <li><a href="" ui-sref="sales" id="menuNonActiveClass" ng-cloak>Sales</a></li>
+             <li ng-if="signedInScId !== '92'" class="dropdown" ng-cloak>
+             <a data-toggle="dropdown" id="menuNonActiveClass1" class="btn">Manage Data<span class="caret"></span></a>
+             <ul class="dropdown-menu">
+               <li><a href="" ui-sref="upload" ng-cloak>Upload & Assign</a></li>
+               <li><a tabindex="-1" ui-sref="uploadHistory">Upload History</a></li>
+               <li><a tabindex="-1" ui-sref="assignHistory">Assign History</a></li>
+             </ul>
+           </li>
+          </ul>
+          <ul class="nav navbar-nav" ng-if="signedInUserRole === 'admin'">
+            <!-- <li class="active"><a href="" ui-sref="tcAdminDashboard" id="menuActiveClass" ng-cloak>Dashboard</a></li> -->
+
+            <li class="dropdown" ng-cloak>
+              <a data-toggle="dropdown" id="menuNonActiveClass1" class="btn">Dashboard<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+               <li><a href="" ui-sref="tcAdminDashboard" ng-cloak> Caller Performance</a></li>
+               <li><a href="" ui-sref="serviceCenterPerformance" ng-cloak>SC Performance Stats</a></li>
+               <!--  <li><a href="" ui-sref="dealerPerformance" ng-cloak>Caller Performance</a></li> -->
+               <li><a href="" ui-sref="psfPerformance" ng-cloak>PSF Performance</a></li>
+               <li><a href="" ui-sref="salesFeedbackPerformance" ng-cloak>Sales Feedback Performance</a></li>
+               <li><a href="" ui-sref="insurancePerformance" ng-cloak>Insurance Performance</a></li>
+               
+              </ul>
+            </li>
+            <li class="dropdown" ng-cloak>
+              <a data-toggle="dropdown" id="menuNonActiveClass1" class="btn">SMS<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="" ui-sref="SMS" ng-cloak>Send SMS</a></li>
+                <li><a href="" ui-sref="SMSHistory" ng-cloak>SMS History</a></li>
+                <li><a href="" ui-sref="BuySMS" ng-cloak>Buy SMS</a></li>
+                <!-- <li><a tabindex="-1" ui-sref="manageSMS">Manage SMS</a></li> -->
+         
+              </ul>
+            </li>
+          
+           <!--  <li><a href="" ui-sref="menu" id="menuNonActiveClass1" ng-cloak>Manage Caller</a></li> -->
+            <li><a href="" ui-sref="Profile" id="menuNonActiveClass1" ng-cloak>Manage Profile</a></li>
+            <li class="dropdown" ng-cloak>
+              <a data-toggle="dropdown" id="menuNonActiveClass1" class="btn">Reports<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <!-- <li><a tabindex="-1" ui-sref="teleCallerStatus">Caller Status</a></li> -->
+                <li><a tabindex="-1" ui-sref="status">Calling report</a></li>
+                 <li><a tabindex="-1" ui-sref="overallReport">Overall Report</a></li>
+              </ul>
+            </li>
+            <li class="dropdown" ng-cloak>
+              <a data-toggle="dropdown" id="menuNonActiveClass1" class="btn">Customize<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+              <!--   <li><a tabindex="-1" ui-sref="uploadHistory">Upload History</a></li>
+               <li><a tabindex="-1" ui-sref="assignHistory">Assign History</a></li> -->
+                <li><a tabindex="-1" ui-sref="updatePSF">Update PSF</a></li>
+                 <li><a tabindex="-1" ui-sref="updateDateOfSale">Update Date Of Sale</a></li>
+              </ul>
+            </li>
+            <li class="dropdown" ng-cloak>
+             <a data-toggle="dropdown" id="menuNonActiveClass1" class="btn">Manage Data<span class="caret"></span></a>
+             <ul class="dropdown-menu">
+               <li><a href="" ui-sref="upload" ng-cloak>Upload & Assign</a></li>
+               <li><a tabindex="-1" ui-sref="uploadHistory">Upload History</a></li>
+               <li><a tabindex="-1" ui-sref="assignHistory">Assign History</a></li>
+              </ul>
+            </li>
+         </ul>
+
+         <ul class="nav navbar-nav" ng-if="signedInUserRole === 'superAdmin'">
+            <li class="dropdown" ng-cloak>
+              <a data-toggle="dropdown" id="menuNonActiveClass1" class="btn">Dashboard<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="" ui-sref="tcAdminDashboard" ng-cloak> Caller Performance</a></li>
+               <li><a href="" ui-sref="serviceCenterPerformance" ng-cloak>SC Performance Stats</a></li>
+              <!--  <li><a href="" ui-sref="dealerPerformance" ng-cloak>Caller Performance</a></li> -->
+               <li><a href="" ui-sref="psfPerformance" ng-cloak>PSF Performance</a></li>
+                <li><a href="" ui-sref="salesFeedbackPerformance" ng-cloak>Sales Feedback Performance</a></li>
+                <li><a href="" ui-sref="insurancePerformance" ng-cloak>Insurance Performance</a></li>
+              </ul>
+            </li>
+            <!-- <li><a href="" ui-sref="overallReport" id="menuNonActiveClass1" ng-cloak>Report</a></li> -->
+            <li class="dropdown" ng-cloak>
+              <a data-toggle="dropdown" id="menuNonActiveClass1" class="btn">Reports<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a tabindex="-1" ui-sref="status">Calling report</a></li>
+                 <li><a tabindex="-1" ui-sref="overallReport">Overall Report</a></li>
+              </ul>
+            </li>
+            <li class="dropdown" ng-cloak>
+              <a data-toggle="dropdown" id="menuNonActiveClass1" class="btn">SMS<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="" ui-sref="SMS" ng-cloak>SMS Stats</a></li>
+              </ul>
+            </li>
+         </ul>
+
+          <ul class="nav navbar-nav navbar-right" ng-if="signedInUser">
+            <li class="dropdown loginUsername" ng-cloak>
+             <form id="tcDashboardGlobalSearch-form" class="form-search form-horizontal pull-right">
+               <input type="text" class="tcDashbordGlobalSearch" ng-model="tcSearch" placeholder="Search Details...">
+               <button type="submit" class="btn" ng-click="tcAppointmentSearch(tcSearch)"><i class="icon-search"></i></button>
+             </form>
+           </li>
+            <li class="dropdown" style="margin-right: 12px;" ng-cloak ng-if="signedInUserRole === 'caller'">
+              <a href="" class="btn btn-lg" data-toggle="dropdown" id="menuNonActiveClass1" ng-cloak>
+                <span class="glyphicon glyphicon-bell" style="color:white;"></span></a>
+              <ul class="dropdown-menu" ng-if ="overdueFilterCounts!== '0'">
+                <li><a tabindex="-1">{{overdueFilterCounts}} Over due calls pending from {{currentDate | date : 'dd-MM-yyyy'}} to {{newDate | date : 'dd-MM-yyyy'}}</a></li>
+              </ul>
+              <div class="notification_num" ng-cloak ng-if ="overdueFilterCounts!== '0'">{{overdueFilterCounts}}</div>
+            </li>
+            <li class="dropdown loginUsername"  style="padding-right:5px;" ng-cloak>
+              <a data-toggle="dropdown" class="btn dropdown-toggle">Hi : {{signedInUser}}  <span class="caret" style="margin-left: 8px;"></span></a>
+              <ul class="dropdown-menu">
+                <!-- <li ui-sref="Profile" ng-if="signedInUserRole === 'admin'"><b>Manage Profile</b></li> -->
+                <li><a href="" ui-sref="aboutUs" id="menuNonActiveClass" ng-cloak><b>About Us</b></a></li>
+                <li ui-sref="support" ng-cloak><b>Support</b></li>
+                <li ng-click="letsServiceLogout()" ng-cloak><b>Logout</b></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+   <div class="header" ng-if="signedInSupportUser && signedInSupportRole" ng-cloak>
+      <div class="navbar navbar-default mainheader" role="navigation">
+        <div class="container-fluid">
+           <div class="navbar-header">
+
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <img ng-if="signedInUserPic" ng-src="{{signedInUserPic}}" height="60px" ng-cloak/>
+             <img ng-if="!signedInUserPic" src="images/letsservice.png" width="58px" height="40px" style="padding-top:10px;padding-bottom:0px;margin-left:25%;"/>
+          
+          </div>
+          
+          <div class="collapse navbar-collapse" id="js-navbar-collapse">
+            <ul class="nav navbar-nav navbar-right" ng-if="signedInSupportUser">
+              <li class="dropdown loginUsername" ng-cloak>
+                <a data-toggle="dropdown" class="btn dropdown-toggle">Hi : {{signedInSupportUser}}  <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                   <li ng-click="letsServiceSupportLogout()" ng-cloak><b>Logout</b></li>
+                  </ul>
+              </li>
+            </ul>
+          </div>  
+        </div>
+      </div>
+    </div>
+
+ <div class="container-fluid" style="padding-left: 0px; padding-right: 0px;"><!--style="padding-left: 0px; padding-right: 0px;"-->
+    <div ui-view=""></div>
+  </div>
+ </div>
+
+
+
+<!--Timeout msg madal start-->
+<div class="timeOutMsgModal">
+  <div class="modal fade" id="timeOutMsgModal" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body">
+          <div class="modal-header">
+     <h3>You're Idle. Do Something!</h3>
+    </div>
+    <div idle-countdown="countdown" ng-init="countdown=5" class="modal-body">
+     <progressbar max="5" value="5" animate="false" class="progress-striped active">You'll be logged out in {{countdown}} second(s).</progressbar>
+    </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Timeout msg madal end-->
+
+
+<!--logout msg madal start-->
+<div class="logoutMsgModalForInactive">
+  <div class="modal fade" id="logoutMsgModalForInactive" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <center style="color:#0083ca;"> </center>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+               <h4 class="modal-title"><center style="color:#0083ca;">You have been logout as there was no activity in the CRM portal
+since 30 minutes..!</center></h4>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--logout msg madal end-->
+
+<!--logout msg madal start-->
+<div class="logoutMsgModal">
+  <div class="modal fade" id="loggedOutMsgModal" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"><center style="color:#0083ca;">Logged Out!!</center></h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+              <center> <h4>{{invalidUserLogoutMsg}}</h4></center>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--logout msg madal end-->
+
+<div class="footer">
+  <div>
+    <center>&copy; 2015 LetsService Automotive Technologies Pvt. Ltd. All Rights Reserved<img src="https://s3-us-west-2.amazonaws.com/bikedetailimages/logo_footer.png" width="70px" height="55px" style="padding:10px 10px 10px 10px;"/></center>
+  </div>
+</div>
+
+<!-- Adding Firbase Sript Start-->
+<!-- Firebase App is always required and must be first -->
+<!-- <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-messaging.js"></script> -->
+
+<!-- <script src="firebase-messaging-sw.js"></script> -->
+<!-- Adding Firbase Sript End-->
+
+
+<!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-105777742-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+<script charset="UTF-8" src="//cdn.sendpulse.com/js/push/d4ccbf734d32c707b56e1d1e876df6a0_0.js" async></script>
+
+
+<!-- build:js(.) scripts/vendor.js -->
+<!-- bower:js -->
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="bower_components/angular-cookies/angular-cookies.js"></script>
+<script src="bower_components/angular-resource/angular-resource.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+<script src="bower_components/angular-touch/angular-touch.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.min.js"></script>
+<script src="bower_components/Chart.js/Chart.js"></script>
+<script src="bower_components/angular-chart.js/dist/angular-chart.js"></script>
+<script src="bower_components/angular-ui-grid/ui-grid.js"></script>
+<script src="bower_components/angular-ui-grid/ui-grid.min.js"></script>
+<script src="bower_components/myforce-angularjs-dropdown-multiselect/src/angularjs-dropdown-multiselect.js"></script>
+<script src="bower_components/ng-s3upload/build/ng-s3upload.js"></script>
+<!-- endbower -->
+<!-- endbuild -->
+
+<!-- build:js({.tmp,app}) scripts/scripts.js -->
+<script src="scripts/app.js"></script>
+<script src="scripts/controllers/crmLoginController.js"></script>
+<script src="scripts/controllers/crmDashboardController.js"></script>
+<script src="scripts/controllers/tcAdminDashboardController.js"></script>
+<script src="scripts/controllers/tcManageController.js"></script>
+<script src="scripts/controllers/tcSMSController.js"></script>
+<script src="scripts/controllers/tcStatusController.js"></script>
+<script src="scripts/controllers/teleCallerStatusController.js"></script>
+<script src="scripts/controllers/tcUploadHistoryController.js"></script>
+<script src="scripts/controllers/tcHourWiseStausController.js"></script>
+<script src="scripts/controllers/tcAssignHistoryController.js"></script>
+<script src="scripts/controllers/tcSMSHistoryController.js"></script>
+<script src="scripts/controllers/tcPSFController.js"></script>
+<script src="scripts/controllers/crmFeedbackUpdateController.js"></script>
+<script src="scripts/controllers/tcSalesFeedbackController.js"></script>
+<script src="scripts/controllers/crmDetailedPageController.js"></script>
+<script src="scripts/controllers/crmLostCustomerPageController.js"></script>
+<script src="scripts/controllers/LostCustomerDetailedPageController.js"></script>
+<script src="scripts/controllers/crmStatisticsController.js"></script>
+<script src="scripts/controllers/crmPSFDetailedPageController.js"></script>
+<script src="scripts/controllers/profileController.js"></script>
+<script src="scripts/controllers/crmSalesFeedbackDetailedPageController.js"></script>
+<script src="scripts/controllers/crmInsuranceController.js"></script>
+<script src="scripts/controllers/crmInsuranceDetailedController.js"></script>
+<script src="scripts/controllers/crmInsuranceStatsController.js"></script>
+<script src="scripts/controllers/crmServiceCenterPerformanceController.js"></script>
+<script src="scripts/controllers/crmAdminCallerDashboardController.js"></script>
+<script src="scripts/controllers/crmUploadController.js"></script>
+<script src="scripts/controllers/tcBuySMSController.js"></script>
+<script src="scripts/controllers/crmUpdateDateOfSaleController.js"></script>
+<script src="scripts/controllers/supportController.js"></script>
+<script src="scripts/controllers/crmEmailSupportPageController.js"></script>
+<script src="scripts/controllers/crmSalesDashboardController.js"></script>
+<script src="scripts/controllers/CrmSalesDetailedController.js"></script>
+<script src="scripts/controllers/crmPSFPerformanceController.js"></script>
+<script src="scripts/controllers/crmInsurancePerformanceController.js"></script>
+<script src="scripts/controllers/crmDealerPerformanceController.js"></script>
+<script src="scripts/controllers/manageSMSController.js"></script>
+<script src="scripts/controllers/crmAdminCreationController.js"></script>
+<script src="scripts/controllers/crmOverallReportController.js"></script>
+<script src="scripts/controllers/crmSupportToolController.js"></script>
+<script src="scripts/controllers/crmSalesFeedbackPerformanceController.js"></script>
+<script src="scripts/controllers/adminTicketController.js"></script>
+<script src="scripts/controllers/supportStatsController.js"></script>
+<script src="scripts/controllers/crmSupportLoginController.js"></script>
+<script src="scripts/controllers/CrmDevConsoleController.js"></script>
+<script src="scripts/service/service.js"></script>
+<script src="scripts/autocomplete.js"></script>
+<script src="scripts/angular-ui-router.min.js"></script>
+<script src="scripts/customSelect.js"></script>
+<script src="scripts/notification.js"></script>
+<script src="scripts/excelUpload.js"></script>
+<script src="scripts/ng-table.js"></script>
+
+<!-- <script src="scripts/ui-grid.js"></script> -->
+<script src="scripts/angular-input-stars.js"></script>
+<script src="scripts/ratingFont.js"></script>
+<script src="scripts/chartLoader.js"></script>
+<script src="scripts/angular-idle.min.js"></script>
+<script src="scripts/downloadAsPdf.js"></script>
+
+<!-- <script src="scripts/google-plus-signin.js"></script> -->
+<!-- <script src="scripts/UtilityToast.js"></script>
+
+
+<script src="https://npmcdn.com/angular-toastr/dist/angular-toastr.tpls.js"></script>
+ -->
+
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.2.61/jspdf.min.js"></script> -->
+    
+<!--
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.0/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="https://rawgit.com/iominh/ng-scrollbars/master/src/scrollbars.js"></script>
+-->
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-cookies.js"></script>
+-->
+<!--<script src="http://use.fontawesome.com/367380d7cf.js"></script>-->
+
+<!-- endbuild -->
+<!--<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>-->
+
+<!--
+<script src="http://jvandemo.github.io/angularjs-google-maps/dist/angularjs-google-maps.js"></script>
+-->
+
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyA_RDwz2th6TmQjK6uq4Zer84RWWU7tHXk"></script>
+
+<!--  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.0/Chart.min.js"></script>
+<script src="//cdn.jsdelivr.net/angular.chartjs/latest/angular-chart.min.js"></script>
+
+
+</body>
+</html>
+

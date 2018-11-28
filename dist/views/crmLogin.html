@@ -1,0 +1,202 @@
+<style>body{
+    /*background: linear-gradient(rgb(230, 247, 242), white);*/
+    background-image: url('images/layer-2.c811efb3.png');
+    background-size: 100%;
+    font-family: SFProText;
+    /*background-repeat: no-repeat;*/
+  }
+  .forgotPWDStyle{
+    -webkit-border-radius: 15px !important;
+    -moz-border-radius: 15px !important;
+    border-radius: 15px !important;
+    border:1px solid #0083ca ;
+  }
+
+  #login-box {
+ position: relative;
+ margin: 10% auto;
+ width: 850px;
+ height: 450px;
+ background: #FFFFFF;
+ border-radius: 10px;
+ box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.left {
+ position: absolute;
+ top: 0;
+ left: 0;
+ /*background: #FAAFFF;*/
+ background-image: url('images/leftSide.b79a5db9.png');
+ background-size: 100%;
+ background-repeat: no-repeat;
+ height: 450px;
+ border-top-left-radius: 10px;
+ border-bottom-left-radius: 10px;
+}
+
+.right {
+ position: absolute;
+ top: 0;
+ /*left: 50%;*/
+ box-sizing: border-box;
+ padding-top: 50px;
+ padding-right: 30px;
+ padding-left: 10px;
+}
+
+.Login {
+  font-weight: bold;
+  color: #36525e;
+  text-shadow: 0.7px 0.7px 8px rgba(0, 0, 0, 0.19);
+}
+
+.loginText {
+  font-size: 13px;
+  line-height: 1.30;
+  text-align: left;
+  color: #929fb3;
+}
+.loginText1 {
+  color: #28aadf;
+}
+
+.userInput
+{
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.31;
+  letter-spacing: normal;
+  text-align: left;
+  color: #929fb3;
+  text-indent: 5px;
+  outline: 0;
+  opacity: 0.7;
+}
+.userInput:focus + span.crmInputIcon {
+  color:#0083ca;
+}
+a.forgotPassword{
+ outline: 0;
+ float: right;
+ font-weight: 500;
+ line-height: 1.64;
+ color: #D6D6D6;
+ font-size:13px;
+ margin-right: 2%;
+}
+.rememberMe{
+  width: 26px; 
+  height: 12px;
+  object-fit: contain; 
+  background-color: #3381a4; 
+  background-color: var(--flat-blue);
+}
+.rememberMeText{
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.64;
+  text-align: left;
+  color: #3381a4;
+}
+.btn-primary{
+ outline: 0;
+ border-style: none;
+ margin-left: 60%;
+ width:40%;
+ height: 35px;
+ /*letter-spacing: 0.4px;*/
+ border-radius: 40.5px;
+ background-color: #28aadf;
+ box-shadow: 0 0 27px 0 rgba(68, 68, 68, 0.21);
+}
+
+input[type="text"],
+input[type="password"] {
+ display: block;
+ box-sizing: border-box;
+ margin-bottom: 15px;
+ width: 380px;
+ height: 40px;
+ border: none;
+ border-bottom: 1px solid #929fb3;
+ font-weight: 500;
+ font-size: 15px;
+ transition: 0.2s ease;
+ color:#0083ca;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+ border-bottom: 1px solid #929fb3;
+ /*color: #16a085;*/
+ transition: 0.2s ease;
+}
+
+.logo{
+  padding-top: 15px;
+}
+.welcomeAlign{
+  margin-top: 35%;
+}
+.welcome{
+  padding-left:20px;
+  text-align: left;
+  font-size: 45px;
+  font-weight: 1000;
+  color: #f5f5f5;
+  text-shadow: 0.7px 0.7px 8px rgba(0, 0, 0, 0.19);
+}
+.introText{
+  padding-left: 15px;
+  font-size: 14px;
+  line-height: 1.5; 
+  text-align: left; 
+  color: #f5f5f5;
+}</style> <div class="container-fluid"> <div class="pull-right" style="margin:20px;color:#0083ca"><span id="ip"></span></div> <div id="login-box"> <div class="row"> <div class="col-lg-6 col-md-6 col-sm-6"> <div class="left"> <div class="logo"> <img src="https://s3-us-west-2.amazonaws.com/bikedetailimages/logo_footer.png"> </div> <div class="welcomeAlign"> <h1 class="welcome"><b>Welcome to <br>Let’s Connect.</b></h1> <p class="introText">Stay relevant and directly connected to your customer, through calls / SMS / email campaigns straight off your dashboard, on our exclusively built Customer Relationship Management Platform. </p> </div> </div> </div> <div class="col-lg-6 col-md-6 col-sm-6"> <div class="right"> <h1 class="Login">Login.</h1> <!-- <p class="loginText">Dont have an account? <span class="loginText1">Ask</span> your admin today, it takes less than a minute. </p> --> <form name="adminLoginForm" ng-submit="login(adminLoginData)" role="form"> <div class="form-group" style="margin-top:50px"> <input type="text" class="userInput" name="adminLoginUsername" placeholder="Username" ng-model="adminLoginData.adminUsername" required> <div ng-show="adminLoginForm.adminLoginUsername.$dirty"> <p ng-show="adminLoginForm.adminLoginUsername.$error.required" class="text-danger text-center" style="font-size:13px; margin-bottom:-5px">User Name is required </p> </div> </div> <div class="form-group"> <input type="password" class="userInput" name="adminLoginPassword" placeholder="Password" ng-model="adminLoginData.adminLoginPassword" required> <div ng-show="adminLoginForm.adminLoginPassword.$dirty"> <p ng-show="adminLoginForm.adminLoginPassword.$error.required" class="text-danger text-center" style="font-size:13px; margin-bottom:-5px">Password is required </p> </div> </div> <div> <!-- <img src="images/layer-6.jpg" class="rememberMe">
+              <span class="rememberMeText">Remember Me</span> --> <a class="forgotPassword" href="#" data-toggle="modal" data-target="#forgotPasswordModal"> Forgot Password? </a> </div> <div> <button type="submit" class="btn btn-primary" id="loginButton" ng-disabled="adminLoginForm.$invalid" style="font-weight: 500">LOGIN </button> </div><br> </form> <center class="text-danger">{{loginErrorMsg}}</center> </div> </div> </div> </div> </div> <!-- OTP authentication login Modal --> <!-- <div class="modal fade" id="OtpLoginEnabled" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header teleCallerDashboardModalHeader">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clearPasswordUpdateMsg()">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+        <h4 class="modal-title">
+          <center>OTP is sent to your Mobile</center>
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="form-group col-md-6 col-sm-6">
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-addon forgotPwdInput">
+                    <span class="glyphicon glyphicon-lock"></span>
+                  </div>
+                  <input type="text" class="form-control forgotPWDStyle" placeholder="Enter OTP" name="otp" id="otp" ng-model="changePasswordObj.otp" required>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-6 col-sm-6">
+              <button type="submit" class="btn teleCallerDashboardModalBtn" ng-disabled="changePasswordForm.$invalid" ng-click="checkOtp(changePasswordObj.otp)">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> --> <!-- OTP authentication login Modal end--> <!-- Forgot password Modal --> <div class="modal fade" id="forgotPasswordModal" role="dialog"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header teleCallerDashboardModalHeader"> <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clearPasswordUpdateMsg()"> <span class="glyphicon glyphicon-remove"></span></button> <h4 class="modal-title"><center>Recover Your Password</center></h4> </div> <div class="modal-body"> <form name="forgotPasswordForm" novalidate ng-submit="forgotPassword(forgotPasswordObj)"> <div class="col-xs-12 col-sm-12 col-md-12"> <div class="form-group"> <div class="input-group"> <div class="input-group-addon forgotPwdInput"> <span class="glyphicon glyphicon-user"></span> </div> <input type="text" class="form-control forgotPWDStyle" placeholder="Enter User Name" name="username" id="username" ng-model="forgotPasswordObj.username" required> </div> </div> </div> <div class="col-xs-12 col-sm-12 col-md-12"> <div class="form-group"> <div class="input-group"> <div class="input-group-addon forgotPwdInput"> <span class="glyphicon glyphicon-envelope"></span> </div> <input type="email" class="form-control forgotPWDStyle" placeholder="Enter Your E-Mail ID" name="email" id="email" ng-model="forgotPasswordObj.email" required> </div> </div> </div> <div class="row"> <div class="form-group col-md-12 col-sm-12"> <center> <button type="submit" class="btn teleCallerDashboardModalBtn" ng-disabled="forgotPasswordForm.$invalid">Submit</button> </center> </div> </div> </form> <center class="text-danger">{{forgotPasswordErrorMsg}}</center> </div> </div> </div> </div> <!-- Forgot password Modal End
+
+
+<!-- change password Modal --> <div class="modal fade" id="changePasswordModal"> <div class="modal-dialog"> <form name="changePasswordForm" novalidate ng-submit="changePassword(changePasswordObj)"> <div class="modal-content"> <div class="modal-header teleCallerDashboardModalHeader"> <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> <span class="glyphicon glyphicon-remove"></span></button> <h4 class="modal-title"> <center>OTP will be send to your email id</center></h4> </div> <div class="modal-body"> <div class="container-fluid"> <div class="row"> <div class="form-group col-md-6 col-sm-6"> <div class="form-group"> <div class="input-group"> <div class="input-group-addon forgotPwdInput"> <span class="glyphicon glyphicon-lock"></span> </div> <input type="text" class="form-control forgotPWDStyle" placeholder="Enter OTP" name="otp" id="otp" ng-model="changePasswordObj.otp" required> </div> </div> </div> <div class="form-group col-md-6 col-sm-6"> <button type="submit" class="btn teleCallerDashboardModalBtn" ng-disabled="changePasswordForm.$invalid" ng-click="checkOtp(changePasswordObj.otp)">Submit</button> </div> </div> <center class="text-danger">{{invalidOtpErrorMsg}}</center> <div class="row"> <div class="col-xs-12 col-sm-12 col-md-12" ng-if="showPassword"> <div class="form-group"> <div class="input-group"> <div class="input-group-addon forgotPwdInput"> <span class="glyphicon glyphicon-user"></span> </div> <input type="text" class="form-control forgotPWDStyle" placeholder="Enter User Name" name="username" id="username" ng-model="changePasswordObj.username" required> </div> </div> </div> <div class="col-xs-12 col-sm-12 col-md-12" ng-if="showPassword"> <div class="form-group"> <div class="input-group"> <div class="input-group-addon forgotPwdInput"> <span class="glyphicon glyphicon-lock"></span> </div> <input type="password" class="form-control forgotPWDStyle" placeholder="Enter New Password" name="password" id="password" ng-model="changePasswordObj.password" required> </div> </div> </div> </div> </div> </div> <div class="modal-footer" ng-if="showPassword"> <div class="form-group"> <button type="submit" class="btn btn-md btn-info" ng-disabled="changePasswordForm.$invalid"> Update<span class="glyphicon glyphicon-saved"></span></button> <button type="button" data-dismiss="modal" class="btn btn-md btn-default">Cancel <span class="glyphicon glyphicon-remove"></span></button> </div> </div> <!--<center class="text-success">{{changePasswordSuccessMsg}}</center>--> <div class="alert alert-info" ng-if="changePasswordSuccessMsg"> <center>{{changePasswordSuccessMsg}}</center> </div> <br> </div> </form> </div> </div> <!-- change password Modal End --> <!-- confirm Email Form Modal --> <div class="modal fade" id="confirmEmailModal" role="dialog" data-backdrop="" id="preview-modal" role="dialog" aria-labelledby="preview-modal" aria-hidden="true"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header teleCallerDashboardModalHeader"> <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clearPasswordUpdateMsg()"> <span class="glyphicon glyphicon-remove"></span></button> <h4 class="modal-title"><center>Confirm your email</center></h4> </div> <div class="modal-body"> <form name="confirmEmailForm" novalidate ng-submit="confirmEmail(confirmEmailObj)"> <!-- <div class="col-xs-12 col-sm-12 col-md-12"> <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-addon forgotPwdInput">
+                <span class="glyphicon glyphicon-user"></span>
+              </div>
+              <input type="text" class="form-control forgotPWDStyle" placeholder="Enter User Name" name="username" id="username1" ng-model="confirmEmailObj.username" required>
+            </div>
+          </div>
+          </div>
+        --> <div class="col-xs-12 col-sm-12 col-md-12"> <div class="form-group"> <div class="input-group"> <div class="input-group-addon forgotPwdInput"> <span class="glyphicon glyphicon-envelope"></span> </div> <input type="email" class="form-control forgotPWDStyle" placeholder="Enter Your E-Mail ID" name="email" id="email1" ng-model="confirmEmailObj.email" required> </div> </div> </div> <div class="row"> <div class="form-group col-md-12 col-sm-12"> <center> <button type="submit" class="btn teleCallerDashboardModalBtn" ng-disabled="confirmEmailForm.$invalid">Submit</button> </center> </div> </div> </form> <center class="text-danger">{{confirmEmailErrorMsg}}</center> </div> </div> </div> </div> <!-- confirm Email Form End --> <!-- otp Modal --> <div class="modal fade" id="otpModal" data-backdrop="false"> <div class="modal-dialog"> <form name="otpForm" novalidate ng-submit="checkOtpForEmailConfirm(otpObj)"> <div class="modal-content"> <div class="modal-header teleCallerDashboardModalHeader"> <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> <span class="glyphicon glyphicon-remove"></span></button> <h4 class="modal-title"> <center>OTP will be send to your email id</center></h4> </div> <div class="modal-body"> <div class="container-fluid"> <div class="row"> <div class="form-group col-md-6 col-sm-6"> <div class="form-group"> <div class="input-group"> <div class="input-group-addon forgotPwdInput"> <span class="glyphicon glyphicon-lock"></span> </div> <input type="text" class="form-control forgotPWDStyle" placeholder="Enter OTP" name="otp" id="otp1" ng-model="otpObj.otp" required> </div> </div> </div> <div class="form-group col-md-6 col-sm-6"> <button type="submit" class="btn teleCallerDashboardModalBtn" ng-disabled="otpForm.$invalid" ng-click="checkOtpForEmailConfirm(otpObj.otp)">Submit</button> </div> </div> <center class="text-danger">{{invalidOtpForEmailErrorMsg}}</center> </div> </div> </div> </form> </div> </div> <!-- otp Modal End -->

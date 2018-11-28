@@ -1,0 +1,1530 @@
+<style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      box-shadow: 1px 1px 2px rgb(210, 213, 219) , 0 0 25px rgb(210, 213, 219) , 0 0 5px rgb(210, 213, 219) ;
+     font-style: montserrat;
+      font-size: 12px;
+    }
+
+    th, td {
+      text-align: center;
+      padding: 12px;
+      color:#424242;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    tr:nth-child(odd){background-color: #f9f9f9;}
+
+    .statsTableDetailed th {
+      background-color: #E3F2FD;
+      color:#0083CA;
+      /*color:#9E9E9E;*/
+      font-weight: 500;
+      /*border-bottom: 2px solid #0083CA;*/
+    }
+    .statsTable th{
+      background-color: #E3F2FD;
+      color:#0083CA;
+      /*color:#9E9E9E;*/
+      font-weight: 500;
+    }
+    .at{
+      float:left;
+      margin-left:1%;
+      margin-bottom:1%;
+      text-align: center;
+      font-size: 12px;
+      line-height: 30px;
+      width:24%;
+      display: block;
+      background-color: #E3F2FD;
+      color: #0D47A1;
+      border-left: 3px solid #0D47A1;
+    }
+    .MTDStyle{
+      float:left;
+      margin-left:1%;
+      margin-bottom:1%;
+      text-align: center;
+      font-size: 12px;
+      line-height: 30px;
+      width:23%;
+      display: block;
+      background-color: #E3F2FD;
+      color: #0D47A1;
+      border-left: 3px solid #0D47A1;
+    }
+    /* privacy page css starts */
+
+  .privacy-menu{
+    width: 100%;
+    padding-right: 0px !important;
+    /*margin-left:60px;*/
+  }
+  .menu-list{
+    list-style-type: none;
+    padding: 0;
+  }
+  .privacy-menu .menu-list > li {
+    font-size: 15px;
+    cursor: pointer;
+    line-height: 30px;
+    padding-right: 5px;
+    color:grey;
+  }
+  .privacy-menu .menu-list > li.active{
+    /*background-color: #fff;*/
+    border-bottom: 3px solid #0083CA;
+    color: #0083CA;
+  }
+
+.attach{
+    margin-top:-25px;
+  }
+  .historyStyle{
+    margin:0 15px 0 15px;
+  }
+
+#exportButton{
+  background-color:  #0083ca;
+  color:#FFFFFF;
+  padding: 2px 30px 2px 30px;
+  border-radius: 15px;
+  outline: 0;
+ /* margin-top: 20px;*/
+  border:none !important;
+}
+.statsIcon{
+  width: 22px;
+  cursor:pointer;
+}
+.modal {
+  overflow-y:auto;
+}
+#download-pdf{
+  background: white;
+  color:grey;
+}
+.well{
+  border-radius:10px;width:40%;padding:0 10px 0 10px;
+}
+  .name{
+    color:black;
+    background: white;
+    margin-top:10px;
+  }
+  .name-text{
+    margin-left:5px;
+    margin-top:5px;
+    font-size: 16px;
+  }
+  .addr{
+    float:right;
+    font-size: 14px;
+    margin:5px 15px 0px 0px;
+    color:grey;
+  }
+
+  .heading{
+    color:grey;
+    font-weight: bold;
+  }
+  .heading1{
+    color:black;
+    margin-right:1px;
+  }
+  .dashboardStatusPanel{
+    border-left: 5px solid #0083ca;
+    padding: 5px 30px 15px 30px;
+    box-shadow: 1px 1px 2px rgb(210, 213, 219) , 0 0 25px rgb(210, 213, 219) , 0 0 5px rgb(210, 213, 219) ;
+    border-radius: 10px;
+  }
+.details{
+    min-height: 210px;
+  }
+  .historydetails{
+    min-height: 320px;
+  }
+ .active123{
+   background-color: #E3F2FD;
+   color:white;
+  }
+  th.newTable/*,td.newTable*/{
+    border-top: 1px solid grey;
+    border-left: 1px solid grey;  
+    border-right: 1px solid grey;
+    /*border-style: solid;*/
+    /* border-opacity: 0.001;*/
+}
+.ng-table th.filter{
+    padding: 0 7px 5px 7px ;
+}
+.modal-lg{
+ width: 85%;
+}
+.amcStyle{
+  background-color: #f7e304;
+ }
+ .amcStyleOther{
+  background-color: lightblue;
+ }
+ 
+</style>
+
+<div class="container-fluid">
+  <div class="row">
+      <div class="form-group col-md-2 col-sm-2 pull-right">
+          <div class="">
+            <select class="form-control teleCallingUpdateStatusInputStyle" style="font-size:13px;" ng-model="tcAppointment.selectedCaller" name="serviceCenterData"
+                    ng-options="caller.loginId as caller.username for caller in callerList" ng-change="getSelectedCaller(tcAppointment.selectedCaller)">
+              <option value="">Select Caller</option>
+            </select>
+            </div>
+      </div>
+
+      <div class="form-group col-md-2 col-sm-2 pull-right">
+          <div class="">
+            <select class="form-control teleCallingUpdateStatusInputStyle" style="font-size:13px;" ng-model="tcAppointment.selectedBranch" name="serviceCenterData"
+                    ng-options="sc.scId as sc.scName for sc in serviceCenter" ng-change="getSelectedBranch(tcAppointment.selectedBranch)">
+              <option value="">Select Branch</option>
+            </select>
+            </div>
+      </div>
+
+         <div class="form-group col-md-2 col-sm-2 pull-right" ng-if="signedInUserRole === 'superAdmin'">
+          <div class="" >
+            <select class="form-control teleCallingUpdateStatusInputStyle" style="font-size:13px;" ng-model="selectedDealer" name="dealerData"
+                    ng-options="dealer.scId as dealer.scName for dealer in dealerList" ng-change="getSelectedDealer(selectedDealer)">
+              <option value="">Select Dealer</option>
+            </select>
+            </div>
+        </div>
+    </div><br>
+
+<!-- <div class="row">
+     <center>
+      <div class="well">
+        <div class="radio-inline">
+           <form name="statusOptionForm" novalidate>
+          <label class="teleCallingDashBoardRadio-custom-label">
+            <input type="radio" class="teleCallingDashBoardRadio-custom" name="potential" value="2" ng-model="potential" ng-click="getDealerPerformanceData('complete')" data-toggle="modal">
+            <span>Complete Potential Data</span>
+          </label>
+           <label class="teleCallingDashBoardRadio-custom-label">
+            <input type="radio" class="teleCallingDashBoardRadio-custom" name="potential" value="1" ng-model="potentialServiecDue" ng-click="getDealerPerformanceData('service due date')" data-toggle="modal">
+            <span>Potential Data based on Service Due Date</span>
+          </label>
+          <label class="teleCallingDashBoardRadio-custom-label">
+            <input type="radio" class="teleCallingDashBoardRadio-custom" name="potential" value="3" ng-model="potentialServiecDue" ng-click="getDealerPerformanceData('old stats')" data-toggle="modal">
+            <span>Caller Stats (Old)</span>
+          </label>
+          <label class="teleCallingDashBoardRadio-custom-label">
+            <input type="radio" class="teleCallingDashBoardRadio-custom" name="potential" value="4" ng-model="potentialServiecDue" ng-click="getDealerPerformanceData('performance analysis')" data-toggle="modal">
+            <span>Performance Analysis</span>
+          </label>
+        </form>
+        </div>
+      </div>
+    </center>
+   </div> -->
+
+  <div class="panel-body">
+    <div class="row" style="margin-top:-2%;">
+        <div ng-if="!performanceAnalysis">
+        <li class="at"><span>AT(NC) - Appointment Taken (Non Converted)</span></li>
+        <li class="at"><span>P&D - Pickup and Drop</span></li>
+        <li class="MTDStyle"><span>NI - Not Interested</span></li>
+        <li class="at"><span>SD- Service Done</span></li>
+        <li class="at"><span>UA - Unique Attempted</span></li>
+        <li class="at"><span>TA - Total Attempted</span></li>
+        <li class="at"><span>AT - Appointment Taken</span></li>
+        <li class="at"><span>PC - Pending Calls</span></li>
+        </div>
+
+      <div class="form-group col-md-3 col-sm-3">
+        <div class="">
+          <label class="teleCallingDashBoardRadio-custom-label">
+            <input type="radio" class="teleCallingDashBoardRadio-custom" name="potential" value="2" ng-model="potential" ng-click="getDealerPerformanceData('complete')" data-toggle="modal">
+            <span>Complete Potential Data</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group col-md-3 col-sm-3">
+        <div class="">
+          <label class="teleCallingDashBoardRadio-custom-label">
+            <input type="radio" class="teleCallingDashBoardRadio-custom" name="potential" value="1" ng-model="potentialServiecDue" ng-click="getDealerPerformanceData('service due date')" data-toggle="modal">
+            <span>Potential Data (Service Due Date)</span>
+          </label>
+        </div>
+      </div>
+
+      <div ng-if="(signedInScId === '92' ||signedInScId === '75')" class="form-group col-md-3 col-sm-3">
+        <div class="">
+          <label class="teleCallingDashBoardRadio-custom-label">
+            <input type="radio" class="teleCallingDashBoardRadio-custom" name="potential" value="3" ng-model="potentialServiecDue" ng-click="getDealerPerformanceData('old stats')" data-toggle="modal">
+            <span>Caller Dashboard Stats</span>
+          </label>
+        </div>
+      </div>
+      <div class="form-group col-md-3 col-sm-3">
+        <div class="">
+          <label class="teleCallingDashBoardRadio-custom-label">
+            <input type="radio" class="teleCallingDashBoardRadio-custom" name="potential" value="4" ng-model="potentialServiecDue" ng-click="getDealerPerformanceData('performance analysis')" data-toggle="modal">
+            <span>Performance Analysis</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- <div class="form-group col-md-2 col-sm-2 pull-left">
+        <div class="">
+          <label class="teleCallingDashBoardRadio-custom-label">
+            <input type="checkbox" class="teleCallingDashBoardRadio-custom" name="teleCallingOption" value="selected" ng-model="feedbackManualStatus" ng-click="getFeedbackFilter(feedbackManualStatus)" data-toggle="modal">
+            <span>Manually</span>
+          </label>
+        </div>
+      </div> -->
+
+         </div>
+         <div class="row">
+          <div ng-if="selectedStatus !== 'old stats'" class="form-group col-md-2 col-sm-2">
+          <div class="">
+          <label class="teleCallingDashBoardRadio-custom-label">
+            <input type="checkbox" class="teleCallingDashBoardRadio-custom" name="teleCallingOption" value="selected" ng-model="feedbackManualStatus" ng-click="getFeedbackFilter(feedbackManualStatus)" data-toggle="modal">
+            <span>Manually</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="row" ng-show="feedBackFilter">
+        <form name="dateForm" ng-submit="adminCallerStatsByDate(tcAppointment.selectedFromDate,tcAppointment.selectedToDate)">
+          <div class="form-group col-md-2 col-sm-3">
+            <div class="">
+              <input type="text" class="form-control teleCallingUpdateStatusInputStyle" datetime-picker="yyyy-MM-dd" enable-time="false" ng-click="openCalendar($event,'FromDate')" ng-model="tcAppointment.selectedFromDate" is-open="isOpenFrom" placeholder="From Date" style="font-size:13px;" required>
+                </div>
+          </div>
+          <div class="form-group  col-md-2 col-sm-3">
+            <div class="">
+              <input type="text" class="form-control teleCallingUpdateStatusInputStyle" datetime-picker="yyyy-MM-dd" enable-time="false" ng-click="openCalendar($event,'ToDate')"/ ng-model="tcAppointment.selectedToDate" is-open="isOpenTo" placeholder="To Date" style="font-size:13px;" required>
+            </div>
+          </div>
+          <div class="form-group col-md-2 col-sm-3">
+            <button type="submit" class="btn btn-primary" id="salesFeedBackBtn" ng-disabled="dateForm.$invalid">Submit</button>
+          </div>
+        </form>
+    </div>
+  </div>
+        
+
+    <div class="" ng-show="callerNewStats">
+         <table class="statsTable">  
+<tr> 
+<th class="newTable" rowspan="3">Data Type</th>
+<th class="newTable" rowspan="3">{{allocatedHeader}}
+   <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Total calling data assigned for the current month."></i>
+</th>
+<th ng-show="allocatedHeader !== 'Total Potential'" class="newTable" rowspan="2" colspan="2">Pending Calls
+ <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Remaining calls to be made for Current Month"></i>
+</th>
+<th ng-show="allocatedHeader === 'Total Potential'" class="newTable" rowspan="3">Pending Calls
+  <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Remaining calls to be made for Current Month"></i>
+</th>
+<th class="newTable" colspan="7">Unique Attempted ({{totalUniqueAttempted}})
+<i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Total unique customers reached."></i>
+</th>
+</tr> 
+<tr>
+<th class="newTable" colspan="5">Connected ({{totalConnected}})
+  <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Total connected calls based on the latest status change for the customers."></i>
+</th>
+<th class="newTable">Not Connected ({{totalNonConnected}})
+  <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Calls made but haven't spoke to the customers(Disconnecting the call, No Responce to call, Phone out of reach, Switched off) based on the latest status change for the customers."></i>
+</th>
+</tr>
+<tr>
+  <th ng-show="allocatedHeader !== 'Total Potential'" class="newTable">Self Visited
+  <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Customer who visited before the calling."></i>
+  </th>
+  <th ng-show="allocatedHeader !== 'Total Potential'" class="newTable">Non Visited
+  <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Customer who has not visited the Service Center."></i>
+  </th>
+<th class="newTable">Walk-In
+  <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Customers who has taken walkin appointments fo the service."></i>
+</th>
+<th class="newTable">P&D
+  <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Customers who has requested for the Pickup and Drop service."></i>
+</th>
+<th class="newTable">NI
+  <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Customers who are not interested for the service (Customer Shifted, More Distance, Service Center Complaints, Vehicle Sold, Wrong Number)"></i>
+</th>
+<th class="newTable">SD
+  <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Customers who told that the service is already done."></i>
+</th>
+<th class="newTable">Call Later
+  <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Customers who requested a call back."></i>
+</th>
+<th class="newTable">Call Later
+<!--  <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Customers to be reached again."></i> -->
+</th> 
+</tr>
+<tr ng-repeat="stats in creDashboardDataDisplay track by $index" ng-class="{active123: stats.dataTypename === 'Total'}">
+<td class="newTable">{{stats.dataTypename}}</td>
+<td class="newTable">{{stats.allocated}}
+   <img ng-if="stats.allocated !== '0' && stats.dataTypename !== 'Total' && selectedStatus === 'complete'" ng-click="getPericularCompleteStatsData(stats.dataTypename,'allocated',stats.dataTypeId,'submit')" src="images/plus-new.png" class="statsIcon">
+   <img ng-if="stats.allocated !== '0' && stats.dataTypename !== 'Total' && selectedStatus === 'service due date'" ng-click="getPericularStatsServiceDueDateWiseData(stats.dataTypename,'allocated',stats.dataTypeId,'submit')" src="images/plus-new.png" class="statsIcon">
+</td>
+<td ng-if="allocatedHeader === 'Total Potential'" class="newTable">{{stats.pendingCalls}}
+<img ng-if="stats.pendingCalls !== '0' && stats.dataTypename !== 'Total' && selectedStatus === 'complete'" ng-click="getPericularCompleteStatsData(stats.dataTypename,'pending',stats.dataTypeId,'submit')" src="images/plus-new.png" class="statsIcon">
+   <img ng-if="stats.pendingCalls !== '0' && stats.dataTypename !== 'Total' && selectedStatus === 'service due date'" ng-click="getPericularStatsServiceDueDateWiseData(stats.dataTypename,'pendingCalls',stats.dataTypeId,'submit')" src="images/plus-new.png" class="statsIcon">
+</td>
+<td ng-if="allocatedHeader !== 'Total Potential'" class="newTable">{{stats.pendingVisitedCount}}
+ <img ng-if="stats.pendingVisitedCount !== '0' && stats.dataTypename !== 'Total' && selectedStatus === 'service due date'" ng-click="getPericularStatsServiceDueDateWiseData(stats.dataTypename,'pendingvisited',stats.dataTypeId,'submit')" src="images/plus-new.png" class="statsIcon">
+</td>
+<td ng-if="allocatedHeader !== 'Total Potential'" class="newTable">{{stats.pendingNonVisitedCount}}
+ <img ng-if="stats.pendingNonVisitedCount !== '0' && stats.dataTypename !== 'Total' && selectedStatus === 'service due date'" ng-click="getPericularStatsServiceDueDateWiseData(stats.dataTypename,'pendingnonvisited',stats.dataTypeId,'submit')" src="images/plus-new.png" class="statsIcon">
+</td>
+<td class="newTable">{{stats.appointmentTaken}}
+   <img ng-if="stats.appointmentTaken !== '0' && stats.dataTypename !== 'Total' && selectedStatus === 'complete'" ng-click="getPericularCompleteStatsData(stats.dataTypename,'walkin',stats.dataTypeId,'submit')" src="images/plus-new.png" class="statsIcon">
+   <img ng-if="stats.appointmentTaken !== '0' && stats.dataTypename !== 'Total' && selectedStatus === 'service due date'" ng-click="getPericularStatsServiceDueDateWiseData(stats.dataTypename,'walkin',stats.dataTypeId,'submit')" src="images/plus-new.png" class="statsIcon">
+</td>
+<td class="newTable">{{stats.pickAndDrop}}
+   <img ng-if="stats.pickAndDrop !== '0' && stats.dataTypename !== 'Total' && selectedStatus === 'complete'" ng-click="getPericularCompleteStatsData(stats.dataTypename,'pickup',stats.dataTypeId,'submit')" src="images/plus-new.png" class="statsIcon"> 
+   <img ng-if="stats.pickAndDrop !== '0' && stats.dataTypename !== 'Total' && selectedStatus === 'service due date'" ng-click="getPericularStatsServiceDueDateWiseData(stats.dataTypename,'pickup',stats.dataTypeId,'submit')" src="images/plus-new.png" class="statsIcon"> 
+</td>
+<td class="newTable">{{stats.notInterested}}
+   <img ng-if="stats.notInterested !== '0' && stats.dataTypename !== 'Total' && selectedStatus === 'complete'" ng-click="getPericularCompleteStatsData(stats.dataTypename,'notinterested',stats.dataTypeId,'submit')" src="images/plus-new.png" class="statsIcon">
+   <img ng-if="stats.notInterested !== '0' && stats.dataTypename !== 'Total' && selectedStatus === 'service due date'" ng-click="getPericularStatsServiceDueDateWiseData(stats.dataTypename,'notinterested',stats.dataTypeId,'submit')" src="images/plus-new.png" class="statsIcon"> 
+</td>
+<td class="newTable">{{stats.serviceDone}}
+    <img ng-if="stats.serviceDone !== '0' && stats.dataTypename !== 'Total' && selectedStatus === 'complete'" ng-click="getPericularCompleteStatsData(stats.dataTypename,'servicedone',stats.dataTypeId,'submit')" src="images/plus-new.png" class="statsIcon">
+    <img ng-if="stats.serviceDone !== '0' && stats.dataTypename !== 'Total' && selectedStatus === 'service due date'" ng-click="getPericularStatsServiceDueDateWiseData(stats.dataTypename,'servicedone',stats.dataTypeId,'submit')" src="images/plus-new.png" class="statsIcon"> 
+</td>
+<td class="newTable">{{stats.connectedCallLaterCount}}
+   <img ng-if="stats.connectedCallLaterCount !== '0' && stats.dataTypename !== 'Total' && selectedStatus === 'complete'" ng-click="getPericularCompleteStatsData(stats.dataTypename,'connectedCallLater',stats.dataTypeId,'submit')" src="images/plus-new.png" class="statsIcon">
+    <img ng-if="stats.connectedCallLaterCount !== '0' && stats.dataTypename !== 'Total' && selectedStatus === 'service due date'" ng-click="getPericularStatsServiceDueDateWiseData(stats.dataTypename,'connectedCallLater',stats.dataTypeId,'submit')" src="images/plus-new.png" class="statsIcon">   
+</td>
+<td class="newTable">{{stats.notConnectedCallLaterCount}}
+   <img ng-if="stats.notConnectedCallLaterCount !== '0' && stats.dataTypename !== 'Total' && selectedStatus === 'complete'" ng-click="getPericularCompleteStatsData(stats.dataTypename,'notConnectedCallLater',stats.dataTypeId,'submit')" src="images/plus-new.png" class="statsIcon">
+   <img ng-if="stats.notConnectedCallLaterCount !== '0' && stats.dataTypename !== 'Total' && selectedStatus === 'service due date'" ng-click="getPericularStatsServiceDueDateWiseData(stats.dataTypename,'notConnectedCallLater',stats.dataTypeId,'submit')" src="images/plus-new.png" class="statsIcon"> 
+</td>
+</tr> 
+</table><br>
+        </div>
+
+    <div class="row" ng-if="selFilter === 'complete'">
+     <center>
+      <div class="well">
+        <div class="radio-inline">
+           <form name="statusOptionForm" novalidate>
+          <label style="font-size:13px;" class="teleCallingDashBoardRadio-custom-label">
+            <span><b>Over Due Calls : {{totalOverDueCount}}</b>
+             <img ng-if="totalOverDueCount !== '0'" ng-click="getPericularCompleteStatsData('dataTypename','overduecalls','all','submit')" src="images/plus-new.png" class="statsIcon">
+            </span>
+          </label>
+        </form>
+        </div>
+      </div>
+     </center>
+    </div>
+
+    <div class="row" ng-show="callerNewStats">
+      <div class="col-sm-12 col-sm-12">
+          <table class="statsTable">
+                  <thead>
+                  <tr>
+                    <th>Data Type</th>
+                    <th>Total Allocated
+                      <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Total calling data assigned."></i>
+                    </th>
+                    <th>Unique Appointments
+                      <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Total appointments taken from unique customers."></i>
+                    </th>
+                    <th ng-show="selFilter === 'service due date'">Total Appointments
+                      <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Fresh appointments + Rescheduled appointments."></i>
+                    </th>
+                    <th>{{conversionHeader}}
+                       <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Total no. of customers who visited with appointments from the allocated data."></i>
+                    </th>
+                    <!-- <th>AT (NC)</th> -->
+                    <th>Total Conversion from data
+                       <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Total no. of customers who visited from current month Jobcard data."></i>
+                    </th>
+                  </tr>
+                  </thead>
+                 <div class="loader" ng-if="monthlyDataLoader === true">
+      <center><img src="images/Loading_2.gif" style="width: 6%;"></center>
+    </div>
+                  <tbody>
+                  <center class="text-danger" ng-if="dealerMonthlyStatsErrorMsg">{{dealerMonthlyStatsErrorMsg}}</center>
+                   <tr class="crmFeedbackRowPanel" ng-repeat="stats in dealerMonthlyStats">
+                    <td class="">{{stats.dataTypename}}</td>
+                    <td>{{stats.allocated}}
+                      <!--  <img ng-if="stats.allocated !== '0' && stats.dataTypename !== 'Total' && selectedStatus === 'complete' && false" ng-click="getPericularCompleteStatsData(stats.dataTypename,'allocated',stats.dataTypeId,'submit')" src="images/plus-new.png" class="statsIcon">
+                        <img ng-if="stats.allocated !== '0' && stats.dataTypename !== 'Total' && selectedStatus === 'service due date'" ng-click="getPericularStatsServiceDueDateWiseData(stats.dataTypename,'allocated',stats.dataTypeId,'submit')" src="images/plus-new.png" class="statsIcon"> -->
+                    </td>
+                    <td>{{stats.appointmentTaken}}
+                      <img ng-if="stats.appointmentTaken !== '0' && stats.dataTypename !== 'Total' && selectedStatus === 'complete'" ng-click="getPericularCompleteStatsData(stats.dataTypename,'freshappointments',stats.dataTypeId,'submit')" src="images/plus-new.png" class="statsIcon">
+                        <img ng-if="stats.appointmentTaken !== '0' && stats.dataTypename !== 'Total' && selectedStatus === 'service due date'" ng-click="getPericularStatsServiceDueDateWiseData(stats.dataTypename,'freshappointments',stats.dataTypeId,'submit')" src="images/plus-new.png" class="statsIcon">
+                    </td>
+                    <td ng-if="selFilter === 'service due date'">{{stats.totalAppointments}}</td>
+                    <td>{{stats.MTDConversion}}
+                      <img ng-if="stats.MTDConversion !== '0' && stats.dataTypename !== 'Total' && selectedStatus === 'complete'" ng-click="getPericularCompleteStatsData(stats.dataTypename,'callerConversion',stats.dataTypeId,'submit')" src="images/plus-new.png" class="statsIcon">
+                      <img ng-if="stats.MTDConversion !== '0' && stats.dataTypename !== 'Total' && selectedStatus === 'service due date'" ng-click="getPericularStatsServiceDueDateWiseData(stats.dataTypename,'callerConversion',stats.dataTypeId,'submit')" src="images/plus-new.png" class="statsIcon"> 
+                    </td>
+                    <!-- <td>{{stats.nonConverted}}</td> -->
+                    <td>{{stats.totalConversion}}
+                     <img ng-if="stats.totalConversion !== '0' && stats.dataTypename !== 'Total' && selectedStatus === 'complete'" ng-click="getPericularCompleteStatsData(stats.dataTypename,'totalConversion',stats.dataTypeId,'submit')" src="images/plus-new.png" class="statsIcon">
+                      <img ng-if="stats.totalConversion !== '0' && stats.dataTypename !== 'Total' && selectedStatus === 'service due date'" ng-click="getPericularStatsServiceDueDateWiseData(stats.dataTypename,'totalConversion',stats.dataTypeId,'submit')" src="images/plus-new.png" class="statsIcon"> 
+                    </td>
+                  </tr>
+                  
+                  </tbody>
+                </table>
+        </div>
+    </div>
+
+    <div class="row" ng-show="callerOldStats">
+        <div class="col-sm-12 col-sm-12">
+          <table class="table-responsive statsTable"> 
+            <thead>
+              <th>Data Type</th>
+              <th>Allocated <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Total calling data assigned."></i></th>
+             <th>UA <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Total unique calls made"></i></th>
+             <th>TA <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Total calls made"></i></th>
+              <!-- <th>Connected</th> -->
+              <th>Call Later <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Customers to be reached again."></i></th>
+              <th>Not Interested</th>
+              <th>SD</th>
+              <!-- <th>AT</th> -->
+              <th>AT (NC) <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Appointment Taken (Non Converted)"></i></th>
+              <th>PC <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Remaining calls to be made for last 30 days."></i></th>
+             <!--  <th>MTD Conversion</th>
+              <th>TCA</th> -->
+              <th>Fresh Calls</th>
+            </thead>
+            <tbody>
+            <center class="text-danger" ng-if="creDashboardDataErrorMsg">{{creDashboardDataErrorMsg}}</center>
+            <tr ng-repeat="stats in creDashboardData track by $index" ng-class="{active123: stats.dataTypename === 'Total'}" style="font-weight: normal;">
+              <td class="info">{{stats.dataTypename}}</td>
+              <td>{{stats.allocated}}
+                  <img ng-if="stats.allocated !== '0' && stats.dataTypename !== 'Total'" ng-click="getPericularStatsData(stats.dataTypename,'allocated',stats.dataTypeId,selectedFromDate,selectedToDate,'submit')" src="images/plus-new.png" class="statsIcon">
+              </td>
+              <td>{{stats.attemptedCount}}
+                 <img ng-if="stats.attemptedCount !== '0' && stats.dataTypename !== 'Total'" ng-click="getPericularStatsData(stats.dataTypename,'attempted',stats.dataTypeId,selectedFromDate,selectedToDate,'submit')" src="images/plus-new.png" class="statsIcon">
+              </td>
+              <td>{{stats.totalAttempted}}</td>
+             <!--  <td>{{stats.connectedCount}}
+                <img ng-if="stats.connectedCount !== '0' && stats.dataTypename !== 'Total'" ng-click="getPericularStatsData(stats.dataTypename,'connected',stats.dataTypeId,selectedFromDate,selectedToDate,'submit')" src="images/plus-new.png" class="statsIcon">
+              </td> -->
+              <td>{{stats.callLaterCount}}
+                <img ng-if="stats.callLaterCount !== '0' && stats.dataTypename !== 'Total'" ng-click="getPericularStatsData(stats.dataTypename,'calllater',stats.dataTypeId,selectedFromDate,selectedToDate,'submit')" src="images/plus-new.png" class="statsIcon">  
+              </td>
+              <td>{{stats.notInterested}}
+                 <img ng-if="stats.notInterested !== '0' && stats.dataTypename !== 'Total'" ng-click="getPericularStatsData(stats.dataTypename,'notInterested',stats.dataTypeId,selectedFromDate,selectedToDate,'submit')" src="images/plus-new.png" class="statsIcon"> 
+              </td>
+              <td>{{stats.serviceDone}}
+                <img ng-if="stats.serviceDone !== '0' && stats.dataTypename !== 'Total'" ng-click="getPericularStatsData(stats.dataTypename,'servicedone',stats.dataTypeId,selectedFromDate,selectedToDate,'submit')" src="images/plus-new.png" class="statsIcon"> 
+              </td>
+              <!-- <td>{{stats.appointmentTaken}}
+                <img ng-if="stats.appointmentTaken !== '0' && stats.dataTypename !== 'Total'" ng-click="getPericularStatsData(stats.dataTypename,'appointmenttaken',stats.dataTypeId,selectedFromDate,selectedToDate,'submit')" src="images/plus-new.png" class="statsIcon"> 
+              </td> -->
+              <td>{{stats.nonConverted}}
+               <img ng-if="stats.nonConverted !== '0' && stats.dataTypename !== 'Total'" ng-click="getPericularStatsData(stats.dataTypename,'nonconverted',stats.dataTypeId,selectedFromDate,selectedToDate,'submit')" src="images/plus-new.png" class="statsIcon"> 
+              </td>
+              <td>{{stats.pendingCount}}
+                 <img ng-if="stats.pendingCount !== '0' && stats.dataTypename !== 'Total'" ng-click="getPericularStatsData(stats.dataTypename,'pending',stats.dataTypeId,selectedFromDate,selectedToDate,'submit')" src="images/plus-new.png" class="statsIcon"> 
+              </td>
+              <!-- <td>{{stats.MTDConversion}}
+               <img ng-if="stats.MTDConversion !== '0' && stats.dataTypename !== 'Total'" ng-click="getPericularStatsData(stats.dataTypename,'converted',stats.dataTypeId,selectedFromDate,selectedToDate,'submit')" src="images/plus-new.png" class="statsIcon"> 
+              </td>
+               <td>{{stats.allocatedConversion}}
+               <img ng-if="stats.allocatedConversion !== '0' && stats.dataTypename !== 'Total'" ng-click="getPericularStatsData(stats.dataTypename,'allocatedConversion',stats.dataTypeId,selectedFromDate,selectedToDate,'submit')" src="images/plus-new.png" class="statsIcon"> 
+              </td> -->
+              <td>{{stats.freshCalls}}
+              <img ng-if="stats.freshCalls !== '0' && stats.dataTypename !== 'Total'" ng-click="getPericularStatsData(stats.dataTypename,'freshCalls',stats.dataTypeId,selectedFromDate,selectedToDate,'submit')" src="images/plus-new.png" class="statsIcon">
+             </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    <div ng-show="performanceAnalysis" class="row crmAdminTableDataPadding1">
+
+      <div class="col-sm-12 col-md-12">
+      <div class="text-center dashboardStatusGraphPanel ">
+        <div class="panel-body">
+          <div class="dashbord_chart">
+            <div id="serviceCentrePDGraph">
+              <center><label class="adminGraphLableStyle">Current Month's Free Service Reminder Stats <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Current Month's Free Service Reminder Stats"></i></label></center>
+              <div class="loader" ng-if="loaderIconDueType">    
+  <center>
+    <img src="images/Loading_2.gif" style="width: 8%;">
+  </center>
+ </div>
+<!-- <button type="button" style="outline:0;" class="btn btn-sm pull-right" aria-pressed="true" data-toggle="tooltip" title="Download Chart" id="download-pdf" ng-click="downloadPDF('serviceReminderChart')">
+                <span class="glyphicon glyphicon-download-alt"></span>
+</button> -->
+            <canvas id="serviceReminderChart" height="100" class="chart chart-bar" 
+        chart-labels="dueTypeChart.labels" 
+        chart-data="dueTypeChart.data" 
+        chart-series="dueTypeChart.series"
+        chart-colors="dueTypeChart.colors"
+        chart-options="dueTypeChart.options"
+          chart-dataset-override="datasetOverrideDueType"></canvas>
+          <center style="font-size:12px;">
+                <div class="trackAppointmentColorCoding">
+                Total -</div>
+                <div class="trackAppointmentColorCoding">Allocated : {{totalFreeAllocated}}</div>
+                <div class="trackAppointmentColorCoding">Appointment Taken : {{totalFreeAppointmentTaken}}</div>
+                <div class="trackAppointmentColorCoding">Pending : {{totalFreePending}}</div>
+                <div class="trackAppointmentColorCoding"> Conversion : {{totalFreeCallerConversion}}</div>
+                <div class="trackAppointmentColorCoding"> Total Conversion : {{totalFreeTotalConversion}}</div>
+              </center>
+            </div>
+          </div>
+        </div>
+      </div><br>
+      </div>
+
+      <div class="row">
+      <div class="form-group col-md-4 col-sm-4 pull-right">
+          <!-- <div class="col-sm-12">
+            <select class="form-control teleCallingUpdateStatusInputStyle"  ng-model="currentHourStatus" name="statusData"
+                        ng-options="obj.name as obj.name for obj in statusLables" ng-click="getStatusWiseHourStats(currentHourStatus,'daily')">
+                </select>
+            </div> -->
+                <label class="teleCallingDashBoardRadio-custom-label pull-right">
+                  <select style="height:30px;font-size:12px;" class="form-control teleCallingUpdateStatusInputStyle"  ng-model="currentHourStatus" name="statusData"
+                        ng-options="obj.name as obj.name for obj in statusLables" ng-change="getStatusWiseHourStats(currentHourStatus)">
+                </select>
+                </label>
+                <label style="font-size:13px;" class="teleCallingDashBoardRadio-custom-label pull-right">
+                  <label class="">Select Data Type :</label>
+                </label>
+      </div>
+      </div>
+
+      <div class="col-sm-6">
+      <div class="text-center dashboardStatusGraphPanel">
+        <div class="panel-body">
+
+          <div class="dashbord_chart">
+            <div id="serviceCentrePDGraph">
+              <center><label class="adminGraphLableStyle"><!--{{selectedCallerName}} -->Today's Hour Wise Stats <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Today's Hour Wise Stats"></i></label>
+              </center>
+             <!--  <canvas id="line" class="chart-bar adminPickAndWalkinGraphAlign" chart-data="callsCountData" height="100" chart-labels="hourLables" chart-series="calStatsSeries" chart-colors="calStatsColors" chart-options="options">
+              </canvas> -->
+               <div class="loader" ng-if="loaderIconHourWise">
+  <center>
+    <img src="images/Loading_2.gif" style="width: 12%;">
+  </center>
+ </div>
+ <!-- <button type="button" style="outline:0;" class="btn btn-sm pull-right" aria-pressed="true" data-toggle="tooltip" title="Download Chart" id="download-pdf" ng-click="downloadPDF('hourWiseChart')">
+                <span class="glyphicon glyphicon-download-alt"></span>
+</button> -->
+              <canvas id="hourWiseChart" height="120" class="chart chart-bar" 
+        chart-labels="hourWiseChart.labels" 
+        chart-data="hourWiseChart.data" 
+        chart-series="hourWiseChart.series"
+        chart-colors="hourWiseChart.colors"
+        chart-options="hourWiseChart.options"
+          chart-dataset-override="datasetOverrideHourWiseData"
+        ></canvas>
+              <center style="font-size:12px;">
+                <div class="trackAppointmentColorCoding">Today's Count : </div>
+                <div class="trackAppointmentColorCoding">Attempted-{{totalcallsAttemptedHourly}}</div>
+                <div class="trackAppointmentColorCoding">Connected-{{totalcallsConnectedHourly}}</div>
+                <div class="trackAppointmentColorCoding">Appointments-{{totalAppointmentsTakenHourly}}</div>
+              </center>
+            </div>
+          </div>
+        </div>
+      </div><br>
+      </div>
+      <div class="col-sm-6">
+      <div class="text-center dashboardStatusGraphPanel ">
+        <div class="panel-body">
+          <div class="dashbord_chart">
+            <div id="serviceCentrePDGraph">
+              <center><label class="adminGraphLableStyle"><!--{{selectedCallerName}} -->Last 7 Day's Stats <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Last 7 Day's Stats"></i></label>
+              </center>
+             <!--  <canvas id="line" class="chart-bar adminPickAndWalkinGraphAlign" chart-data="callsCountDataWeekly" height="100" chart-labels="weeklyLables" chart-series="calStatsSeriesWeekly" chart-colors="calStatsColorsWeekly" chart-options="options">
+              </canvas> -->
+               <div class="loader" ng-if="loaderIconWeekWise">
+                <center>
+                 <img src="images/Loading_2.gif" style="width: 12%;">
+                </center>
+               </div>
+ <!-- <button type="button" style="outline:0;" class="btn btn-sm pull-right" aria-pressed="true" data-toggle="tooltip" title="Download Chart" id="download-pdf" ng-click="downloadPDF('weeklyChart')">
+                <span class="glyphicon glyphicon-download-alt"></span>
+</button> -->
+              <canvas id="weeklyChart" height="120" class="chart chart-bar" 
+        chart-labels="weeklyChart.labels" 
+        chart-data="weeklyChart.data" 
+        chart-series="weeklyChart.series"
+        chart-colors="weeklyChart.colors"
+        chart-options="weeklyChart.options"
+          chart-dataset-override="datasetOverrideWeeklyData"
+        ></canvas>
+              <center style="font-size:12px;">
+                <div class="trackAppointmentColorCoding">Week's Count : </div>
+                <div class="trackAppointmentColorCoding">Attempted-{{totalcallsAttemptedWeekly}}</div>
+                <div class="trackAppointmentColorCoding">Connected-{{totalcallsConnectedWeekly}}</div>
+                <div class="trackAppointmentColorCoding">Appointments-{{totalAppointmentsTakenWeekly}}</div>
+                <!-- <div class="trackAppointmentColorCoding">Fresh Appointments- {{freshAppointments}}</div> -->
+              </center>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <div ng-show="performanceAnalysis" class="row crmAdminTableDataPadding1">
+      <div class="col-sm-6">
+      <div class="text-center dashboardStatusGraphPanel">
+        <div class="panel-body">
+          <div class="dashbord_chart">
+            <div id="serviceCentrePDGraph">
+              <center><label class="adminGraphLableStyle">Last 4 Month's Conversion Stats <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Last 4 Month's Conversion Stats"></i></label></center>
+              <center><span ng-if="dataErrorMsgFourMonthConversion">No Data</span></center>
+                  <div class="loader" ng-if="loaderIconFourMonthConversion">
+                    <center>
+                     <img src="images/Loading_2.gif" style="width: 8%;">
+                    </center>
+                  </div>
+              <!-- <canvas id="line" class="chart-bar adminPickAndWalkinGraphAlign" chart-data="callerWiseConversionData" height="120" chart-labels="callerWiseConversionLables" chart-series="callerWiseConversionSeries" chart-colors="calStatsColors" chart-options="options">
+              </canvas> -->
+              <!-- <button type="button" style="outline:0;" class="btn btn-sm pull-right" aria-pressed="true" data-toggle="tooltip" title="Download Chart" id="download-pdf" ng-click="downloadPDF('currentConversionChart')">
+                <span class="glyphicon glyphicon-download-alt"></span>
+</button> -->
+              <canvas ng-if="!dataErrorMsgFourMonthConversion" id="currentConversionChart" height="120" class="chart chart-bar" 
+        chart-labels="callerWiseConversionChart.labels" 
+        chart-data="callerWiseConversionChart.data" 
+        chart-series="callerWiseConversionChart.series"
+        chart-colors="callerWiseConversionChart.colors"
+        chart-options="callerWiseConversionChart.options"
+          chart-dataset-override="datasetOverrideCallerWiseConversionData"
+          chart-click="getTcAdminStatsStatusDetail"
+        ></canvas>
+              <!-- <center style="font-size:12px;">
+                <div class="trackAppointmentColorCoding">Total Counts : </div>
+                <div class="trackAppointmentColorCoding">Connected-{{callerWiseConnectedTotal}}</div><br>
+                <div class="trackAppointmentColorCoding">Appointments-{{callerWiseAppointmentTakenTotal}}</div>
+                 <div class="trackAppointmentColorCoding">Converted-{{callerWiseConvertedTotal}}</div>
+              </center> -->
+            </div>
+          </div>
+        </div>
+      </div><br>
+      </div>
+      <div class="col-sm-6">
+      <div class="text-center dashboardStatusGraphPanel ">
+        <div class="panel-body">
+          <div class="dashbord_chart">
+            <div id="serviceCentrePDGraph">
+              <center><label class="adminGraphLableStyle">Last 5 Month's Caller Revenue Stats <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Last 5 Month's Caller Revenue"></i></label></center>
+              <center><span ng-if="dataErrorMsgRevenue">No Data</span></center>
+                  <div class="loader" ng-if="loaderIconRevenue">
+                    <center>
+                     <img src="images/Loading_2.gif" style="width: 8%;">
+                    </center>
+                  </div>
+             <!--  <canvas id="line" class="chart-bar adminPickAndWalkinGraphAlign" chart-data="revenueData" height="120" chart-labels="revenueLables" chart-series="revenueDataSeries" chart-colors="revenueColors" chart-options="optionsRevenue">
+            </canvas> -->
+           <!--  <button type="button" style="outline:0;" class="btn btn-sm pull-right" aria-pressed="true" data-toggle="tooltip" title="Download Chart" id="download-pdf" ng-click="downloadPDF('revenueChart')">
+                <span class="glyphicon glyphicon-download-alt"></span>
+</button> -->
+            <canvas ng-if="!dataErrorMsgRevenue" id="revenueChart" height="120" class="chart chart-bar" 
+        chart-labels="revenueChart.labels" 
+        chart-data="revenueChart.data" 
+        chart-series="revenueChart.series"
+        chart-colors="revenueChart.colors"
+        chart-options="revenueChart.options"
+          chart-dataset-override="datasetOverrideRevenue"
+        ></canvas>
+        <!--  <center style="font-size:12px;">
+                <div class="trackAppointmentColorCoding">Total Revenue:</div>
+                <div class="trackAppointmentColorCoding">FSC1- {{fsc1Total |number:0}}</div>
+                <div class="trackAppointmentColorCoding">FSC2- {{fsc2Total |number:0}}</div><br>
+                <div class="trackAppointmentColorCoding">FSC3- {{fsc3Total |number:0}}</div>
+                <div class="trackAppointmentColorCoding">FSC4- {{fsc4Total |number:0}}</div>
+                <div class="trackAppointmentColorCoding">Paid- {{paidTotal |number:0}}</div>
+              </center> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <div ng-show="performanceAnalysis" class="row crmAdminTableDataPadding1">
+      <div class="col-sm-6">
+      <div class="text-center dashboardStatusGraphPanel">
+        <div class="panel-body">
+          <div class="dashbord_chart">
+            <div id="serviceCentrePDGraph">
+              <center><label class="adminGraphLableStyle">Total Conversion From Data <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Total Conversion From Allocated Data"></i></label>
+                  <div ng-if="!dataErrorMsgConversion" id="conversionChart" style="width: 100%; height: 250px"></div>
+                  <div class="loader" ng-if="loaderIconConversion">
+                    <center>
+                     <img src="images/Loading_2.gif" style="width: 8%;">
+                    </center>
+                  </div>
+                  <b ng-if="!dataErrorMsgConversion" style="font-size:13px;">Total - {{conversionTotal}}</b>
+              </center>
+            </div>
+             <center><span ng-if="dataErrorMsgConversion">No Data</span></center>
+          </div>
+        </div>
+      </div><br>
+      </div>
+      <div class="col-sm-6">
+      <div class="text-center dashboardStatusGraphPanel">
+        <div class="panel-body">
+          <div class="dashbord_chart">
+            <div id="serviceCentrePDGraph">
+              <center><label class="adminGraphLableStyle">Current Month Call Later Stats <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Current Month Call Later Stats"></i></label>
+                  <div ng-if="!dataErrorMsgCallLater" id="callLaterChart" style="width: 100%; height: 250px"></div>
+                   <div class="loader" ng-if="loaderIconCallLater">
+                    <center>
+                     <img src="images/Loading_2.gif" style="width: 8%;">
+                    </center>
+                   </div>
+                   <b ng-if="!dataErrorMsgCallLater" style="font-size:13px;">Total - {{callLaterTotal}}</b>
+              </center>
+    
+            </div>
+             <center><span ng-if="dataErrorMsgCallLater">No Data</span></center>
+          </div>
+        </div>
+      </div><br>
+      </div>
+    </div>
+
+    <div ng-show="performanceAnalysis" class="row crmAdminTableDataPadding1">
+     <div class="col-sm-6">
+      <div class="text-center dashboardStatusGraphPanel ">
+        <div class="panel-body">
+          <div class="dashbord_chart">
+            <div id="serviceCentrePDGraph">
+               <center><label class="adminGraphLableStyle">Current Month Not Interested Stats <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Current Month Not Interested Stats"></i></label>
+                  <div ng-if="!dataErrorMsgNotInterested" id="notInterestedChart" style="width: 100%; height: 250px"></div>
+                  <div class="loader" ng-if="loaderIconNotInterested">
+                    <center>
+                     <img src="images/Loading_2.gif" style="width: 8%;">
+                    </center>
+                  </div>
+                  <b ng-if="!dataErrorMsgNotInterested" style="font-size:13px;">Total - {{notInterestedTotal}}</b>
+              </center>
+            </div>
+            <center><span ng-if="dataErrorMsgNotInterested">No Data</span></center>
+          </div>
+        </div>
+      </div>
+      </div>
+      <div class="col-sm-6">
+      <div class="text-center dashboardStatusGraphPanel ">
+        <div class="panel-body">
+          <div class="dashbord_chart">
+            <div id="serviceCentrePDGraph">
+              <center><label class="adminGraphLableStyle">Current Month Service Center Complaints Stats <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Current Month Service Center Complaints Stats"></i></label>
+                  <div ng-if="!dataErrorMsgScComplaint" id="scComplaintsChart" style="width: 100%; height: 250px"></div>
+                  <div class="loader" ng-if="loaderIconScComplaints">
+                    <center>
+                     <img src="images/Loading_2.gif" style="width: 8%;">
+                    </center>
+                  </div>
+                  <b ng-if="!dataErrorMsgScComplaint && scComplaintTotal !== 0" style="font-size:13px;">Total - {{scComplaintTotal}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
+                  <b ng-if="!dataErrorMsgScComplaint && scComplaintTotal !== 0" style="font-size:13px;">Unique Complaints - {{uniqueComplaints}}</b>
+              </center>
+            </div>
+            <center><span ng-if="dataErrorMsgScComplaint">No Data</span></center>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div><br>
+
+    <div ng-show="performanceAnalysis" class="row crmAdminTableDataPadding1">
+     <div class="col-sm-12 col-sm-12 ">
+      <center><label class="adminGraphLableStyle">Caller Active / Inactive Status <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Caller Active / Inactive Status"></i></label></center><br>
+      <table class="statsTableDetailed">
+       <thead>
+      <tr class="success">
+        <th>Caller Name</th>
+        <th>Status</th>
+        <th>Today's Avg. Call Rate</th>
+        <th>MTD Avg. Call Rate</th>
+        <th>Total Calls Till Date</th>
+        <th>No. Of Days Present For Current Month</th>
+        <th>Last Called Date and Time</th>
+      </tr>
+     </thead>
+     <tbody>
+      <tr ng-repeat="item in creLiveStatusData">
+        <td>{{item.callername}}</td>
+        <td><span ng-show="item.status === 'Active'" class="label label-success">{{item.status}}</span><span ng-show="item.status === 'InActive'" class="label label-danger">{{item.status}}</span></td> 
+        <td>{{item.daycallRate}}</td>
+        <td>{{item.mtdCallRate}}</td>
+        <td>{{item.totalCalls}}</td>
+        <td>{{item.presentDays}}</td>
+        <td>{{item.update_ts}}</td>
+      </tr>      
+    </tbody>
+  </table>
+     <div class="loader" ng-if="loaderLiveStats">
+       <center>
+        <img src="images/Loading_2.gif" style="width: 8%;">
+       </center>
+     </div> 
+     </div>
+    </div>
+
+  
+
+
+  </div>
+
+
+  <div class="loader" ng-if="loaderIcon === true">
+    <center><img src="images/Loading_2.gif" style="width: 12%;"></center>
+  </div>
+
+<!-- Data Table Modal -->
+<div class="modal fade"  id="adminDataTableModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+      <!-- TeleCaller Modal content-->
+      <div class="modal-content">
+        <div class="modal-header teleCallerDashboardModalHeader">
+          <button type="button" class="close" data-dismiss="modal" ng-click="clearUpdateMsg()">&times;</button>
+          <h4 class="modal-title"><center>{{statusDisplay}} Customer Details</center></h4>
+        </div>
+        <div class="modal-body">
+          <div class="row pull-right" ng-if="!creTableDataErrorMsg && exportType">
+          <div class="col-sm-2">
+            <div class="form-group col-md-12 col-sm-12">
+              <button type="submit" class="btn btn-primary" id="exportButton" ng-click="exportCustomerDetails()">Export</button>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="form-group col-md-3 col-sm-3 pull-right">
+          <div class="" >
+            <input type="text" class="form-control" ng-model="tcSearch" placeholder="Search Details...">
+            </div>
+        </div> -->
+          <table class="statsTableDetailed" ng-table="tableParams" show-filter="true">
+                  <!-- <thead>
+                  <tr>
+                    <th>Sl No.</th>
+                    <th>Customer Name</th>
+                    <th>Mobile</th>
+                    <th>Bike MOdel</th>
+                    <th>Chassis No.</th>
+                    <th>View </th>
+                  </tr>
+                  </thead> -->
+                
+                  <tbody>
+                  <center class="text-danger" ng-if="creTableDataErrorMsg">{{creTableDataErrorMsg}}</center>
+                  <tr ng-repeat="detail in $data | filter:tcSearch" class="crmDataTableStyle">
+                    <td>{{detail.slNo}}</td>
+                    <td data-title="'Customer Name'"  filter="{'customer_name': 'text'}">{{detail.customer_name}}</td>
+                    <td data-title="'Customer Mobile'"  filter="{'customer_mobile': 'text'}">{{detail.customer_mobile}}</td>
+                    <td data-title="'Bike Model'"  filter="{'bikeModel': 'text'}">{{detail.bikeModel}}</td>
+                    <td data-title="'Chassis No.'"  filter="{'chassisNo': 'text'}">{{detail.chassisNo}}</td>
+                    <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" ng-click="getDetails(detail.apptId,statusDisplay)"data-title="Edit" data-toggle="modal" data-target="#editPhoneModal"><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+                    <td><p data-placement="top" data-toggle="tooltip" title="View"><button class="btn btn-primary btn-xs" ng-click="getHistory(detail.chassisNo,'dataType',detail.apptId,statusDisplay)" data-title="View" data-toggle="modal" data-target="#historyDetailsModal"><span class="glyphicon glyphicon-hand-up"></span></button></p></td>
+                  </tr> 
+                  </tbody>
+                </table>
+       </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div class="modal fade" id="historyDetailsModal" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- TeleCaller Modal content-->
+    <div class="modal-content">
+      <div class="modal-header teleCallerDashboardModalHeader">
+        <button type="button" class="close" data-dismiss="modal" ng-click="clearRecording()">&times;</button>
+        <h4 class="modal-title"><center>History</center></h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="container-fluid">
+          <div class="privacy-menu">
+            <ul class="menu-list">
+              <li class="pull-left" data-target="#callRecording" data-toggle="tab">Call Recording</li>
+              <li  data-target="#callHistory" data-toggle="tab" class="active historyStyle pull-left" ng-click="pauseCallRecord()">Call History</li>
+              <li  data-target="#serviceHistory" data-toggle="tab" class="historyStyle pull-left">Service History</li>
+              <li  data-target="#customerDetails" data-toggle="tab" class="historyStyle pull-left">Customer Details</li>
+               <li  data-target="#LsHistory" data-toggle="tab" class="historyStyle pull-left">LS History</li>
+            </ul>
+          </div>
+
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="tab tab-content">
+              <div class="tab-pane active" id="callHistory">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="">
+                    <div class="panel-body">
+                      <div class="modal-body table-responsive attach">
+                        <div class="loader" ng-if="loaderIcon === true">
+                          <center><img src="images/Loading_2.gif" style="width: 12%;"></center>
+                        </div>
+                        <table class="statsTableDetailed">
+                          <thead>
+                          <tr class="text-muted">
+                            <th>Sl No.</th>
+                            <th>Id</th>
+                            <th>Caller Name</th>
+                            <th>Data Type</th>
+                            <th>Converted Status</th>
+                            <th>Appointment Status</th>
+                            <th>Appointment Sub Status</th>
+                            <th>Remarks</th>
+                            <th>Scheduled Date/Time</th>
+                            <th>Updated Date</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr class="" ng-repeat="history in tcAppointmentHistoryData">
+                            <td>{{history.slNo}}</td>
+                            <td>{{history.apptId}}</td>
+                            <td>{{history.callerName}}</td>
+                            <td>{{history.dataType}}</td>
+                            <td>{{history.confirmStatus}}</td>
+                            <td>{{history.apptStatus}}</td>
+                            <td>{{history.apptSubStatus}}</td>
+                            <td>{{history.remarks}}</td>
+                            <td>{{history.rescheduleDate}}</td>
+                            <td>{{history.create_ts}}</td>
+                          </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        <div class="tab-pane" id="serviceHistory">
+                <div class="col-md-11 col-sm-11 col-xs-11">
+                  <div class="">
+                    <div class="panel-body">
+                      <div class="modal-body table-responsive attach">
+                        <!--<div class="col-md-12 col-sm-12">-->
+                        <table class="statsTableDetailed" style="margin-left:10px;">
+                          <thead>
+                          <tr class="text-muted">
+                            <th>Service Date</th>
+                            <th>Service Type</th>
+                            <th>Service Advisor</th>
+                            <th>Jobcard No.</th>
+                            <th>KM Reading</th>
+                            <th>Total Amount</th>
+                            <th>Uploaded On</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr class="" ng-repeat="historyService in tcServiceHistoryData">
+                            <td>{{historyService.serviceDate}}</td>
+                            <td>{{historyService.serviceType}}</td>
+                            <td>{{historyService.serviceAdvisor}}</td>
+                            <td>{{historyService.jobCardNumber}}</td>
+                            <td>{{historyService.kmReading}}</td>
+                            <td>{{historyService.totalAmount |number:2}}</td>
+                            <td>{{historyService.create_ts}}</td>
+                          </tr>
+                          </tbody>
+                        </table><br>
+                        <!-- </div>-->
+                         <div class="loader" ng-if="loaderIconService === true">
+    <center><img src="images/Loading_2.gif" style="width: 12%;"></center>
+  </div>
+                        <center ng-if="tcServiceHistoryDataErrorMsg">{{tcServiceHistoryDataErrorMsg}}</center>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="tab-pane" id="callRecording">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="">
+                    <div class="panel-body">
+                      <div class="modal-body table-responsive attach">
+                        <div class="col-md-12 col-sm-12 pull-left">
+                       <div class="col-md-12 col-sm-12" ng-repeat="callRecord in callRecording">
+                <!-- <p><center><span ng-if="callRecord.recordingUrl !== 'No CallRecord Available'">
+                <li ng-if="callRecord.recordingUrl !== 'You do not have permission to access, please contact the admin'" ng-click="viewCallRecord(callRecord)"><i class="glyphicon glyphicon-download"></i>
+                  Download - {{callRecord.duration}} - {{callRecord.create_ts | formatDate}}</li></span>
+                <span ng-if="callRecord.recordingUrl === 'No CallRecord Available' || callRecord.recordingUrl === 'You dont have permission to access, please contact the admin'">{{callRecord.recordingUrl}}</span></center></p> -->
+              
+                <p><center><span ng-if="callRecord.recordingUrl !== 'No CallRecord Available'">
+                <li style="list-style-type: none;" ng-if="callRecord.recordingUrl !== 'You do not have permission to access, please contact the admin'">
+                   <span style="font-size:13px;">{{callRecord.mobile}}</span>
+                   <audio id="stopRecording" controls><source src="{{trustAsResourceUrl1(callRecord.recordingUrl)}}"/></audio>
+                   <span style="font-size:13px;">{{callRecord.create_ts | formatDate}}</span>
+                   <a href="{{trustAsResourceUrl1(callRecord.recordingUrl)}}" target="_blank" download><img class="download" src='https://cdn1.iconfinder.com/data/icons/hawcons/32/698392-icon-129-cloud-download-128.png' aria-pressed="true" data-toggle="modal" data-toggle="tooltip" title="Download"/></a>
+                </li></span>
+                <span ng-if="callRecord.recordingUrl === 'No CallRecord Available' || callRecord.recordingUrl === 'You dont have permission to access, please contact the admin'">{{callRecord.recordingUrl}}</span></center></p>
+ <!-- <audio controls><source src="{{https://s3-us-west-2.amazonaws.com/lssaascrm/4792440376_1522735163.mp3}}" /></audio> {{trustAsResourceUrl1(callRecord.recordingUrl)}}-->
+              <br>
+              </div>
+                         </div>
+                
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+<div class="tab-pane" id="customerDetails">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="">
+                    <div class="panel-body">
+                      <div class="modal-body table-responsive attach">
+                        <div class="loader" ng-if="loaderIcon === true">
+    <center><img src="images/Loading_2.gif" style="width: 12%;"></center>
+  </div><br>
+ <center ng-if="tcAppointmentDataErrorMsg">{{tcAppointmentDataErrorMsg}}</center>
+                                 <div ng-if="!tcAppointmentDataErrorMsg" class="row" style="font-size: 13px;">
+                <div class="col-sm-6 col-xs-12">
+                  <div class="dashboardStatusPanel" ng-class="{'amcStyle': tcAppointmentData.amcStatus === 'Yes','amcStyleOther':tcAppointmentData.amcDealer === 'Yes'}"><br>
+                    <!--<center>--><p style="color:#0083ca;font-weight: bold;">Bike Details: </p><!--</center>-->
+                    <div class="details">
+                      <div class="row">
+                        <div class="col-md-5">
+                          <p class="heading">Customer Name</p>
+                        </div>
+                        <div class="col-md-7">
+                          <p class="heading1">{{tcAppointmentData.customer_name}}</p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <p class="heading">Mobile No.</p>
+                        </div>
+                        <div class="col-md-8">
+                           <label class="teleCallingDashBoardRadio-custom-label">
+                  <select class="btn form-control borderHistory btn-primary" style="outline: 0;height:30px;" ng-model="currentMobile" name="mobileNo"
+                          ng-options="mobile.customer_mobile as mobile.customer_mobile for mobile in customerMobileNumbers" ng-change="updateMobileStatus(currentMobile)">
+                          <option value="">Select Mobile</option>
+                  </select>
+                </label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-5">
+                          <p class="heading">Bike No.</p>
+                        </div>
+                        <div class="col-md-7">
+                          <p class="heading1">{{tcAppointmentData.bikeNo}}</p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-5">
+                          <p class="heading">Chassis No.</p>
+                        </div>
+                        <div class="col-md-7">
+                          <p class="heading1">{{tcAppointmentData.chassisNo}}</p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-5">
+                          <p class="heading">Bike Model</p>
+                        </div>
+                        <div class="col-md-7">
+                          <p class="heading1">{{tcAppointmentData.bikeModel}}</p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-5">
+                          <p class="heading">Date Of Sale</p>
+                        </div>
+                        <div class="col-md-7">
+                          <p class="heading1">{{tcAppointmentData.dateOfSale}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                  <div class="dashboardStatusPanel"><br>
+                    <!--<center>--><p style="color:#0083ca;font-weight: bold;">Service Details: </p><!--</center>-->
+                    <div class="details">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <p class="heading">Service Due Date </p>
+                        </div>
+                        <div class="col-md-6">
+                          <p class="heading1">{{tcAppointmentData.serviceDueDate}}</p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <p class="heading">Service Due Type</p>
+                        </div>
+                        <div class="col-md-6">
+                          <p class="heading1">{{tcAppointmentData.serviceDueType}}</p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <p class="heading">Over Due Date</p>
+                        </div>
+                        <div class="col-md-6">
+                          <p class="heading1">{{tcAppointmentData.overDueDate}}</p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <p class="heading">Service Center</p>
+                        </div>
+                        <div class="col-md-6">
+                          <p class="heading1">{{tcAppointmentData.scName}}</p>
+                        </div>
+                      </div>
+                        <div class="row">
+                      <center>
+                         <p ng-if="tcAppointmentData.kmWise === null ||tcAppointmentData.kmWise === undefined || tcAppointmentData.kmWise === 'NA'"><strong>Logic : Based on Date of Sale</strong></p>
+                        <p ng-if="tcAppointmentData.kmWise !== null && tcAppointmentData.kmWise !== 'NA' && tcAppointmentData.kmWise !== undefined"><strong>Logic : {{tcAppointmentData.kmWise}}</strong></p>
+                      </center>
+                    </div>
+                      <div class="row">
+                        <center>
+                          <p ng-if="tcAppointmentData.customerType === 'new' || tcAppointmentData.customerType === 'New'"><strong>Note : Other Dealership Customer</strong></p>
+                          <p ng-if="tcAppointmentData.customerType !== 'new' || tcAppointmentData.customerType === undefined"><strong>Note : Own Dealership Customer</strong></p>
+                        </center>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> <br>
+
+              <div ng-if="!tcAppointmentDataErrorMsg" class="row">
+                 <div class="col-sm-6">
+      <div class="" style="">
+
+        <div class="dashboardStatusPanel historydetails" style="border-radius:10px;"><br>
+          <p class="" style="color:#0083ca;font-weight: bold;text-align: center;">Last Appointment History</p>
+          <div class="row" style="font-size: 13px;">
+            <div class="col-md-6">
+              <p class="heading">Last Service Date</p>
+            </div>
+            <div class="col-md-6">
+              <p class="heading1">{{tcAppointmentData.lastServiceDate}}</p>
+            </div>
+          </div>
+          <div class="row" style="font-size: 13px;">
+            <div class="col-md-6">
+              <p class="heading">Last Service Type</p>
+            </div>
+            <div class="col-md-6">
+              <p class="heading1">{{tcAppointmentData.lastServiceType}}</p>
+            </div>
+          </div>
+          <div class="row" style="font-size: 13px;">
+            <div class="col-md-6">
+              <p class="heading">Last Called Date</p>
+            </div>
+            <div class="col-md-6">
+              <p class="heading1">{{tcAppointmentData.lastCalledDate}}</p>
+            </div>
+          </div>
+          <div class="row" style="font-size: 13px;">
+            <div class="col-md-6">
+              <p class="heading">Last Called Status</p>
+            </div>
+            <div class="col-md-6">
+              <p class="heading1">{{tcAppointmentData.lastCalledStatus}}</p>
+            </div>
+          </div>
+          <div class="row" style="font-size: 13px;">
+            <div class="col-md-6">
+              <p class="heading">Last Converted Status</p>
+            </div>
+            <div class="col-md-6">
+              <p class="heading1">{{tcAppointmentData.lastConvertedStatus}}</p>
+            </div>
+          </div>
+          <div class="row" style="font-size: 13px;">
+            <div class="col-md-6">
+              <p class="heading">Last KM Reading</p>
+            </div>
+            <div class="col-md-6">
+              <p class="heading1">{{tcAppointmentData.kmReading}}</p>
+            </div>
+          </div>
+          <div class="row" style="font-size: 13px;">
+            <div class="col-md-6">
+              <p class="heading">No. Of Times Called To Customer</p>
+            </div>
+            <div class="col-md-6">
+              <p class="heading1">{{tcAppointmentData.callsmade}}</p>
+            </div>
+          </div>
+        </div><br>
+      </div>
+    </div>
+          <!--  <div class="row" > -->
+        <div class="col-sm-6 col-md-6 col-xs-12" style="font-size: 13px;">
+                <div class="dashboardStatusPanel">
+                  <!-- <center><p>Insurance</p></center>-->
+                  <p style="color:#0083ca;font-weight: bold;padding:3px;">Future Appointment Details: </p>
+                  <div class="AMCdetailsStyle">
+                       <div class="row">
+                      <div class="col-md-6">
+                        <p class="heading">Due Date</p>
+                      </div>
+                      <div class="col-md-6">
+                        <p class="heading1">{{tcAppointmentData.nextApptDate}}</p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p class="heading">Due Type</p>
+                      </div>
+                      <div class="col-md-6">
+                        <p class="heading1">{{tcAppointmentData.nextApptType}}</p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p class="heading">Data Type</p>
+                      </div>
+                      <div class="col-md-6">
+                        <p class="heading1">{{tcAppointmentData.dataTypeName}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div><br>
+                <div class="dashboardStatusPanel">
+                  <!-- <center><p>Insurance</p></center>-->
+                  <p style="color:#0083ca;font-weight: bold;padding:3px;"> AMC Details: </p>
+                  <div class="AMCdetailsStyle">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p class="heading">AMC Valid From</p>
+                      </div>
+                      <div class="col-md-6">
+                        <p class="heading1">{{tcAppointmentData.amcValidFrom}}</p>
+                      </div>
+                    </div>
+                       <div class="row">
+                      <div class="col-md-6">
+                        <p class="heading">AMC Valid To</p>
+                      </div>
+                      <div class="col-md-6">
+                        <p class="heading1">{{tcAppointmentData.amcValidTo}}</p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p class="heading">AMC Remaining</p>
+                      </div>
+                      <div class="col-md-6">
+                        <p class="heading1">{{tcAppointmentData.amcCount}}</p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p class="heading">P&D Package</p>
+                      </div>
+                      <div class="col-md-6">
+                        <p class="heading1">{{tcAppointmentData.amcStatus}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <!-- </div> -->
+              </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane" id="LsHistory">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="">
+                    <div class="panel-body">
+                      <div class="modal-body table-responsive attach">
+                        <div class="loader" ng-if="loaderIcon === true">
+    <center><img src="images/Loading_2.gif" style="width: 12%;"></center>
+  </div>
+                        <table class="statsTableDetailed">
+                          <thead>
+                          <tr class="text-muted">
+                            <th>Sl No.</th>
+                            <th>Appt Id</th>
+                            <th>Service Due Date</th>
+                            <th>Service Due Type</th>
+                             <th>Created On</th>
+                            <th>Visited Status</th>
+                            <th>Caller Visibility</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr class="" ng-repeat="history in lsHistoryData">
+                            <td>{{history.slNo}}</td>
+                            <td>{{history.sapptId}}</td>
+                            <td>{{history.serviceDueDate}}</td>
+                            <td>{{history.serviceDueType}}</td>
+                            <td>{{history.create_ts}}</td>
+                            <td>{{history.confirmStatus}}</td>
+                            <td>{{history.overDueStatus}}</td>
+                            <!-- signedInScId === '92' &&  -->
+                             <td ng-if="(signedInScId === '92' ||signedInScId === '75'||signedInScId === '196') && $index === lsHistoryData.length-1"><button type="button" class="btn btn-info btn-sm pull-right feedbackAddBtn" aria-pressed="true"  data-toggle="modal" data-toggle="tooltip" title="Create Future Reminder" ng-click="createFutureReminder(history)">
+                  <span class="glyphicon glyphicon-plus-sign"></span> Add
+                </button></td>
+                          </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="activeDeactivePhoneModal" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- TeleCaller Modal content-->
+    <div class="modal-content">
+      <div class="modal-header teleCallerDashboardModalHeader">
+        <button type="button" class="close" data-dismiss="modal" ng-click="clearActiveInactiveModal()">&times;</button>
+        <h4 class="modal-title"><center>Make Primary / Deactivate Mobile</center></h4>
+      </div>
+      <div class="modal-body">
+        <div class="radio-inline">
+            <!-- <label style="font-size:13px;" class="teleCallingDashBoardRadio-custom-label">
+              <input type="radio" class="teleCallingDashBoardRadio-custom" name="teleCallingOption" value="active" ng-model="phoneObj.mobileStatus" ng-click="getUpdateMobileStatus(currentMobile,tcAppointmentData,'','active')">
+              <span>Activate Mobile No.</span>
+            </label> -->
+        <div class="row">
+          <div class="col-md-12 col-sm-12">
+            <div class="">
+              <span class="apptDetailTextHeaderStyle">Customer Mobile : </span><span class="apptDetailTextStyle"> {{mobileDisplay}}  
+              <b ng-if="primaryStatus">(Primary)</b></span>
+            </div>
+          </div>
+        </div><br>
+             <label style="font-size:13px;" class="teleCallingDashBoardRadio-custom-label">
+              <input type="radio" class="teleCallingDashBoardRadio-custom" name="teleCallingOption" value="primary" ng-model="phoneObj.mobileStatus" ng-click="getUpdateMobileStatus(currentMobile.substr(0,10),tcAppointmentData,'','primary')">
+              <span>Make Primary</span>
+            </label>
+             <label style="font-size:13px;" class="teleCallingDashBoardRadio-custom-label">
+              <input type="radio" class="teleCallingDashBoardRadio-custom" name="teleCallingOption" value="inactive" ng-model="phoneObj.mobileStatus" ng-click="getUpdateMobileStatus(currentMobile.substr(0,10),tcAppointmentData,'','inactive')">
+              <span>Deactivate Mobile Number</span>
+            </label>
+          </div>
+           <center class="text-success" ng-if="editPhoneSuccessMsg">{{editPhoneSuccessMsg}}</center>
+          <center class="text-danger" ng-if="editPhoneErrorMsg">{{editPhoneErrorMsg}}</center>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="modal fade" id="editPhoneModal" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- TeleCaller Modal content-->
+    <div class="modal-content">
+      <div class="modal-header teleCallerDashboardModalHeader">
+        <button type="button" class="close" data-dismiss="modal" ng-click="clearUpdateMsg()">&times;</button>
+        <h4 class="modal-title"><center>Add Phone</center></h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6 col-sm-6">
+            <div class="col-sm-11">
+              <span class="apptDetailTextHeaderStyle">Customer Name : </span><span class="apptDetailTextStyle"> {{tcAppointmentData.customer_name}}</span>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-6">
+            <div class="col-sm-11">
+              <span class="apptDetailTextHeaderStyle">Customer Mobile : </span><span class="apptDetailTextStyle"> {{tcAppointmentData.customer_mobile}}</span>
+            </div>
+          </div>
+        </div><br>
+
+        <form name="editPhoneForm" novalidate ng-submit="editPhoneNumber(phoneObj.updatedPhoneNumber,tcAppointmentData,phoneObj.defaultNumberStatus,'new')">
+
+          <div class="form-group col-md-12 col-sm-12">
+            <input type="number" class="form-control teleCallingUpdateStatusInputStyle" ng-model="phoneObj.updatedPhoneNumber" name="mobile" placeholder="Enter Alternate Phone Number" required ng-maxlength="10" ng-minlength="10"/>
+            <span ng-show="editPhoneForm.mobile.$dirty && editPhoneForm.mobile.$error.minlength || editPhoneForm.mobile.$error.maxlength" class="help-block validationMsg">Enter 10 digit mobile number</span></center>
+          </div>
+
+          <div class="form-group col-md-12 col-sm-12">
+            <input type="text" class="form-control teleCallingUpdateStatusInputStyle" ng-model="tcAppointmentData.customer_name" name="customerName" placeholder="Enter Alternate Customer Name" required/>
+          </div>
+
+          <div class="form-group col-md-12 col-sm-12"> 
+          <div class="col-md-8 col-sm-8">
+             <span class="">Would you like to make this No. as Primary? </span>
+          </div>
+          <div class="col-md-4 col-sm-4">
+          <label style="font-size:13px;" class="teleCallingDashBoardRadio-custom-label">
+                  <input type="radio" class="teleCallingDashBoardRadio-custom" name="feedbackWalkin" ng-model="phoneObj.defaultNumberStatus" value="Yes" ng-click="getDefaultNumberStatus('Yes')" required>
+                  <span>Yes</span>
+                </label>
+                <label style="font-size:13px;" class="teleCallingDashBoardRadio-custom-label">
+                  <input type="radio"  class="teleCallingDashBoardRadio-custom"  name="feedbackWalkin" ng-model="phoneObj.defaultNumberStatus" value="No" ng-click="getDefaultNumberStatus('No')" required>
+                  <span>No</span>
+                </label>
+              </div>
+              </div>
+
+          <div class="row">
+            <div class="form-group col-md-12 col-sm-12">
+              <center>
+                <button type="submit" class="btn teleCallerDashboardModalBtn" ng-disabled="editPhoneForm.$invalid">Submit</button> <!--onclick="$('#teleCallingStatusUpdateModal').modal('hide')"-->
+              </center>
+             </div>
+          </div>
+          <center class="text-success" ng-if="editPhoneSuccessMsg">{{editPhoneSuccessMsg}}</center>
+          <center class="text-danger" ng-if="editPhoneErrorMsg">{{editPhoneErrorMsg}}</center>
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</div>
+
+<!-- <canvas id="outreach" class="chart chart-bar" 
+        chart-labels="weeklyChart.labels" 
+        chart-data="weeklyChart.data" 
+        chart-series="weeklyChart.series"
+        chart-colors="weeklyChart.colors"
+        chart-options="weeklyChart.options"
+          chart-dataset-override="datasetOverrideWeekly"
+        ></canvas> -->
+
+
+

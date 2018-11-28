@@ -1,0 +1,256 @@
+<style type="text/css">
+	.profilePanel{
+   		border-left: 6px solid #0083CA;
+   		padding: 30px 30px 30px 15px;
+   		box-shadow: 0 0 5px rgb(210, 213, 219) ;
+ 	}
+ 	.callerSelect{
+   		-webkit-border-radius: 15px !important;
+	   	-moz-border-radius: 15px !important;
+	   	height: 30px;
+	   	width: 80%;
+	   	font-size: 13px;
+	   	margin-top: 10px;
+	   	border-radius: 15px !important;
+	   	border:1px solid #0083ca ;
+	   	background-color: #FFFFFF;
+	   	outline:0;
+ 	}
+ 	.panelofcard {
+    	box-shadow: 0 5px 10px rgb(210, 213, 219);
+    	height: auto;
+  	}
+  	.panelofcard .headerOfCard {
+    	color: black;
+    	background-color: #e3f9ef;
+    	padding: 1px 0 5px 5px;
+    	margin: 0px 0px 15px 0px;
+  	}
+  	.ticketResponses{
+  		padding-left: 5px;
+  		padding-right: 5px;
+  	}
+  	table {
+    	border-collapse: collapse;
+    	width: 100%;
+    	box-shadow: 1px 1px 2px rgb(210, 213, 219) , 0 0 25px rgb(210, 213, 219) , 0 0 5px rgb(210, 213, 219) ;
+   		font-style: montserrat;
+   		font-size: 12px;
+  	}
+  	th, td {
+    	text-align: center;
+    	padding: 12px;
+    	color:#424242;
+    	font-size: 13px;
+    	font-weight: 500;
+  	}
+  	tr:nth-child(even){
+  		background-color: #f9f9f9;
+  	}
+  	.statsTable th{
+    	background-color: #E3F2FD;
+    	color:#0083ca;
+    	font-weight: 500;
+  	}
+  	.statsTable{
+    	margin-top:-20px;
+  	}
+    .creDataMinimiseBtn {
+    outline: 0 !important;
+    border:none !important;
+    padding:0px 0px 0px 0px;
+  }
+</style>
+<div class="header">
+  <div class="navbar navbar-default mainheader" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <img ng-if="!signedInUserPic" src="https://s3-us-west-2.amazonaws.com/bikedetailimages/logo_footer.png" width="90px" height="60px" style="padding:10px 10px 10px 10px;"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+  	<div class="col-md-3"></div>
+  	<div class="col-md-6">
+  	  <table class="table-responsive statsTable">
+  	  	<thead>
+  	  	  <th>Dealer Name</th>
+  	  	  <th>Total Open tickets</th>
+  	  	</thead>
+  	  	<tbody>
+  	  	  <tr ng-repeat="openTickets in dealerTicketStats" ng-if="openTickets.openTicketCount > 0">
+  	  	  	<td>{{openTickets.dealerName}}</td>
+  	  	  	<td>{{openTickets.openTicketCount}}
+              <span class="btn creDataMinimiseBtn"><img ng-if="openTickets.openTicketCount !== '0'" ng-click="calculateTicketsStats(openTickets,'open')" src="images/plus-new.png" style="width: 22px"></span>
+            </td>
+  	  	  </tr>
+  	  	</tbody>
+  	  </table>
+  	</div>
+  	<div class="col-md-3"></div>
+    </div><br>
+
+  <div class="row">
+	<div class="col-md-6">
+	  <div class="profilePanel">
+	    <h4><b>Select Dealer Here</b></h4>
+	    <form name="retrieveTicketsForm" ng-submit="retrieveTickets(ticketObj)" novalidate>
+	      <center>
+	        <div class="form-group">
+          	  <div class="">
+            	<select class="form-control teleCallingUpdateStatusInputStyle" style="font-size:13px;" ng-model="ticketObj.selectedEmail" name="dealerData" ng-options="dealer.email as dealer.scName for dealer in dealerList" ng-change="getSelectedDealer(ticketObj.selectedEmail)">
+              	  <option value="">Select Dealer</option>
+            	</select>
+              </div>
+        	</div>
+	        <button type="submit" class="btn btn-primary" id="filterButton" ng-if="ticketObj.selectedEmail">Retrieve Tickets</button>
+	      </center>
+	    </form>
+	  </div>
+	</div>
+	
+	<div class="col-md-6">
+	  <div class="profilePanel">
+	  	<h4><b>Lets Service Team Internal Tickets</b></h4>
+	  	<form name="retrieveTicketsManuallyForm" ng-submit="retrieveTicketsManually(ticketData)" novalidate>
+	      <center>
+	        <div class="form-group">
+	          <div class="" >
+	            <input class="form-control teleCallingUpdateStatusInputStyle" type="email" name="ticketEmail" ng-model="ticketData.ticketEmail" placeholder="Enter requester email address."/>
+	          </div>
+	        </div>
+	        <button type="submit" class="btn btn-primary" id="filterButton" ng-if="ticketData.ticketEmail">Retrieve Tickets</button>
+	      </center>
+	  	</form>
+      </div>	
+	</div>
+  </div><br>
+
+  <div ng-repeat="items in ticketDetails" ng-if="successMsg">
+	<div class="panelofcard">
+	  <div class="row headerOfCard">
+		<div class="col-sm-9" style="border-right: 1.5px solid  #02b7bd">
+		  <h4><b>Subject : {{items.subject}}</b></h4>
+			<p><b>Requested by :</b> {{items.custom_fields.cf_requester_name}} </p>
+		</div>
+		<div class="col-sm-3">
+		  <p align="left" style="margin-top: 8px;"><b>Ticket ID : </b>{{items.id}}</p>
+		  <p align="left" style="margin-top: 3px;"><b>Status : </b>{{items.status}}</p>
+		</div>
+  	  </div> 
+	
+	  <div class="row">
+	  	<div class="col-sm-12">
+	  	  <p style="padding-left: 20px;"><b>Description : </b></p>
+	  	  <p style="padding-left: 20px;">{{items.description_text}}</p>
+	  	</div>
+	  	<div class="col-sm-12">
+		  <center>
+		    <button class="btn btn-primary" data-target="#viewFullTicketModal" data-toggle="modal" ng-click="getParticularTicketFullDetails(items)">View full details</button>
+		  </center><br>
+	  	</div>
+	  </div>
+  	</div> <br>
+  </div>
+
+  <center class="alert alert-danger" ng-if="noTicketMsg">{{noTicketMsg}}</center>
+
+  <div class="modal fade" id="viewFullTicketModal" role="dialog">
+	<div class="modal-dialog modal-lg">
+	  <div class="modal-content">
+      	<div class="modal-header teleCallerDashboardModalHeader">
+          <button type="button" class="close" data-dismiss="modal" ng-click="">&times;</button>
+        	<h4 class="modal-title"><center>Subject :- {{updateObj.updatedSubject}}</center></h4>
+      	</div>
+      	<div class="modal-body">
+   		  <div class="row">
+      		<div class="col-sm-12">
+      		  <p>
+      			<b>Ticket ID:</b> {{updateObj.updatedId}}
+      		  </p>
+      		  <p>
+      			<b>Description</b>
+      		  </p>
+      		  <p>{{updateObj.updatedDescription}}
+      		  </p>
+      		  <div class="ticketResponses">
+      		    <center>
+      		      <h4><b>Conversations</b></h4>
+      		      <center class="alert alert-danger" ng-if="noConversationMsg">{{noConversationMsg}}</center>
+      		    </center>
+      		    <div ng-repeat="replies in ticketFullDetails track by $index">
+      		  	  <div class="panelofcard">
+      			    <div class="row headerOfCard">
+				      <div class="col-sm-6">
+		  			    <p><b>From :</b> {{replies.from_email}} </p>
+				      </div>
+				      <div class="col-sm-6" style="border-left: 1.5px solid  #02b7bd">
+		  			    <span><b>To : </b>
+		  			    	<p ng-repeat="email in replies.to_emails">{{email}}</p></span>
+				      </div>
+  	  			    </div>
+  	  			    <div style="margin:0 10px 0px 10px;">
+  	  			  	  <p><b>Response</b></p>
+  	  			  	  <p style="padding-bottom: 5px;">{{replies.body_text}}</p>
+  	  			    </div> 
+      			  </div><br>
+      		    </div>
+      		  </div>
+      		</div>
+      	  </div><br>
+      	  <!-- <center class="alert alert-success" ng-if="successMsg">{{successMsg}}</center>
+      	  <center class="alert alert-danger" ng-if="errorMSg">{{errorMSg}}</center> -->
+      	</div>
+	  </div>
+	</div>
+  </div>
+
+
+   <div class="modal fade" id="openTicketModal" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header teleCallerDashboardModalHeader">
+          <button type="button" class="close" data-dismiss="modal" ng-click="">&times;</button>
+          <h4 class="modal-title"><center>{{openTickets.dealerName}} Open Tickets</center></h4>
+        </div>
+        <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-12">
+              <div ng-repeat="items in openTicketData">
+  <div class="panelofcard">
+    <div class="row headerOfCard">
+    <div class="col-sm-9" style="border-right: 1.5px solid  #02b7bd">
+      <h4><b>Subject : {{items.subject}}</b></h4>
+      <p><b>Requested by :</b> {{items.custom_fields.cf_requester_name}} </p>
+    </div>
+    <div class="col-sm-3">
+      <p align="left" style="margin-top: 8px;"><b>Ticket ID : </b>{{items.id}}</p>
+      <p align="left" style="margin-top: 3px;"><b>Status : </b>{{items.status}}</p>
+    </div>
+      </div> 
+  
+    <div class="row">
+      <div class="col-sm-12">
+        <p style="padding-left: 20px;"><b>Description : </b></p>
+        <p style="padding-left: 20px;">{{items.description_text}}</p>
+      </div>
+    </div>
+    </div> <br>
+  </div>
+          </div>
+          </div><br>
+        </div>
+    </div>
+  </div>
+  </div>
+
+  <div class="loader" ng-if="loaderIcon === true">
+    <center>
+      <img src="images/Loading_2.gif" style="width: 12%;">
+    </center>
+  </div>
+
+</div>

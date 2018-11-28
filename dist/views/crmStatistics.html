@@ -1,0 +1,67 @@
+<style>.crmAdminTableDataPadding{
+    padding:10px 10px 10px 10px;
+    margin-top:-3%;
+  }
+   table {
+      border-collapse: collapse;
+      width: 100%;
+      box-shadow: 1px 1px 2px rgb(210, 213, 219) , 0 0 25px rgb(210, 213, 219) , 0 0 5px rgb(210, 213, 219) ;
+     font-style: montserrat;
+      font-size: 12px;
+    }
+
+    th, td {
+      text-align: center;
+      padding: 12px;
+      color:#424242;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    tr:nth-child(odd){background-color: #f9f9f9;}
+
+    .statsTableDetailed th {
+      background-color: #E3F2FD;
+      color:#0083CA;
+      /*color:#9E9E9E;*/
+      font-weight: 500;
+      /*border-bottom: 2px solid #0083CA;*/
+    }
+    .statsTable th{
+      background-color: #E3F2FD;
+      color:#0083CA;
+      /*color:#9E9E9E;*/
+      font-weight: 500;
+    }
+
+    .at{
+      float:left;
+      margin-left:1%;
+      margin-bottom:1%;
+      text-align: center;
+      font-size: 12px;
+      line-height: 30px;
+      width:24%;
+      display: block;
+      background-color: #E3F2FD;
+      color: #0D47A1;
+      border-left: 3px solid #0D47A1;
+    }
+    .MTDStyle{
+      float:left;
+      margin-left:1%;
+      margin-bottom:1%;
+      text-align: center;
+      font-size: 12px;
+      line-height: 30px;
+      width:23%;
+      display: block;
+      background-color: #E3F2FD;
+      color: #0D47A1;
+      border-left: 3px solid #0D47A1;
+    }
+    .active123{
+   background-color: #E3F2FD;
+}</style> <div class="container-fluid"> <div class="panel-body"> <div class="row"> <div class="row crmAdminTableDataPadding"> <center><label class="callerDashboardStatsLableStyle">Current Month Caller Stats</label></center><br> <li class="at"><span>AT - Appointment Taken</span></li> <li class="at"><span>AT(NC) - Appointment Taken (Non Converted)</span></li> <li class="at"><span>SD- Service Done</span></li> <li class="MTDStyle"><span>MTD - Month Till Date</span></li> <div class="col-sm-12 col-sm-12"><br> <!--<button type="button" class="btn btn-sm btn-info creDataMinimiseBtnTop pull-right" ng-click="minimiseCreData()"><i ng-class="{'glyphicon glyphicon-minus':creDahboardData === true,'glyphicon glyphicon-plus':creDahboardData == false}"></i></button>--> <table class="table-responsive statsTable"> <!--ng-show="creDahboardData" --> <thead> <th>Data Type <th>Allocated <th>Attempted  <th>Connected <th>Call Later <th>Not Interested <th>SD <th>AT <th>AT (NC) <th>Pending Calls <th>MTD Conversion  <tbody> <!--<center class="text-danger" ng-if="creDashboardDataErrorMsg">{{creDashboardDataErrorMsg}}</center>--> <tr ng-repeat="stats in creDashboardData" ng-class="{active123: stats.dataTypename === 'Total'}" style="font-weight: normal"> <td class="info">{{stats.dataTypename}} <td>{{stats.allocated}} <td>{{stats.totalAttempted}} <td>{{stats.connectedCount}} <td>{{stats.callLaterCount}} <td>{{stats.notInterested}} <td>{{stats.serviceDone}} <td>{{stats.appointmentTaken}} <td>{{stats.nonConverted}} <td>{{stats.pendingCount}} <td>{{stats.MTDConversion}}  <!--<tr>--> <!--&lt;!&ndash;<th class="success">Total</th>&ndash;&gt;--> <!--&lt;!&ndash;<td ng-repeat="stats in dataTypeStats">{{stats.notInterestedCount}}</td>&ndash;&gt;--> <!--</tr>-->  </table> </div> </div> </div> <br> <div class="row crmAdminTableDataPadding1"> <div class="col-sm-6"> <div class="text-center dashboardStatusGraphPanel"> <div class="panel-body"> <div class="dashbord_chart"> <div id="serviceCentrePDGraph"> <center><label class="adminGraphLableStyle"><!--{{selectedCallerName}} -->Today's Hour Wise Stats <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Today's call stats"></i></label> <div class="col-sm-4 pull-right" style="margin-right:-15%"> <select class="form-control teleCallingUpdateStatusInputStyle" style="height:30px;font-size:12px" ng-model="currentHourStatus" name="statusData" ng-options="obj.name as obj.name for obj in statusLables" ng-click="getStatusWiseHourStats(currentHourStatus,'daily')"> </select> </div> </center> <center><span ng-if="dataErrorMsgHourWise">No Data</span></center> <div class="loader" ng-if="loaderIconHourWise"> <center> <img src="images/Loading_2.d4563d67.gif" style="width: 12%"> </center> </div> <!-- <canvas id="line" class="chart-bar adminPickAndWalkinGraphAlign" chart-data="callsCountData" height="100" chart-labels="hourLables" chart-series="calStatsSeries" chart-colors="calStatsColors" chart-options="options">
+              </canvas> --> <canvas ng-if="!dataErrorMsgHourWise" id="outreach" height="120" class="chart chart-bar" chart-labels="hourWiseChart.labels" chart-data="hourWiseChart.data" chart-series="hourWiseChart.series" chart-colors="hourWiseChart.colors" chart-options="hourWiseChart.options" chart-dataset-override="datasetOverrideHourWiseData"></canvas> <center ng-if="!dataErrorMsgHourWise" style="font-size:12px"> <div class="trackAppointmentColorCoding">Total Counts : </div> <div class="trackAppointmentColorCoding">Attempted-{{totalcallsAttemptedHourly}}</div> <div class="trackAppointmentColorCoding">Connected-{{totalcallsConnectedHourly}}</div> <div class="trackAppointmentColorCoding">Appointments-{{totalAppointmentsTakenHourly}}</div> </center> </div> </div> </div> </div><br> </div> <div class="col-sm-6"> <div class="text-center dashboardStatusGraphPanel"> <div class="panel-body"> <div class="dashbord_chart"> <div id="serviceCentrePDGraph"> <center><label class="adminGraphLableStyle"> <!--{{selectedCallerName}} -->Last 7 Day's Stats <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Last 7 days call stats"></i></label> <div class="col-sm-4 pull-right" style="margin-right:-15%"> <select class="form-control teleCallingUpdateStatusInputStyle" style="height:30px;font-size:12px" ng-model="currentWeeklyStatus" name="statusData" ng-options="obj.name as obj.name for obj in statusLables" ng-click="getStatusWiseHourStats(currentWeeklyStatus,'weekly')"> </select> </div> </center> <center><span ng-if="dataErrorMsgWeekWise">No Data</span></center> <div class="loader" ng-if="loaderIconWeeklyWise"> <center> <img src="images/Loading_2.d4563d67.gif" style="width: 12%"> </center> </div> <!-- <canvas id="line" class="chart-bar adminPickAndWalkinGraphAlign" chart-data="callsCountDataWeekly" height="100" chart-labels="weeklyLables" chart-series="calStatsSeriesWeekly" chart-colors="calStatsColorsWeekly" chart-options="options">
+              </canvas> --> <canvas ng-if="!dataErrorMsgWeekWise" id="outreach" height="120" class="chart chart-bar" chart-labels="weeklyChart.labels" chart-data="weeklyChart.data" chart-series="weeklyChart.series" chart-colors="weeklyChart.colors" chart-options="weeklyChart.options" chart-dataset-override="datasetOverrideWeeklyData"></canvas> <center ng-if="!dataErrorMsgWeekWise" style="font-size:12px"> <div class="trackAppointmentColorCoding">Total Counts : </div> <div class="trackAppointmentColorCoding">Attempted-{{totalcallsAttemptedWeekly}}</div> <div class="trackAppointmentColorCoding">Connected-{{totalcallsConnectedWeekly}}</div> <div class="trackAppointmentColorCoding">Appointments-{{totalAppointmentsTakenWeekly}}</div> </center> </div> </div> </div> </div> </div> </div> </div> <div class="loader" ng-if="loaderIcon === true"> <center><img src="images/Loading_2.d4563d67.gif" style="width: 12%"></center> <!--<center><p>LetsService - Please Wait</p></center>--> </div> </div>

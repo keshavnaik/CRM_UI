@@ -1,0 +1,400 @@
+<style>
+  .panelStyle{
+    margin: 0px 2px 10px 2px;border: none !important; box-shadow:1px 1px 2px rgb(210, 213, 219) , 0 0 25px rgb(210, 213, 219) , 0 0 5px rgb(210, 213, 219) ;
+  }
+  .panelSpacing{
+    padding:0px 0px 0px 25px;
+  }
+  .dealerRegLableText{
+    font-size: 14px;
+    font-weight: 100;
+    color: grey;
+    margin-left: 4%;
+  }
+  .input-group-addon.adminInput {
+    border:0 solid transparent;
+    background:transparent;
+    color: #009edf;
+    font-size: 17px;
+  }
+  .adminInputStyle{
+    -webkit-border-radius: 15px !important;
+    -moz-border-radius: 15px !important;
+    border-radius: 15px !important;
+    border:1px solid #0083ca ;
+  }
+
+  span.validationMsg {
+    color : maroon;
+    padding-left: 10%;
+  }
+
+  /*#apptMainHeader{
+    background-color: #0083ca;font-size: 18px;color: white;
+  }*/
+  #formButton{
+    background-color:  #0083ca;
+    color:#FFFFFF;
+    padding: 3px 30px 3px 30px;
+    border-radius: 15px;
+    outline: 0;
+    border:none !important;
+  }
+  .loader{
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 15%;
+    width: 50%;
+    margin: -12% 0 0 -27%;
+    z-index: 999;
+    color:#0083ca;
+  }
+
+ /* .footer{
+background-color: #212121;
+color:white;
+text-align: center;
+width: 100%;
+}*/
+  
+/*
+.mainheader {
+background-color:#273542 !important;
+color: #FFFFFF;
+border: 0px !important;
+border-radius: 0 !important;
+border-bottom:1px solid #e7e7e7 !important;
+}*/
+
+.teleCallingDashBoardRadio-custom {
+  position: absolute;
+  opacity: 0;
+}
+
+.teleCallingDashBoardRadio-custom-label {
+  cursor: pointer;
+  line-height: 2.5;
+  font-weight: normal;
+  margin-right: 20px;
+}
+
+.teleCallingDashBoardRadio-custom + span:before {
+  content: '';
+  display: inline-block;
+  width: 1.15em;
+  height: 1.15em;
+  vertical-align: -0.25em;
+  border-radius: 1em;
+  border: 0.215em solid #fff;
+  box-shadow: 0 0 0 0.15em #d3d3d3;
+  margin-right: 10px;
+}
+
+.teleCallingDashBoardRadio-custom:checked + span:before {
+  background: #7AA3CC;
+  box-shadow: 0 0 0 0.18em #7AA3CC;
+}
+</style>
+<body ng-controller="crmAdminCtrl">
+   
+<div class="header">
+  <div class="navbar navbar-default mainheader" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <img ng-if="!signedInUserPic" src="https://s3-us-west-2.amazonaws.com/bikedetailimages/logo_footer.png" width="90px" height="60px" style="padding:10px 10px 10px 10px;"/>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+
+  <div class="col-sm-12 col-sm-12">
+    <div class="panel panel-default panelStyle">
+      <div class="panel-heading" id="apptMainHeader"><center>CRM Creation</center></div>
+      <div class="panel-body" style="margin-top:1%;">
+        <div class="row panelSpacing">
+          <form name="form" ng-submit="sendCrmData(createAppointment)">
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="col-sm-11">
+                  <label for="customername" class="dealerRegLableText">User Name <strong class="mandatoryFieldsColor">*</strong></label>
+                  <div class="input-group">
+                    <span class="input-group-addon adminInput"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                    <input type="text" class="form-control adminInputStyle" name="customername" id="customername" ng-model="createAppointment.username"  placeholder="Enter your Name" ng-blur="convertTitleCase(createAppointment.username)"
+                           required/>
+                    <span ng-show="form.customername.$dirty && form.customername.$error.required" class="help-block validationMsg">User Name is required</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="col-sm-11">
+                  <label for="password" class="dealerRegLableText">Password  <strong class="mandatoryFieldsColor">*</strong></label>
+                  <div class="input-group">
+                    <span class="input-group-addon adminInput"><i class="glyphicon glyphicon-lock" aria-hidden="true"></i></span>
+                    <input type="password" class="form-control adminInputStyle" name="password" id="password" ng-model="createAppointment.password"  placeholder="Enter your password"
+                           required/>
+                    <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block validationMsg">Password is required</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="col-sm-11">
+                  <label for="useremail" class="dealerRegLableText">Email  <strong class="mandatoryFieldsColor">*</strong></label><div class="input-group">
+                  <span class="input-group-addon adminInput"><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i></span>
+                  <input type="text" class="form-control adminInputStyle" name="useremail" id="useremail" ng-model="createAppointment.email" placeholder="Enter emails comma separated" required/>
+                  <span ng-show="form.useremail.$dirty && form.useremail.$error.required" class="help-block validationMsg">Email is required</span>
+             <!--     <span ng-show="form.useremail.$dirty && form.useremail.$error.email" class="help-block validationMsg">Enter a Valid Email</span>
+            -->    </div>
+                </div>
+              </div>
+
+
+            </div><br>
+
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="col-sm-11">
+                  <label for="mobile" class="dealerRegLableText">Mobile  <strong class="mandatoryFieldsColor">*</strong></label><div class="input-group">
+                  <span class="input-group-addon adminInput"><i class="glyphicon glyphicon-phone" aria-hidden="true"></i></span>
+                  <input type="text" class="form-control adminInputStyle" ng-model="createAppointment.mobile" placeholder="Enter numbers comma separated" ng-blur="validateMobileNumber(createAppointment.mobile)"  ng-minlength="10"  required/>
+                  <span ng-show="form.mobile.$dirty && form.mobile.$error.required" class="help-block validationMsg">Mobile Number is required</span>
+              <!--    <span ng-show="form.mobile.$dirty && form.mobile.$error.minlength || form.mobile.$error.maxlength" class="help-block validationMsg">Enter 10 digit mobile number</span>
+              -->  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-4">
+                <div class="col-sm-11">
+                  <label for="callerCount" class="dealerRegLableText">Caller Count <strong class="mandatoryFieldsColor">*</strong></label>
+                  <div class="input-group">
+                    <span class="input-group-addon adminInput"><i class="fa fa-phone" aria-hidden="true"></i></span>
+                    <input type="number" class="form-control adminInputStyle" name="callerCount" id="callerCount" ng-model="createAppointment.numOfCallers"  placeholder="Enter count" ng-blur="convertTitleCase(createAppointment.username)"
+                           required/>
+                    <span ng-show="form.callerCount.$dirty && form.callerCount.$error.required" class="help-block validationMsg">Caller Count is required</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-4">
+                <div class="col-sm-11">
+                  <label for="branch" class="dealerRegLableText">Branch <strong class="mandatoryFieldsColor">*</strong></label>
+                  <div class="input-group">
+                    <span class="input-group-addon adminInput"><i class="glyphicon glyphicon-wrench" aria-hidden="true"></i></span>
+                    <input type="text" class="form-control adminInputStyle" name="branch" id="branch" ng-model="createAppointment.branchNames"  placeholder="Enter branches comma separated" ng-blur="validateBranch(createAppointment.branch)"
+                           required/>
+                    <span ng-show="form.branch.$dirty && form.branch.$error.required" class="help-block validationMsg">Branch is required</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            
+<br>
+
+              <div class="row">
+               <div class="col-sm-4">
+                <div class="col-sm-11">
+                  <label for="branch" class="dealerRegLableText">Bike Brand <strong class="mandatoryFieldsColor">*</strong></label>
+                  <div class="input-group">
+                    <span class="input-group-addon adminInput"><i class="glyphicon glyphicon-wrench" aria-hidden="true"></i></span>
+                   <select class="form-control adminInputStyle" ng-model="createAppointment.bikeBrandName" name="serviceCenterData"
+                              ng-options="obj.value as obj.value for obj in bikeBrands" required>
+                        <option value="">Select Bike Brand</option>
+                      </select> </div>
+                </div>
+              </div>
+               
+          <div class="col-sm-4" ng-if="createAppointment.bikeBrandName === 'Royal Enfield'">
+                <div class="col-sm-11">
+                  <label for="branch" class="dealerRegLableText">Zone<strong class="mandatoryFieldsColor">*</strong></label>
+                  <div class="input-group">
+                    <span class="input-group-addon adminInput"><i class="glyphicon glyphicon-wrench" aria-hidden="true"></i></span>
+                   <select class="form-control adminInputStyle" ng-model="createAppointment.zone" name="serviceCenterData"
+                              ng-options="obj.key as obj.name for obj in zones" required>
+                        <option value="">Select Zone</option>
+                      </select> </div>
+                </div>
+              </div>
+             
+           
+              <div class="col-sm-4">
+                <div class="col-sm-11">
+                  <label for="branch" class="dealerRegLableText">Logic <strong class="mandatoryFieldsColor">*</strong></label>
+                  <div class="input-group">
+                    <span class="input-group-addon adminInput"><i class="glyphicon glyphicon-wrench" aria-hidden="true"></i></span>
+                   <select class="form-control adminInputStyle" ng-model="createAppointment.logic" name="serviceCenterData"
+                              ng-options="obj.key as obj.name for obj in logics" required>
+                        <option value="">Select Logic</option>
+                      </select> </div>
+                </div>
+              </div>
+               <div class="col-sm-4">
+                <div class="col-sm-11">
+                  <label for="branch" class="dealerRegLableText">Valid From Date <strong class="mandatoryFieldsColor">*</strong></label>
+                  <div class="input-group">
+                     <span class="input-group-addon adminInput"></span>
+                   <input type="textbox" class="form-control teleCallingUpdateStatusInputStyle" datetime-picker="yyyy-MM-dd" enable-time="false" ng-click="openCalendar($event,'FromDate')" min-date="minDate" ng-model="createAppointment.validFromDate" is-open="isOpenFrom" placeholder="Valid From Date" required>
+                 </div>
+                </div>
+              </div>
+</div><br>
+
+               <div class="row">
+
+               <div class="col-sm-4">
+                <div class="col-sm-11">
+                  <label for="branch" class="dealerRegLableText">Valid To Date <strong class="mandatoryFieldsColor">*</strong></label>
+                  <div class="input-group">
+                     <span class="input-group-addon adminInput"></span>
+                   <input type="textbox" class="form-control teleCallingUpdateStatusInputStyle" datetime-picker="yyyy-MM-dd" enable-time="false" ng-click="openCalendar($event,'ToDate')" min-date="minValidToDate" ng-model="createAppointment.validToDate" is-open="isOpenTo" placeholder="Valid To Date" required>
+                 </div>
+                </div>
+              </div>
+
+              <div class="col-sm-4">
+                  <div class="col-sm-11">
+                  <label for="branch" class="dealerRegLableText">Admin OTP feature <strong class="mandatoryFieldsColor">*&nbsp;&nbsp;&nbsp;</strong></label>
+                
+               <label style="font-size:13px;" class="teleCallingDashBoardRadio-custom-label">
+                  <input type="radio" class="teleCallingDashBoardRadio-custom" name="feedbackWalkin" ng-model="createAppointment.otpAccess" value="Yes" ng-click="getSMSTriggerStatus('Yes')" required>
+                  <span>Yes</span>
+                </label>
+                <label style="font-size:13px;" class="teleCallingDashBoardRadio-custom-label">
+                  <input type="radio"  class="teleCallingDashBoardRadio-custom"  name="feedbackWalkin" ng-model="createAppointment.otpAccess" value="No" ng-click="getSMSTriggerStatus('No')" required>
+                  <span>No</span>
+                </label>
+                
+               </div>
+             </div>
+
+             <div class="col-sm-4">
+                  <div class="col-sm-11">
+                  <label for="branch" class="dealerRegLableText">IP Based Login <strong class="mandatoryFieldsColor">*&nbsp;&nbsp;&nbsp;</strong></label>
+               <label style="font-size:13px;" class="teleCallingDashBoardRadio-custom-label">
+                  <input type="radio" class="teleCallingDashBoardRadio-custom" name="feedbackWalkin1" ng-model="createAppointment.ipLoginAccess" value="Yes" ng-click="getIpLoginStatus('Yes')" required>
+                  <span>Yes</span>
+                </label>
+                <label style="font-size:13px;" class="teleCallingDashBoardRadio-custom-label">
+                  <input type="radio"  class="teleCallingDashBoardRadio-custom"  name="feedbackWalkin1" ng-model="createAppointment.ipLoginAccess" value="No" ng-click="getIpLoginStatus('No')" required>
+                  <span>No</span>
+                </label>
+               </div>
+             </div>
+
+              
+            </div><br>
+    
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="col-sm-11">
+                  <center>
+                  <button type="submit" id="formButton" class="btn btn-primary" ng-disabled="form.$invalid" ng-show="!tcUploadForm.$invalid">Submit</button>
+                  </center>
+                </div>
+              </div>
+            </div><br>
+          </form>
+           <!--<center class="text-danger">{{crmCredentialsErrorMsg}}</center>
+          <div class="alert alert-info" ng-if="crmCredentialsSuccessMsg">
+            <center>{{crmCredentialsSuccessMsg}}</center>
+          </div>-->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-12 col-sm-12" style="margin-top:2%;">
+    <div class="panel panel-default panelStyle">
+      <div class="panel-heading" id="apptMainHeader"><center>CRM Branch Details</center></div>
+      <div class="panel-body" style="margin-top:1%;">
+        <div class="row panelSpacing">
+          <form name="detailsForm" ng-submit="sendCrmDetailsData(crmRequest)">
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="col-sm-11">
+                  <label for="branch" class="dealerRegLableText">Branch  <strong class="mandatoryFieldsColor">*</strong></label>
+                  <div class="input-group">
+                    <span class="input-group-addon adminInput"><i class="glyphicon glyphicon-wrench" aria-hidden="true"></i></span>
+                    <select class="form-control adminInputStyle" ng-model="crmRequest.branchId" name="serviceCenterData"
+                            ng-options="sc.scId as sc.scName for sc in serviceCenter" required>
+                      <option value="">Select Service Center</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-4">
+                <div class="col-sm-11">
+                  <label for="branch" class="dealerRegLableText">Servive Center Tied up ?  <strong class="mandatoryFieldsColor">*</strong></label>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <label class="radio-inline"><input type="radio" name="serviceCenterTiedStatus" value="Yes" ng-model="crmRequest.tiedStatus" ng-required="!crmRequest.tiedStatus" ng-click="getCityWiseServiceCenter()">Yes</label>
+                    <label class="radio-inline"><input type="radio" name="serviceCenterTiedStatus" value="No" ng-model="crmRequest.tiedStatus" ng-required="!crmRequest.tiedStatus">No</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-4" ng-if="crmRequest.tiedStatus === 'Yes'">
+                <div class="col-sm-11">
+                  <label for="branch" class="dealerRegLableText">Branch  <strong class="mandatoryFieldsColor">*</strong></label>
+                  <div class="input-group">
+                    <span class="input-group-addon adminInput"><i class="glyphicon glyphicon-wrench" aria-hidden="true"></i></span>
+                    <select class="form-control adminInputStyle" ng-model="crmRequest.selectedServiceCenter" name="serviceCenterData"
+                            ng-options="sc.userId as sc.username for sc in cityWiseserviceCenterList">
+                      <option value="">Select Service Center</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+            </div><br>
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="col-sm-11">
+                  <label for="mobile1" class="dealerRegLableText">Mobile  <strong class="mandatoryFieldsColor">*</strong></label><div class="input-group">
+                  <span class="input-group-addon adminInput"><i class="glyphicon glyphicon-phone" aria-hidden="true"></i></span>
+                  <input type="text" class="form-control adminInputStyle" name="mobile1" id="mobile1" ng-model="crmRequest.mobile" placeholder="Enter numbers comma separated" ng-blur="validateMobileNumber(crmRequest.mobile)"  ng-minlength="10" required/>
+                  <span ng-show="detailsForm.mobile.$dirty && detailsForm.mobile.$error.required" class="help-block validationMsg">Mobile Number is required</span>
+              <!--    <span ng-show="detailsForm.mobile.$dirty && detailsForm.mobile.$error.minlength || form.mobile.$error.maxlength" class="help-block validationMsg">Enter 10 digit mobile number</span>
+               --> </div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="col-sm-11">
+                  <label for="useremail1" class="dealerRegLableText">Email  <strong class="mandatoryFieldsColor">*</strong></label><div class="input-group">
+                  <span class="input-group-addon adminInput"><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i></span>
+                  <input type="text" class="form-control adminInputStyle" name="useremail1" id="useremail1" ng-model="crmRequest.email" placeholder="Enter emails comma separated" required/>
+                  <span ng-show="detailsForm.useremail.$dirty && detailsForm.useremail.$error.required" class="help-block validationMsg">Email is required</span>
+             <!--     <span ng-show="detailsForm.useremail.$dirty && detailsForm.useremail.$error.email" class="help-block validationMsg">Enter a Valid Email</span>
+            -->    </div>
+                </div>
+              </div>
+            </div><br>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="col-sm-11">
+                  <center>
+                    <button type="submit" id="formButton" class="btn btn-primary" ng-disabled="detailsForm.$invalid" ng-show="!tcUploadForm.$invalid">Submit</button>
+                  </center>
+                </div>
+              </div>
+            </div><br>
+          </form>
+          <!-- <center class="text-success">{{crmDetailsSuccessMsg}}</center>-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="loader" ng-if="loading">
+    <center><span class="fa fa-spinner fa-spin" style="font-size: 48px;"></span></center>
+    <!--<center><p>LetsService - Please Wait</p></center>-->
+  </div>
+</div><br>
+<!-- 
+<div class="footer">
+      <div>
+        <center>&copy; 2015 LetsService Automotive Technologies Pvt. Ltd. All Rights Reserved<img src="https://s3-us-west-2.amazonaws.com/bikedetailimages/logo_footer.png" width="90px" height="60px" style="padding:10px 10px 10px 10px;"/></center>
+      </div>
+    </div> -->

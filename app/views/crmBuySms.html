@@ -1,0 +1,80 @@
+<style>
+  .admindDashboardPanelSpacing{
+    padding:0px 25px 0px 25px;
+  }
+  .smsPackageStyle{
+    padding:0 500px 0 500px;
+  }
+  .smsPackageFormStyle{
+    padding:0 450px 0 450px;
+  }
+  .smsPriceStyle {
+    padding: 0 170px 0 200px;
+  }
+</style>
+
+<div class="container-fluid">
+  <div class="row admindDashboardPanelSpacing">
+    <div class="col-sm-12 col-sm-12" style="margin-top: 2%;">
+      <div class="panel panel-default">
+        <div class="panel-heading" id="apptMainHeader"><center>Buy SMS</center></div>
+        <div class="panel-body">
+          <div class="form-group col-md-12 col-sm-12 smsPackageStyle">
+            <center>
+              <p class="apptDetailTextStyle">Select SMS Package</p>
+            </center>
+            <div class="crmDashboardFilterPanel">
+              <select class="form-control crmDashboardFilterPanelBorder" ng-model="selectedSmsPackage" name="statusData" ng-options="package for package in smsPackages" ng-change="getSmsPricing(selectedSmsPackage)">
+                <option value="">Select Package</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-sm-12 col-sm-12">
+            <form name="form" role="form"  class="smsPackageFormStyle">
+              <div class="form-group col-md-12 col-sm-12" ng-if="selectedSmsPackage === '>10000'" style="margin-top:4%;">
+                <input type="text" class="form-control teleCallingUpdateStatusInputStyle" id="smsPackageMore" ng-model="selectedSmsPackageMore" name="smsPackageMore" ng-blur="getSmsPricingMore(selectedSmsPackageMore)" placeholder="Enter Package" required/>
+                <span class="help-block validationMsg">{{smsMsg}}</span>
+              </div>
+            </form>
+
+            <div class="col-sm-12 col-sm-12 smsPriceStyle">
+              <div class="form-group col-md-4 col-sm-4" ng-if="smsPricing.perSmsPrice !== undefined">
+                <div class="col-sm-11">
+                  <center>
+                    <p class="apptDetailTextStyle">Price Per SMS</p>
+                  </center>
+                  <div class="crmDashboardFilterPanel" style="padding-bottom:30px;">
+                    <center>
+                      <lable class="apptDetailTextStyle">{{smsPricing.perSmsPrice}}</lable>
+                    </center>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group  col-md-4 col-sm-4" ng-if="smsPricing.perSmsPrice !== undefined">
+                <div class="col-sm-11">
+                  <center>
+                    <p class="apptDetailTextStyle">Total Amount</p>
+                  </center>
+                  <div class="crmDashboardFilterPanel" style="padding-bottom:30px;">
+                      <center>
+                        <lable class="apptDetailTextStyle">{{smsPricing.totalAmount}} Rs</lable>
+                      </center>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group  col-md-4 col-sm-4" style="margin-top:3%;" ng-if="smsPricing.perSmsPrice !== undefined">
+                <div class="col-sm-11">
+                  <center>
+                    <button type="submit" id="filterButton" class="btn btn-primary" ng-click="paySms(selectedSmsPackage)">Pay</button>
+                  </center>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

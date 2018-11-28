@@ -1,0 +1,128 @@
+<style>.crmAdminTableDataPadding{
+    padding:10px 10px 10px 10px;
+    margin-top:-3%;
+    font-size: 14px;
+  }
+  .creDataMinimiseBtnTop {
+    outline: 0 !important;
+    border:none !important;
+  }
+  .creDataMinimiseBtn {
+    outline: 0 !important;
+    border:none !important;
+    padding:0px 0px 0px 0px;
+  }
+  .perticularStatsStyle{
+    cursor: pointer;
+  }
+  .teleCallingUpdateStatusInputStyle1{
+    -webkit-border-radius: 15px !important;
+    -moz-border-radius: 15px !important;
+    border-radius: 15px !important;
+    border:1px solid #0083ca ;
+    padding:3px 40px 3px 20px;
+    outline:0;
+  }
+  /*tr:nth-child(even) {background: #CCC}
+  tr:nth-child(odd) {background: #FFF}*/
+  /*.statsTable tr:nth-child(even) {*/
+  /*background-color: #CCC;*/
+  /*}*/
+  .crmDataTableStyle{
+    cursor:pointer;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    box-shadow: 1px 1px 2px rgb(210, 213, 219) , 0 0 25px rgb(210, 213, 219) , 0 0 5px rgb(210, 213, 219) ;
+    /*box-shadow: 1px 1px 5px rgb(210, 213, 219), 0 0 5px rgb(210, 213, 219), 1px 1px 5px rgb(210, 213, 219),1px 1px 5px rgb(210, 213, 219);*/
+    font-style: montserrat;
+    font-size: 12px;
+    /*border-radius: 8px;*/
+    /*border-top: 2px solid #0083CA;*/
+  }
+
+  th, td {
+    text-align: center;
+    padding: 12px;
+    color:#424242;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  tr:nth-child(odd){background-color: #f9f9f9;}
+
+  .statsTableDetailed th {
+    background-color: #E3F2FD;
+    color:#0083CA;
+    /*color:#9E9E9E;*/
+    font-weight: 500;
+    /*border-bottom: 2px solid #0083CA;*/
+  }
+  .statsTable th{
+    background-color: #E3F2FD;
+    color:#0083CA;
+    /*color:#9E9E9E;*/
+    font-weight: 500;
+    /*border-bottom: 2px solid #0083CA;*/
+  }
+  .statsTable{
+    margin-top:-20px;
+  }
+
+  .at{
+    float:left;
+    margin-left:1%;
+    margin-bottom:1%;
+    text-align: center;
+    font-size: 12px;
+    line-height: 30px;
+    width:27%;
+    padding-left:10px;
+    padding-right:10px;
+    display: block;
+    background-color: #E3F2FD;
+    color: #0D47A1;
+    border-left: 3px solid #0D47A1;
+  }
+  .well{
+    border-radius:10px;width:50%;padding:0 10px 0 10px;margin-top:1%;
+  }
+.ng-table th.filter{
+    padding: 0 7px 5px 7px ;
+  }
+    .active123{
+   background:#e8f0f3;
+}</style> <!--<div class="form-group col-md-2 col-sm-2">
+  <input type="textbox" class="form-control teleCallingUpdateStatusInputStyle" datetime-picker="HH:mm" enable-date="false" enable-time="true" ng-click="openCalendarStatus($event)" ng-focus="openCalendarStatus($event)" min-date="minDate" ng-model="pickUpRequest.selectedDate" ng-change="getPickupDropArea(pickUpRequest.area,pickUpRequest.selectedDate)" is-open="isOpenFromStatus" placeholder="Select Date *" required readonly/>
+</div>--> <div class="container-fluid"> <div class="panel-body"> <div class="row"> <div class="row crmAdminTableDataPadding"> <center><label class="callerDashboardStatsLableStyle">Current Month Caller Stats</label></center> <div class="form-group col-md-3 col-sm-3 pull-right"> <div class="" style="margin-left:20%"> <select class="form-control teleCallingUpdateStatusInputStyle" style="font-size:13px" ng-model="tcAppointment.selectedServiceCenter" name="serviceCenterData" ng-options="sc.scBranchId as sc.branchName for sc in serviceCenter" ng-change="getSelectedServiceCenter(tcAppointment.selectedServiceCenter)"> <option value="">Select Service Center </select> </div> </div> <center><li class="at"><span>AT(NC) - Appointment Taken (Non Converted)</span></li> <!-- <li class="at"><span>ATA (NC) - Appointment Taken Agreed (Non Converted)</span></li>
+        <li class="at"><span>ATTA (NC) - Appointment Taken Tentatively Agreed (Non Converted)</span></li> --> </center> <div class="col-sm-12 col-sm-12"><br> <table class="statsTable table-responsive"> <tr> <thead> <tr> <th>Data Type <th>Allocated <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Total calling data assigned."></i> <th>AT (NC) <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Appointment Taken (Non Converted)"></i> <!-- <th>ATA (NC) <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Appointment Taken Agreed(Non Converted)"></i></th>
+                 <th>ATTA (NC) <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Appointment Taken Tentatively Agreed (Non Converted)"></i></th> --> <th>Fresh Calls <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Potential customers for current day."></i> <th>Call Later <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Customers to be reached again."></i> <th>Pending Calls <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Remaining calls to be made for last 30 days."></i> <th>Unique Attempted <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Unique calls made"></i> <th>Attempted <i class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="Total calls made "></i>   <tbody> <center class="text-danger" ng-if="creDashboardDataErrorMsg">{{creDashboardDataErrorMsg}}</center> <tr ng-repeat="stats in creDashboardData" ng-class="{active123: stats.dataTypename === 'Total'}" class="perticularStatsStyle"> <td class="info">{{stats.dataTypename}} <td ng-class="{active123: selDataType === stats.dataTypename && defaultStatusOthers === 'allocated' && selDataTypeValueOthers === stats.allocated}">{{stats.allocated}} <span class="btn creDataMinimiseBtn"><img ng-if="stats.allocated !== '0' && stats.dataTypename !== 'Not Interested'  && stats.dataTypename !== 'Total'" ng-click="getPerticularStatsTableData(stats.dataTypename,'allocated',stats.dataTypeId,'noSubStatus',stats.allocated)" src="images/plus-new.30496d72.png" style="width: 22px"><img ng-if="stats.allocated !== '0' && stats.dataTypename === 'Not Interested' && stats.dataTypename !== 'Total'" ng-click="getPericularStatsData(stats.dataTypename,'allocated',stats.dataTypeId,stats.allocated)" src="images/plus-new.30496d72.png" style="width: 22px"></span>  <td ng-class="{active123: selDataType === stats.dataTypename && defaultStatusOthers === 'nonConverted' && selDataTypeValue === stats.nonConverted}">{{stats.nonConverted}} <span class="btn creDataMinimiseBtn"><img ng-if=" stats.dataTypename !=='Not Interested' && stats.dataTypename !== 'Total'" ng-click="getPericularStatsData(stats.dataTypename,'nonconverted',stats.dataTypeId,stats.nonConverted)" src="images/plus-new.30496d72.png" style="width: 22px"><img ng-if="stats.nonConverted !== '0' && stats.dataTypename ==='Not Interested' && stats.dataTypename !== 'Total'" ng-click="getPerticularStatsTableData(stats.dataTypename,'nonconverted',stats.dataTypeId,'noSubStatus',stats.nonConverted)" src="images/plus-new.30496d72.png" style="width: 22px"></span>  <!-- <td ng-class="{active123: selDataType === stats.dataTypename && defaultStatusOthers === 'nonConvertedAgreed' && selDataTypeValue === stats.nonConvertedAgreed}">{{stats.nonConvertedAgreed}}
+                  <span class="btn creDataMinimiseBtn"><img ng-if=" stats.dataTypename !=='Not Interested' && stats.dataTypename !== 'Total'" ng-click="getPericularStatsData(stats.dataTypename,'nonConvertedAgreed',stats.dataTypeId,stats.nonConvertedAgreed)" src="images/plus-new.30496d72.png" style="width: 22px"><img ng-if="stats.nonConvertedAgreed !== '0' && stats.dataTypename ==='Not Interested' && stats.dataTypename !== 'Total'" ng-click="getPerticularStatsTableData(stats.dataTypename,'nonConvertedAgreed',stats.dataTypeId,'noSubStatus',stats.nonConvertedAgreed)" src="images/plus-new.30496d72.png" style="width: 22px"></span>
+                </td>
+                <td ng-class="{active123: selDataType === stats.dataTypename && defaultStatusOthers === 'nonConvertedAgreed' && selDataTypeValue === stats.nonConvertedTentivelyAgreed}">{{stats.nonConvertedTentivelyAgreed}}
+                  <span class="btn creDataMinimiseBtn"><img ng-if=" stats.dataTypename !=='Not Interested' && stats.dataTypename !== 'Total'" ng-click="getPericularStatsData(stats.dataTypename,'nonConvertedTentivelyAgreed',stats.dataTypeId,stats.nonConvertedTentivelyAgreed)" src="images/plus-new.30496d72.png" style="width: 22px"><img ng-if="stats.nonConvertedTentivelyAgreed !== '0' && stats.dataTypename ==='Not Interested' && stats.dataTypename !== 'Total'" ng-click="getPerticularStatsTableData(stats.dataTypename,'nonConvertedTentivelyAgreed',stats.dataTypeId,'noSubStatus',stats.nonConvertedTentivelyAgreed)" src="images/plus-new.30496d72.png" style="width: 22px"></span>
+                </td> --> <td ng-class="{active123: selDataType === stats.dataTypename && defaultStatusOthers === 'freshCalls' && selDataTypeValueOthers === stats.freshCalls}">{{stats.freshCalls}} <span class="btn creDataMinimiseBtn"><img ng-if="stats.dataTypename !=='Not Interested' && stats.dataTypename !== 'Total'" ng-click="getPericularStatsData(stats.dataTypename,'freshCalls',stats.dataTypeId,stats.freshCalls)" src="images/plus-new.30496d72.png" style="width: 22px"><img ng-if="stats.freshCalls !== '0' && stats.dataTypename ==='Not Interested' && stats.dataTypename !== 'Total'" ng-click="getPerticularStatsTableData(stats.dataTypename,'freshCalls',stats.dataTypeId,'noSubStatus',stats.freshCalls)" src="images/plus-new.30496d72.png" style="width: 22px"></span>  <td ng-class="{active123: selDataType === stats.dataTypename && defaultStatusOthers === 'calllater' && selDataTypeValueOthers === stats.callLaterCount}">{{stats.callLaterCount}} <span class="btn creDataMinimiseBtn"><img ng-if="stats.callLaterCount !== '0' && stats.dataTypename !=='Not Interested' && stats.dataTypename !== 'Total'" ng-click="getPericularStatsData(stats.dataTypename,'calllater',stats.dataTypeId,stats.callLaterCount)" src="images/plus-new.30496d72.png" style="width: 22px"><img ng-if="stats.callLaterCount !== '0' && stats.dataTypename ==='Not Interested' && stats.dataTypename !== 'Total'" ng-click="getPerticularStatsTableData(stats.dataTypename,'calllater',stats.dataTypeId,'noSubStatus',stats.callLaterCount)" src="images/plus-new.30496d72.png" style="width: 22px"></span>  <td ng-class="{active123: selDataType === stats.dataTypename && defaultStatusOthers === 'pendingcalls' && selDataTypeValueOthers === stats.pendingCount}">{{stats.pendingCount}} <span class="btn creDataMinimiseBtn"><img ng-if="stats.pendingCount !== '0' && stats.dataTypename !== 'Total'" ng-click="getPerticularStatsTableData(stats.dataTypename,'pendingcalls',stats.dataTypeId,'noSubStatus',stats.pendingCount)" src="images/plus-new.30496d72.png" style="width: 22px"></span>  <td ng-class="{active123: selDataType === stats.dataTypename && defaultStatusOthers === 'attempted' && selDataTypeValueOthers === stats.attemptedCount}">{{stats.attemptedCount}} <span class="btn creDataMinimiseBtn"><img ng-if="stats.attemptedCount !== '0' && stats.dataTypename !== 'Total' && stats.dataTypename !=='Not Interested'" ng-click="getPericularStatsData(stats.dataTypename,'attempted',stats.dataTypeId,stats.attemptedCount)" src="images/plus-new.30496d72.png" style="width: 22px"> <img ng-if="stats.attemptedCount !== '0' && stats.dataTypename ==='Not Interested' && stats.dataTypename !== 'Total'" ng-click="getPerticularStatsTableData(stats.dataTypename,'attempted',stats.dataTypeId,'noSubStatus',stats.attemptedCount)" src="images/plus-new.30496d72.png" style="width: 22px"> </span>  <td>{{stats.totalAttempted}}  <!-- <tr ng-repeat="stats in creDashboardData" ng-if="stats.dataTypename === 'Not Interested'" class="perticularStatsStyle">
+                <td class="info">{{stats.dataTypename}}
+                <td>{{stats.allocated}}
+                  <span class="btn creDataMinimiseBtn"><img ng-if="stats.allocated !== '0'" ng-click="getPericularStatsData(stats.dataTypename,'allocated',stats.dataTypeId)" src="images/plus-new.30496d72.png" style="width: 22px"></span>
+                </td>
+                <td>{{stats.nonConverted}}
+                  <span class="btn creDataMinimiseBtn"><img ng-if="stats.nonConverted !== '0'" ng-click="getPericularStatsData(stats.dataTypename,'nonconverted',stats.dataTypeId)" src="images/plus-new.30496d72.png" style="width: 22px"><img ng-if="stats.nonConverted !== '0' && stats.dataTypename ==='Not Interested'" ng-click="getPerticularStatsTableData(stats.dataTypename,'nonconverted',stats.dataTypeId,'noSubStatus')" src="images/plus-new.30496d72.png" style="width: 22px"></span>
+                </td>
+                <td>{{stats.freshCalls}}
+                  <span class="btn creDataMinimiseBtn"><img ng-if="stats.freshCalls !== '0'"  ng-click="getPericularStatsData(stats.dataTypename,'freshCalls',stats.dataTypeId)" src="images/plus-new.30496d72.png" style="width: 22px"></span>
+                </td>
+                <td>{{stats.callLaterCount}}
+                  <span class="btn creDataMinimiseBtn"><img ng-if="stats.callLaterCount !== '0'" ng-click="getPericularStatsData(stats.dataTypename,'calllater',stats.dataTypeId)" src="images/plus-new.30496d72.png" style="width: 22px"><img ng-if="stats.callLaterCount !== '0' && stats.dataTypename ==='Not Interested'" ng-click="getPerticularStatsTableData(stats.dataTypename,'calllater',stats.dataTypeId,'noSubStatus')" src="images/plus-new.30496d72.png" style="width: 22px"></span>
+                </td>
+                <td>{{stats.pendingCount}}
+                  <span class="btn creDataMinimiseBtn"><img ng-if="stats.pendingCount !== '0'" ng-click="getPericularStatsData(stats.dataTypename,'pendingcalls',stats.dataTypeId)" src="images/plus-new.30496d72.png" style="width: 22px"></span>
+                </td>
+                <td>{{stats.attemptedCount}}
+                  <span class="btn creDataMinimiseBtn"><img ng-if="stats.attemptedCount !== '0'" ng-click="getPericularStatsData(stats.dataTypename,'attempted',stats.dataTypeId)" src="images/plus-new.30496d72.png" style="width: 22px"></span>
+                </td>
+              </tr>
+           -->  </table> </div> </div> <center> <div style="margin-top:1%" class="well" ng-if="(defaultStatusOthers === 'freshCalls' || defaultStatusOthers === 'calllater' || defaultStatusOthers === 'nonconverted' ||
+        defaultStatusOthers === 'attempted') && defaultStatusOthers !== undefined && defaultDataTypenameOthers !=='Not Interested'"><!----> <!--<p class="" style="color:#0083ca;text-align:center;">Choose Filter</p>--> <div class="radio-inline"> <form name="statusOptionForm" novalidate> <label ng-if="defaultStatusOthers !== 'freshCalls'" style="font-size:13px" class="teleCallingDashBoardRadio-custom-label"> <input type="radio" class="teleCallingDashBoardRadio-custom" name="teleCallingOption" value="{{creFilteredDataTypes.dataTypeId}}" ng-model="statusOption.previousStatusOption" ng-click="getPerticularStatsTableData(defaultDataTypenameOthers,defaultStatusOthers,defaultDataTypeIdOthers,'previous',selDataTypeValueOthers)"> <span>Previous Data ( {{creFilteredDataTypes.previousCount}} )</span> </label> <label style="font-size:13px" class="teleCallingDashBoardRadio-custom-label"> <input type="radio" class="teleCallingDashBoardRadio-custom" name="teleCallingOption" value="{{creFilteredDataTypes.dataTypeId}}" ng-model="statusOption.todayStatusOption" ng-click="getPerticularStatsTableData(defaultDataTypenameOthers,defaultStatusOthers,defaultDataTypeIdOthers,'today',selDataTypeValueOthers)"> <span>Today's Data ( {{creFilteredDataTypes.todayCount}} )</span> </label> <label ng-if="defaultStatusOthers === 'nonconverted'" style="font-size:13px" class="teleCallingDashBoardRadio-custom-label"> <input type="radio" class="teleCallingDashBoardRadio-custom" name="teleCallingOption" value="{{creFilteredDataTypes.dataTypeId}}" ng-model="statusOption.tomorrow" ng-click="getPerticularStatsTableData(defaultDataTypenameOthers,defaultStatusOthers,defaultDataTypeIdOthers,'tomorrow',selDataTypeValueOthers)"> <span>Tomorrow's Data ( {{creFilteredDataTypes.tmrwCount}} )</span> </label> <label ng-if="defaultStatusOthers !== 'attempted'" style="font-size:13px" class="teleCallingDashBoardRadio-custom-label"> <input type="radio" class="teleCallingDashBoardRadio-custom" name="teleCallingOption" value="{{creFilteredDataTypes.dataTypeId}}" ng-model="statusOption.futureStatusOption" ng-click="getPerticularStatsTableData(defaultDataTypenameOthers,defaultStatusOthers,defaultDataTypeIdOthers,'future',selDataTypeValueOthers)"> <span>Future Data ( {{creFilteredDataTypes.futureCount}} )</span> </label> </form> </div> </div> </center> <center> <div style="margin-top:1%" class="well" ng-if="defaultStatusOthers !== undefined && defaultDataTypenameOthers ==='Not Interested' && defaultStatusOthers === 'allocated'"><!----> <!--<p class="" style="color:#0083ca;text-align:center;">Choose Filter</p>--> <div class="radio-inline"> <form name="statusOptionForm" novalidate> <label style="font-size:13px" class="teleCallingDashBoardRadio-custom-label"> <input type="radio" class="teleCallingDashBoardRadio-custom" name="teleCallingOption" value="{{creFilteredDataTypes.dataTypeId}}" ng-model="statusOption.todayStatusOption" ng-click="getPerticularStatsTableData(defaultDataTypenameOthers,defaultStatusOthers,defaultDataTypeIdOthers,'sccomplaint',selDataTypeValueOthers)"> <span>Service Center Complaints ( {{creFilteredDataTypes.scComplaint}} )</span> </label> <label style="font-size:13px" class="teleCallingDashBoardRadio-custom-label"> <input type="radio" class="teleCallingDashBoardRadio-custom" name="teleCallingOption" value="{{creFilteredDataTypes.dataTypeId}}" ng-model="statusOption.futureStatusOption1" ng-click="getPerticularStatsTableData(defaultDataTypenameOthers,defaultStatusOthers,defaultDataTypeIdOthers,'moredistance',selDataTypeValueOthers)"> <span>More Distance( {{creFilteredDataTypes.moreDistance}} )</span> </label> <label style="font-size:13px" class="teleCallingDashBoardRadio-custom-label"> <input type="radio" class="teleCallingDashBoardRadio-custom" name="teleCallingOption" value="{{creFilteredDataTypes.dataTypeId}}" ng-model="statusOption.futureStatusOption" ng-click="getPerticularStatsTableData(defaultDataTypenameOthers,defaultStatusOthers,defaultDataTypeIdOthers,'others',selDataTypeValueOthers)"> <span>Others( {{creFilteredDataTypes.others}} )</span> </label> </form> </div> </div> </center> <div class="col-sm-12" ng-if="showTableOthers" style="margin-top:1%"> <center class="text-danger" ng-if="creTableDataErrorMsg">{{creTableDataErrorMsg}}</center> <table class="statsTableDetailed" ng-table="tableParams" show-filter="true"> <tbody> <tr ng-repeat="crmTableData in $data" ui-sref="lostCustomerDetailed({apptId: crmTableData.apptId,dataTypeId: crmTableData.dataTypeId,status:defaultStatusOthers})" class="crmDataTableStyle"><!--ng-click="getAppointmentDetails(crmTableData.apptId,crmTableData.dataTypeId)"--> <td data-title="'Sl.No.'" sortable> {{crmTableData.slNo}}  <td data-title="'Customer Name'" sortable filter="{'customer_name': 'text'}">{{crmTableData.customer_name}} <td data-title="'Mobile'" sortable filter="{'customer_mobile': 'text'}"> {{crmTableData.customer_mobile}}  <td data-title="'Date of Sale'" sortable filter="{'dateOfSale': 'text'}"> {{crmTableData.dateOfSale}}  <td data-title="'Branch Name'" sortable filter="{'branchName': 'text'}"> {{crmTableData.branchName}}  <td data-title="'Service Due Type'" sortable filter="{'serviceDueType': 'text'}"> {{crmTableData.serviceDueType}}  <td data-title="'Service Due Date'" sortable filter="{'serviceDueDate': 'text'}"> {{crmTableData.serviceDueDate}}  <td data-title="'Last Service Date'" sortable filter="{'jobCardDate': 'text'}"> {{crmTableData.jobCardDate}}  <td data-title="'Follow up Date'" sortable filter="{'rescheduleDate': 'text'}"> {{crmTableData.rescheduleDate}}    </table> </div> <div class="row"> </div><br> <div class="loader" ng-if="loaderIcon === true"> <center><img src="images/Loading_2.d4563d67.gif" style="width: 12%"></center> <!--<center><p>LetsService - Please Wait</p></center>--> </div> </div> </div> </div> 
